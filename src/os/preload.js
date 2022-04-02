@@ -1,3 +1,5 @@
+console.log("[preload.js] Started");
+
 window.addEventListener('DOMContentLoaded', () => {
   const replaceText = (selector, text) => {
     const element = document.getElementById(selector);
