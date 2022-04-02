@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const { on } = require('events');
 const path = require('path');
 const Logger = require('./os/logger');
@@ -29,6 +29,7 @@ const createWindow = () => {
 }
 
 app.whenReady().then(() => {
+  ipcMain.handle('dialog:openFile', fs.handleFileOpen);
   ipcMain.on('set-title', handleSetTitle);
   ipcMain.on('log', logger.log);
   createWindow();
