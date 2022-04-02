@@ -22,7 +22,7 @@ class MenuCreator {
         label: 'File',
         submenu: [
           {
-            label: 'Open file',
+            label: 'Open File',
             click: async () => {
               self.logger.log(null, script, "File -> Open File menu item clicked!");
             }
@@ -32,6 +32,36 @@ class MenuCreator {
           { role: 'close' },
           { type: 'separator' },
           { role: 'quit' }
+        ]
+      },
+      {
+        label: 'Server',
+        submenu: [
+          {
+            label: 'Start Server',
+            click: async () => {
+              self.logger.log(null, script, "Server -> Start Server menu item clicked!");
+            }
+          },
+          {
+            label: 'Stop Server',
+            click: async () => {
+              self.logger.log(null, script, "Server -> Stop Server menu item clicked!");
+            }
+          },
+          { type: 'separator' },
+          {
+            label: 'Connect to Server',
+            click: async () => {
+              self.logger.log(null, script, "Server -> Connect to Server menu item clicked!");
+            }
+          },
+          {
+            label: 'Disconnect from Server',
+            click: async () => {
+              self.logger.log(null, script, "Server -> Disconnect from Server menu item clicked!");
+            }
+          }
         ]
       },
       {
