@@ -1,4 +1,9 @@
-console.log("[preload.js] Started");
+const { contextBridge, ipcRenderer } = require('electron');
+
+contextBridge.exposeInMainWorld('main', {
+  setTitle: (title) => ipcRenderer.send('set-title', title),
+  log: (message) => ipcRenderer.send('log', [source, message])
+});
 
 window.addEventListener('DOMContentLoaded', () => {
   const replaceText = (selector, text) => {
