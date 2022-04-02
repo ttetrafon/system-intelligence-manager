@@ -10,6 +10,7 @@ setButton.addEventListener('click', () => {
 });
 
 const btnof = document.getElementById('btn-of')
+const filePathElement = document.getElementById('filePath')
 btnof.addEventListener('click', async () => {
   const filePath = await window.main.openFile();
   filePathElement.innerText = filePath;

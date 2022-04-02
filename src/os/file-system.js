@@ -1,7 +1,7 @@
 // Utility functions for file handling
 const { dialog } = require('electron');
 
-var self
+var self;
 const script = __filename.split('\\').pop();
 
 class FileSystem {
@@ -12,11 +12,11 @@ class FileSystem {
   }
 
   async handleFileOpen() {
-    const { canceled, filePaths } = await dialog.showOpenDialog()
+    const { canceled, filePaths } = await dialog.showOpenDialog();
     if (canceled) {
-      return
+      return;
     } else {
-      return filePaths[0]
+      return filePaths[0];
     }
   }
 
