@@ -1,4 +1,6 @@
 // System logger.
+const { app } = require('electron');
+
 var self;
 const script = __filename.split('\\').pop();
 
@@ -8,8 +10,8 @@ class Logger {
     self.log(null, script, "Started!");
   }
 
-  log(event, script, message) {
-    console.log("[" + script + "] " + message);
+  log(event, source, message) {
+    console.log("[" + source + "] " + message);
   }
 
 }
