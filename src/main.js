@@ -35,6 +35,19 @@ const createWindow = () => {
   win.webContents.openDevTools();
 }
 
+const createLinkWindow = (event, url) => {
+  logger.log(null, [script, "---> createLinkWindow()", url]);
+  const link = new BrowserWindow({
+    show: false,
+    width: 800,
+    height: 600
+  });
+  link.setMenuBarVisibility(false);
+
+  link.loadURL(url);
+  link.once('ready-to-show', () => { link.show(); });
+}
+
 menu.createAppMenu({
   "newViewFun": createWindow
 });
@@ -43,6 +56,7 @@ app.whenReady().then(() => {
   ipcMain.handle('dialog:openFile', fs.handleFileOpen);
   ipcMain.on('set-title', menu.handleSetTitle);
   ipcMain.on('log', logger.log);
+  ipcMain.on('open-link', createLinkWindow)
   createWindow();
 
   app.on('activate', () => {

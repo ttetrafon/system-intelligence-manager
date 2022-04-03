@@ -2,6 +2,10 @@ const script = "renderer.js";
 window.main.log([script, "Started!"]);
 
 
+const linkButton = document.getElementById('btn');
+linkButton.addEventListener('click', () => {
+  window.main.openLink("https://www.fantasynamegenerators.com/")
+});
 
 // const setButton = document.getElementById('btn')
 // const titleInput = document.getElementById('title')

@@ -4,7 +4,7 @@ contextBridge.exposeInMainWorld('main', {
   openFile: () => ipcRenderer.invoke('dialog:openFile'),
   setTitle: (title) => ipcRenderer.send('set-title', title),
   log: (args) => ipcRenderer.send('log', args),
-  openLink: () => ipcRenderer.send('new-view')
+  openLink: (url) => ipcRenderer.send('open-link', url)
 });
 
 window.addEventListener('DOMContentLoaded', () => {
