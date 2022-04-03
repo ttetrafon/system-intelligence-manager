@@ -7,11 +7,11 @@ const script = __filename.split('\\').pop();
 class Logger {
   constructor() {
     self = this;
-    self.log(null, script, "Started!");
+    self.log(null, [script, "Started!"]);
   }
 
-  log(event, source, message) {
-    console.log("[" + source + "] " + message);
+  log(event, args) {
+    console.log(...args);
   }
 
 }

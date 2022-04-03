@@ -1,6 +1,6 @@
 const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const { on } = require('events');
-const { palette } = require('./obj/colours');
+const { palette } = require('./data/colours');
 const path = require('path');
 const Config = require('./os/config');
 const Logger = require('./os/logger');
@@ -13,7 +13,7 @@ const config = new Config(logger);
 const fs = new FileSystem(logger);
 const menu = new MenuCreator(logger, config);
 
-logger.log(null, script, "Started!");
+logger.log(null, [script, "Started!"]);
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -35,7 +35,9 @@ const createWindow = () => {
   win.webContents.openDevTools();
 }
 
-menu.createAppMenu();
+menu.createAppMenu({
+  "newViewFun": createWindow
+});
 
 app.whenReady().then(() => {
   ipcMain.handle('dialog:openFile', fs.handleFileOpen);

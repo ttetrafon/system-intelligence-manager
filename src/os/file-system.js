@@ -8,7 +8,7 @@ class FileSystem {
   constructor(logger) {
     self = this;
     self.logger = logger;
-    self.logger.log(null, script, "Started!");
+    self.logger.log(null, [script, "Started!"]);
   }
 
   async handleFileOpen() {
