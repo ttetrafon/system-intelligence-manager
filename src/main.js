@@ -1,5 +1,6 @@
 const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const { on } = require('events');
+const { palette } = require('./obj/colours');
 const path = require('path');
 const Config = require('./os/config');
 const Logger = require('./os/logger');
@@ -16,8 +17,10 @@ logger.log(null, script, "Started!");
 
 const createWindow = () => {
   const win = new BrowserWindow({
+    show: false,
     width: 1024,
     height: 768,
+    backgroundColor: palette["background-light"],
     webPreferences: {
       preload: path.join(__dirname, 'os/preload.js')
     }
@@ -28,6 +31,7 @@ const createWindow = () => {
     menu.getContextMenu().popup(win.webContents);
   });
 
+  win.once('ready-to-show', () => { win.show(); });
   win.webContents.openDevTools();
 }
 
