@@ -1,4 +1,4 @@
-const { app, Menu } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 var self;
 const script = __filename.split('\\').pop();
 
@@ -141,6 +141,8 @@ class MenuCreator {
   }
 
   handleSetTitle (event, title) {
+    // Updates the title of the window based on what one is looking on.
+    // Template: YADTS Manager - Campaign [player] - 'current view'
     const webContents = event.sender;
     const win = BrowserWindow.fromWebContents(webContents);
     win.setTitle(title);
