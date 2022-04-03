@@ -3,15 +3,17 @@ const { on } = require('events');
 const { palette } = require('./data/colours');
 const path = require('path');
 const Config = require('./os/config');
-const Logger = require('./os/logger');
 const FileSystem = require('./os/file-system');
+const Logger = require('./os/logger');
 const MenuCreator = require('./os/menu');
+const Store = require('./store');
 
 const script = __filename.split('\\').pop();
 const logger = new Logger();
 const config = new Config(logger);
 const fs = new FileSystem(logger);
 const menu = new MenuCreator(logger, config);
+const store = new Store(logger, config, fs);
 
 logger.log(null, [script, "Started!"]);
 

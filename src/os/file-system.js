@@ -18,7 +18,7 @@ class FileSystem {
 
     self.saveFolder = path.join(self.userFolder, folders["root"]);
     self.checkIfDirectoryExists(self.saveFolder);
-    self.logger.log(null, [script, "save folder = "]);
+    self.logger.log(null, [script, "save folder = ", self.saveFolder]);
   }
 
   checkIfDirectoryExists(dir) {
@@ -38,6 +38,20 @@ class FileSystem {
     } else {
       return filePaths[0];
     }
+  }
+
+  readJsonFile(filepath) {
+    self.logger.log(null, [script, "---> readJsonFile()", filepath, fs.existsSync(filepath)]);
+    if (!fs.existsSync(filepath)) {
+      return null;
+    }
+    let data = fs.readFileSync(filepath, 'utf8');
+    self.logger.log(null, [script, filepath, data]);
+    return JSON.parse(data);
+  }
+
+  saveJsonFile(filepath, data) {
+    fs.writeFileSync(filepath, JSON.stringify(data, null, 2));
   }
 
 }
