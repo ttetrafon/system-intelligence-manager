@@ -1,6 +1,8 @@
 const { app } = require('electron');
+const path = require('path');
+
 var self;
-const script = __filename.split('\\').pop();
+const script = path.parse(__filename).base;
 
 class Config {
   constructor(logger) {

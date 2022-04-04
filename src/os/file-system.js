@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 var self;
-const script = __filename.split('\\').pop();
+const script = path.parse(__filename).base;
 
 class FileSystem {
   constructor(logger) {

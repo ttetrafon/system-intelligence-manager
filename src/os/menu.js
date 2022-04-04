@@ -1,6 +1,8 @@
 const { app, BrowserWindow, Menu } = require('electron');
+const path = require('path');
+
 var self;
-const script = __filename.split('\\').pop();
+const script = path.parse(__filename).base;
 
 class MenuCreator {
   constructor(logger, config) {
@@ -115,30 +117,31 @@ class MenuCreator {
       }
     ];
     let menu = Menu.buildFromTemplate(menuTemplate);
-    Menu.setApplicationMenu(menu);
+    // Menu.setApplicationMenu(menu);
+    Menu.setApplicationMenu(null);
   }
 
   getContextMenu() {
-    let contextTemplate = [
-      {
-        label: 'Options',
-        submenu: [
-          {
-            label: 'Test 1',
-            click: async () => {
-              self.logger.log(null, [script, "Context -> Test1 menu item clicked!"]);
-            }
-          },
-          {
-            label: 'Test 2',
-            click: async () => {
-              self.logger.log(null, [script, "Context -> Test2 menu item clicked!"]);
-            }
-          }
-        ]
-      }
-    ]
-    return Menu.buildFromTemplate(contextTemplate);
+    // let contextTemplate = [
+    //   {
+    //     label: 'Options',
+    //     submenu: [
+    //       {
+    //         label: 'Test 1',
+    //         click: async () => {
+    //           self.logger.log(null, [script, "Context -> Test1 menu item clicked!"]);
+    //         }
+    //       },
+    //       {
+    //         label: 'Test 2',
+    //         click: async () => {
+    //           self.logger.log(null, [script, "Context -> Test2 menu item clicked!"]);
+    //         }
+    //       }
+    //     ]
+    //   }
+    // ]
+    // return Menu.buildFromTemplate(contextTemplate);
   }
 
   handleSetTitle (event, title) {

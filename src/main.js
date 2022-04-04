@@ -1,4 +1,13 @@
-const { app, BrowserWindow, dialog, ipcMain } = require('electron');
+const { app, BrowserWindow, dialog, ipcMain, Notification } = require('electron');
+
+const isDev = (process.env.NODE_ENV == 'dev');
+
+// This actively reloads the view when the code changes!
+// Will also reload the whole app when backend files are changed, but console logs are lost.
+if (isDev) {
+  try { require('electron-reloader')(module); } catch(exc) {}
+}
+
 const { on } = require('events');
 const { palette } = require('./data/colours');
 const path = require('path');
@@ -8,14 +17,14 @@ const Logger = require('./os/logger');
 const MenuCreator = require('./os/menu');
 const Store = require('./store');
 
-const script = __filename.split('\\').pop();
+const script = path.parse(__filename).base;
 const logger = new Logger();
 const config = new Config(logger);
 const fs = new FileSystem(logger);
 const menu = new MenuCreator(logger, config);
 const store = new Store(logger, config, fs);
 
-logger.log(null, [script, "Started!"]);
+logger.log(null, [script, "Started!", process.env, process.env.NODE_ENV, isDev]);
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -23,6 +32,7 @@ const createWindow = () => {
     width: 1024,
     height: 768,
     backgroundColor: palette["background-light"],
+    titleBarStyle: 'hiddenInset',
     webPreferences: {
       preload: path.join(__dirname, 'os/preload.js')
     }
@@ -34,7 +44,9 @@ const createWindow = () => {
   });
 
   win.once('ready-to-show', () => { win.show(); });
-  win.webContents.openDevTools();
+  if (isDev) {
+    win.webContents.openDevTools();
+  }
 }
 
 const createLinkWindow = (event, url) => {
@@ -53,6 +65,13 @@ const createLinkWindow = (event, url) => {
 menu.createAppMenu({
   "newViewFun": createWindow
 });
+
+const handleError = (message) => {
+  new Notification({
+    title: "Error",
+    body: message
+  }).show();
+};
 
 app.whenReady().then(() => {
   ipcMain.handle('dialog:openFile', fs.handleFileOpen);

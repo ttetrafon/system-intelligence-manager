@@ -1,8 +1,9 @@
 // System logger.
 const { app } = require('electron');
+const path = require('path');
 
 var self;
-const script = __filename.split('\\').pop();
+const script = path.parse(__filename).base;
 
 class Logger {
   constructor() {
@@ -10,7 +11,7 @@ class Logger {
     self.log(null, [script, "Started!"]);
   }
 
-  log(event, args) {
+  log(_, args) {
     console.log(...args);
   }
 

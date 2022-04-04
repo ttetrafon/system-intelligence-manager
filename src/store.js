@@ -4,7 +4,7 @@ const path = require('path');
 const User = require('./data/user');
 
 var self;
-const script = __filename.split('\\').pop();
+const script = path.parse(__filename).base;
 
 class Store {
   constructor(logger, config, fileSystem) {
