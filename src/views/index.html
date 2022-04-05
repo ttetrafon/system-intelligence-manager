@@ -5,10 +5,31 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
     <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
     <title>YADTS Manager!</title>
-    <script src="./renderer.js" defer></script>
+    <script src="./renderer.js" type="module" defer></script>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
+    <!-- Navigation bar contains the tabs for each section. -->
+    <nav id="nav">
+      <button>1</button>
+      <button>2</button>
+      <button>3</button>
+      <button>4</button>
+      <button>5</button>
+    </nav>
+
+    <!-- Main contains all the relevant information/controls, based on which tab has been selected. -->
+    <main>
+      <!-- Each article will represent the collection of items in a single category.  -->
+      <article></article>
+      <article></article>
+      <article></article>
+      <article></article>
+      <article></article>
+    </main>
+
+    <!-- Footer is used to log information. -->
+    <footer>footer...</footer>
 
 
     <!-- <div class="title-bar">
@@ -23,7 +44,7 @@
       <textarea id="text-area"></textarea>
     </main> -->
 
-    <!-- <button id="btn" type="button">Open Link!</button> -->
+    <!-- <button id="btn-link" type="button">Open Link!</button> -->
     <!-- <p>We are using Node.js <span id="node-version"></span>,
     Chromium <span id="chrome-version"></span>,
     and Electron <span id="electron-version"></span>.</p>

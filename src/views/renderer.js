@@ -1,23 +1,19 @@
 const script = "renderer.js";
 window.main.log([script, "Started!"]);
 
+// Collect all the elements in the page.
+const el = {
+  nav: document.getElementById('nav'),
+}
+
 window.addEventListener("DOMContentLoaded", () => {
-  const el = {
-    // Assortment of elements in the page!
-
-
-    // textArea: document.getElementById("text-area")
-  };
-
-
 
 });
 
 
 
-
-// const linkButton = document.getElementById('btn');
-// linkButton.addEventListener('click', () => {
+// linkButton: document.getElementById('btn-link')
+// elements.linkButton.addEventListener('click', () => {
 //   window.main.openLink("https://www.fantasynamegenerators.com/")
 // });
 
