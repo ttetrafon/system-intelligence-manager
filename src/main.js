@@ -30,7 +30,9 @@ const createWindow = () => {
   const win = new BrowserWindow({
     show: false,
     width: 1024,
+    minWidth: 800,
     height: 768,
+    minHeight: 600,
     backgroundColor: palette["background-light"],
     titleBarStyle: 'hiddenInset',
     webPreferences: {
