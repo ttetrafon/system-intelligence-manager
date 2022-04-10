@@ -15,6 +15,7 @@ const Config = require('./os/config');
 const FileSystem = require('./os/file-system');
 const Logger = require('./os/logger');
 const MenuCreator = require('./os/menu');
+const Server = require('./os/server');
 const Store = require('./store');
 
 const script = path.parse(__filename).base;
@@ -23,6 +24,7 @@ const config = new Config(logger);
 const fs = new FileSystem(logger);
 const menu = new MenuCreator(logger, config);
 const store = new Store(logger, config, fs);
+const server = new Server(logger, config, store);
 
 logger.log(null, [script, "Started!", process.env, process.env.NODE_ENV, isDev]);
 
