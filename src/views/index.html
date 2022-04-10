@@ -11,11 +11,13 @@
   <body>
     <!-- Navigation bar contains the tabs for each section. -->
     <nav id="nav">
-      <button class="tooltip-nav">1<span class="tooltip-text">Game System</span></button>
-      <button class="tooltip-nav">3<span class="tooltip-text">Calendar</span></button>
-      <button class="tooltip-nav">5<span class="tooltip-text">Campaign</span></button>
-      <button class="tooltip-nav">2<span class="tooltip-text">Creatures</span></button>
-      <button class="tooltip-nav">4<span class="tooltip-text">World</span></button>
+      <button id="network-tab" class="tooltip-nav">NW<span class="tooltip-text">Network</span></button>
+      <button id="gameSystem-tab" class="tooltip-nav">GS<span class="tooltip-text">Game System</span></button>
+      <button id="calendar-tab" class="tooltip-nav">CA<span class="tooltip-text">Calendar</span></button>
+      <button id="campaign-tab" class="tooltip-nav">CG<span class="tooltip-text">Campaign</span></button>
+      <button id="creatures-tab" class="tooltip-nav">CR<span class="tooltip-text">Creatures</span></button>
+      <button id="world-tab" class="tooltip-nav">WO<span class="tooltip-text">World</span></button>
+      <button id="settings-tab" class="tooltip-nav">SE<span class="tooltip-text">Settings</span></button>
     </nav>
 
     <header>Header!</header>
@@ -23,11 +25,13 @@
     <!-- Main contains all the relevant information/controls, based on which tab has been selected. -->
     <main>
       <!-- Each article will represent the collection of items in a single category.  -->
-      <article></article>
-      <article></article>
-      <article></article>
-      <article></article>
-      <article></article>
+      <article id="network-article" class="visible">NETWORK</article>
+      <article id="gameSystem-article" class="hidden">GAME SYSTEM</article>
+      <article id="calendar-article" class="hidden">CALENDAR</article>
+      <article id="campaign-article" class="hidden">CAMPAIGN</article>
+      <article id="creatures-article" class="hidden">CREATURE</article>
+      <article id="world-article" class="hidden">WORLD</article>
+      <article id="settings-article" class="hidden">SETTINGS</article>
     </main>
 
     <!-- Footer is used to log information. -->
@@ -46,15 +50,15 @@
       <textarea id="text-area"></textarea>
     </main> -->
 
-    <!-- <button id="btn-link" type="button">Open Link!</button> -->
+    <!-- <button id="-tab" id="btn-link" type="button">Open Link!</button> -->
     <!-- <p>We are using Node.js <span id="node-version"></span>,
     Chromium <span id="chrome-version"></span>,
     and Electron <span id="electron-version"></span>.</p>
     <br/>
     Title: <input id="title"/>
-    <button id="btn" type="button">Set</button>
+    <button id="-tab" id="btn" type="button">Set</button>
     <br/>
-    <button type="button" id="btn-of">Open a File</button>
+    <button id="-tab" type="button" id="btn-of">Open a File</button>
     <p>File path: <strong id="filePath"></strong></p> -->
   </body>
 </html>

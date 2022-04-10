@@ -10,6 +10,7 @@
 
   --header_height: 30px;
   --footer_height: 20px;
+  --nav_bar_width: 40px;
   --article-surrounding-space: 6px;
 }
 
@@ -27,7 +28,7 @@ nav {
   top: var(--header_height);
   bottom: var(--footer_height);
   left: 0;
-  width: 40px;
+  width: var(--nav_bar_width);
   padding: 5px;
   background-color: var(--colour_back_dark);
   color: var(--colour_text_light);
@@ -39,11 +40,13 @@ nav {
 
 header {
   position: absolute;
-  left: 0;
+  left: var(--nav_bar_width);
   right: 0;
   top: 0;
   height: var(--header_height);
   background-color: var(--colour_back_light);
+  align-items: center;
+  text-align: center;
 }
 
 main {
@@ -80,6 +83,7 @@ footer {
   font-size: 12px;
   color: var(--colour_text_medium);
   z-index: 0;
+  text-align: right;
 }
 
 nav button {
@@ -131,7 +135,13 @@ nav .tooltip-nav:hover .tooltip-text {
   opacity: 1;
 }
 
+.visible {
+  visibility: visible;
+}
 
+.hidden {
+  visibility: hidden;
+}
 
 
 

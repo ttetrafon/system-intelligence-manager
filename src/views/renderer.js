@@ -1,12 +1,24 @@
 const script = "renderer.js";
+import { Controls } from './controls.js';
+import { ids } from './ids.js';
+
 window.main.log([script, "Started!"]);
 
-// Collect all the elements in the page.
-const el = {
-  nav: document.getElementById('nav'),
+// Collect all the elements in the page and create all appropriate lists.
+const idList = [];
+idList.push(...ids.tabs, ...ids.articles);
+const el = {};
+for (let i = 0; i < idList.length; i++) {
+  el[idList[i]] = document.getElementById(idList[i]);
 }
+const tabs = ids.tabs.map((tab) => { return el[tab] });
 
 window.addEventListener("DOMContentLoaded", () => {
+  // Initialise modules
+  const controls = new Controls();
+
+  // Set the interface controls
+  controls.linkTabsAndViews(tabs, ids.articles, el);
 
 });
 
