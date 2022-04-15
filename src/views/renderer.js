@@ -13,14 +13,12 @@ for (let i = 0; i < idList.length; i++) {
 }
 const tabs = ids.tabs.map((tab) => { return el[tab] });
 
-window.addEventListener("DOMContentLoaded", () => {
-  // Initialise modules
-  const controls = new Controls();
+// Initialise modules
+const controls = new Controls();
 
-  // Set the interface controls
-  controls.linkTabsAndViews(tabs, ids.articles, el);
+// Set the interface controls
+controls.linkTabsAndViews(tabs, ids.articles, el);
 
-});
 
 
 
