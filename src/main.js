@@ -37,6 +37,7 @@ const createWindow = () => {
     backgroundColor: palette["background-light"],
     titleBarStyle: 'hiddenInset',
     webPreferences: {
+      contextIsolation: true,
       preload: path.join(__dirname, 'os/preload.js')
     },
     // icon: path.join(__dirname, 'resources/Unmarked Die.jpg')
@@ -51,6 +52,7 @@ const createWindow = () => {
   win.once('ready-to-show', () => {
     win.show();
     if (isDev) win.webContents.openDevTools();
+    // win.webContents.send("test", 'This is a test message...');
   });
 }
 
