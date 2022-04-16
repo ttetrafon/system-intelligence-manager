@@ -15,6 +15,13 @@ function md5_ii(d, _, m, f, r, i, n) { return md5_cmn(m ^ (_ | ~f), d, _, r, i, 
 function safe_add(d, _) { var m = (65535 & d) + (65535 & _); return (d >> 16) + (_ >> 16) + (m >> 16) << 16 | 65535 & m }
 function bit_rol(d, _) { return d << _ | d >>> 32 - _ };
 
+// Unique Ids
+const IdGenerator = function* (identifier, start) {
+  let i = (start ? start : 0);
+  while (true) {
+    i += 1;
+    yield `${identifier}-${i}`;
+  }
+}
 
-
-module.exports = { GenerateHash };
+module.exports = { GenerateHash, IdGenerator };

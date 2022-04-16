@@ -9,6 +9,7 @@ if (isDev) {
 
 const { on } = require('events');
 const { palette } = require('./data/colours');
+const { IdGenerator } = require('./data/helper');
 const path = require('path');
 const Config = require('./os/config');
 const FileSystem = require('./os/file-system');
@@ -26,6 +27,10 @@ const store = new Store(logger, config, fs);
 const server = new Server(logger, config, store);
 
 logger.log(null, [script, "Started!"]);
+const winIdGenerator = IdGenerator('win', 100);
+const windows = {};
+const linkIdGenerator = IdGenerator('link', 100);
+const links = {};
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -49,10 +54,21 @@ const createWindow = () => {
     menu.getContextMenu().popup(win.webContents);
   });
 
+  // store the window in the global context
+  const id = winIdGenerator.next();
+  windows[id.value] = win;
+
+  win.once('closed', () => {
+    console.log(`... closing window ${id.value}`);
+    delete windows[id.value];
+    console.log(windows);
+  });
+
   win.once('ready-to-show', () => {
     win.show();
     if (isDev) win.webContents.openDevTools();
     // win.webContents.send("test", 'This is a test message...');
+    console.log('windows:', windows);
   });
 }
 
@@ -66,7 +82,12 @@ const createLinkWindow = (event, url) => {
   });
   link.setMenuBarVisibility(false);
 
+  // store the window in the global context
+  const id = linkIdGenerator.next();
+  windows[id.value] = win;
+
   link.loadURL(url);
+  win.once('closed', () => { delete windows[id.value]; });
   link.once('ready-to-show', () => { link.show(); });
 }
 
