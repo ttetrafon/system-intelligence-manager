@@ -12,6 +12,10 @@ class Server {
     self.logger.log(null, [script, "Started!"]);
   }
 
+  // When a client connects, send a list of all stored objects alongside their hashes and the last update date-time.
+  // The client should then return only a list of what has changed during the last connection time,
+  // so the server will send only the required information.
+
 
 }
 
