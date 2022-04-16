@@ -39,7 +39,9 @@ const createWindow = () => {
     titleBarStyle: 'hiddenInset',
     webPreferences: {
       preload: path.join(__dirname, 'os/preload.js')
-    }
+    },
+    // icon: path.join(__dirname, 'resources/Unmarked Die.jpg')
+    icon: path.join(__dirname, 'resources/Notepad 1.png')
   });
 
   win.loadFile('./src/views/index.html');
@@ -58,7 +60,8 @@ const createLinkWindow = (event, url) => {
   const link = new BrowserWindow({
     show: false,
     width: 800,
-    height: 600
+    height: 600,
+    icon: path.join(__dirname, 'resources/Connect 1.png')
   });
   link.setMenuBarVisibility(false);
 
