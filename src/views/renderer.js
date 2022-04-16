@@ -26,6 +26,6 @@ const state = new State();
 const controls = new Controls(state);
 
 // Set the interface controls
-el["nav"].addEventListener("onTabSelected", event => { controls.setSecondaryTabs(el, event.detail); });
-el["nav"].addEventListener("onViewSelected", event => { controls.setView(el, event.detail); });
+el["nav-main"].addEventListener("onTabSelected", event => { controls.setSecondaryTabs(el, event.detail); });
+el["nav-secondary"].addEventListener("onViewSelected", event => { controls.setView(el, event.detail); });
 controls.initialView(el, state.$currentView);
