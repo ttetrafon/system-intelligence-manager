@@ -48,10 +48,10 @@ const createWindow = () => {
     menu.getContextMenu().popup(win.webContents);
   });
 
-  win.once('ready-to-show', () => { win.show(); });
-  if (isDev) {
-    win.webContents.openDevTools();
-  }
+  win.once('ready-to-show', () => {
+    win.show();
+    if (isDev) win.webContents.openDevTools();
+  });
 }
 
 const createLinkWindow = (event, url) => {
