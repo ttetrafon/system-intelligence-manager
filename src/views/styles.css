@@ -8,7 +8,7 @@
   --colour_back_medium: #2c2f33;
   --colour_back_dark: #23272a;
 
-  --header_height: 30px;
+  --header_height: 0px;
   --footer_height: 20px;
   --nav_bar_width: 40px;
   --article-surrounding-space: 6px;
@@ -27,14 +27,44 @@ body {
 
 /* NAVIGATION */
 nav {
-  position: absolute;
   top: var(--header_height);
   bottom: var(--footer_height);
+  width: calc(2 * var(--nav_bar_width));
+  background-color: var(--colour_back_dark);
+}
+
+#nav-main {
+  position: absolute;
   left: 0;
   width: var(--nav_bar_width);
   padding: 5px;
-  background-color: var(--colour_back_dark);
-  /* color: var(--colour_text_light); */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: nowrap;
+  z-index: 2;
+}
+
+#nav-secondary {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  left: var(--nav_bar_width);
+  width: var(--nav_bar_width);
+  padding: 5px;
+  z-index: 1;
+}
+
+.tab-list {
+  position: absolute;
+  visibility: hidden;
+  left: 0;
+  right: 0;
+  top: 0;
+  padding: 5px;
+  bottom: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -58,7 +88,7 @@ header {
 main {
   position: absolute;
   top: var(--header_height);
-  left: 50px;
+  left: calc(2 * var(--nav_bar_width));
   right: 0px;
   bottom: var(--footer_height);
   z-index: 0;

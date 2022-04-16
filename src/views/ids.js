@@ -1,14 +1,30 @@
 export const ids = {
   parents: [
-    'nav'
+    'nav-main',
+    'nav-secondary'
+  ],
+  tabs: [
+    "calendar-tab",
+    "campaign-tab",
+    "checks-tab",
+    "creatures-tab",
+    "gameSystem-tab",
+    "network-tab",
+    "settings-tab",
+    "user-tab",
+    "world-tab"
+  ],
+  tabLists: [
+    "calendar-tab-list",
+    "campaign-tab-list",
+    "creatures-tab-list",
+    "gameSystem-tab-list",
+    "network-tab-list",
+    "settings-tab-list",
+    "world-tab-list"
   ],
   articles: [
-    "network-article",
-    "gameSystem-article",
-    "calendar-article",
-    "campaign-article",
-    "creatures-article",
-    "world-article",
-    "settings-article"
+    "checks-article",
+    "user-article"
   ]
 };

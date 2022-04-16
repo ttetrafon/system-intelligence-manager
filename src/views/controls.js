@@ -1,4 +1,7 @@
 const script = "controls.js";
+const ARTICLE_SUFFIX = '-article';
+const TAB_SUFFIX = '-tab';
+const TAB_LIST = '-tab-list';
 
 export class Controls {
   constructor(state) {
@@ -7,20 +10,45 @@ export class Controls {
     this.state = state;
   }
 
-  // Choose the current main view article.
-  initialView(el, view) {
-    console.log(`---> setView(${view})`);
-    console.log(this.state.$currentView);
-    el[this.state.$currentView].classList.toggle('visible');
+  // Choose the current main view tab list and article.
+  initialView(el) {
+    // console.log(this.state.$currentView);
+    // Set the tab list and the view.
+    el[this.state.$currentView.tabList + TAB_LIST].classList.toggle('visible');
+    el[this.state.$currentView.view + ARTICLE_SUFFIX].classList.toggle('visible');
+    // 'Select' the appropriate main and secondary tabs.
+    el[this.state.$currentView.tabList + TAB_SUFFIX].selected = "selected";
+    el[this.state.$currentView.view + TAB_SUFFIX].selected = "selected";
+  }
+
+  setSecondaryTabs(el, tabList) {
+    // console.log(`---> setSecondaryTabs(${tabList})`);
+    if (tabList === this.state.$currentView.tabList) return;
+    // first hide the currently open tab list and unselect the current main tab
+    el[this.state.$currentView.tabList + TAB_LIST].classList.toggle('visible');
+    el[this.state.$currentView.tabList + TAB_SUFFIX].selected = null;
+    // then assign the newly selected tab list in the state
+    this.state.$currentView.tabList = tabList;
+    // console.log(this.state.$currentView);
+    // finally show the newly selected tab list and select the clicked main tab
+    el[this.state.$currentView.tabList + TAB_LIST].classList.toggle('visible');
+    el[this.state.$currentView.tabList + TAB_SUFFIX].selected = "selected";
+    // console.log(this.state.$currentView.tabList + TAB_LIST, el[this.state.$currentView.tabList + TAB_LIST].classList);
   }
 
   setView(el, view) {
     console.log(`---> setView(${view})`);
-    // first hide the currently open view
-    el[this.state.$currentView].classList.toggle('visible');
-    // then set the current view to the newly selected one and show it
-    this.state.$currentView = view + '-article';
-    el[this.state.$currentView].classList.toggle('visible');
+    if (view === this.state.$currentView.view) return;
+    // first hide the currently open view and unselect the current secondary tab
+    el[this.state.$currentView.view + ARTICLE_SUFFIX].classList.toggle('visible');
+    el[this.state.$currentView.view + TAB_SUFFIX].selected = null;
+    // then assign the newly selected view in the state
+    this.state.$currentView.view = view;
+    // then show the newly selected tab list and select the clicked main tab
+    el[this.state.$currentView.view + ARTICLE_SUFFIX].classList.toggle('visible');
+    el[this.state.$currentView.view + TAB_SUFFIX].selected = 'selected';
+    // finally save the current selection in the user properties
+    // TODO
   }
 
   // linkTabsAndViews(tabs, articles, elements) {

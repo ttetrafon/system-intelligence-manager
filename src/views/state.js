@@ -4,7 +4,10 @@ export class State {
   constructor() {
     window.main.log([script, "Started!"]);
 
-    this.$currentView = 'settings-article'; // TODO: Load this from user settings.
+    this.$currentView = {
+      tabList: 'settings',
+      view: 'user'
+    };
   }
 
 }

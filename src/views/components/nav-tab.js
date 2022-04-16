@@ -15,6 +15,10 @@ template.innerHTML = `
     height: 75%;
   }
 
+  .selected {
+    background-color: var(--colour_back_light);
+  }
+
   .tooltip-nav {
     position: relative;
     display: inline-block;
@@ -30,7 +34,7 @@ template.innerHTML = `
     border-radius: 6px;
     /* Position the tooltip text */
     position: absolute;
-    z-index: 1;
+    z-index: 99;
     top: 2px;
     left: 40px;
     margin-left: 0px;
@@ -50,7 +54,7 @@ template.innerHTML = `
     border-color: transparent var(--colour_title) transparent transparent;
   }
 
-  .tooltip-nav:hover .tooltip-text {
+  button:hover .tooltip-text {
     visibility: visible;
     opacity: 1;
   }
@@ -72,10 +76,11 @@ class NavTab extends HTMLElement {
     this.$tab = this._shadow.querySelector(".nav-tab");
     this.$img = this._shadow.querySelector(".button-image");
     this.$tooltip = this._shadow.querySelector(".tooltip-text");
+    this.$horizontalTabs = this._shadow.querySelector(".horizontal-tabs");
 
     this.$tab.addEventListener("click", _ => {
       this.dispatchEvent(
-        new CustomEvent('onTabSelected', {
+        new CustomEvent((this.type == 'main' ? 'onTabSelected' : 'onViewSelected'), {
           bubbles: true,
           detail: this.$tab.id
         })
@@ -84,25 +89,36 @@ class NavTab extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['tabName', "imgSrc", "tooltip"];
+    return ['tabName', "imgSrc", "tooltip", "type", "selected"];
   }
 
   get tabName() { return this.getAttribute("tabName"); }
   get imgSrc() { return this.getAttribute("imgSrc"); }
   get tooltip() { return this.getAttribute("tooltip"); }
+  get type() { return this.getAttribute("type"); }
+  get selected() { return this.getAttribute("selected"); }
 
   set tabName(value) { this.setAttribute("tabName", value); }
   set imgSrc(value) { this.setAttribute("imgSrc", value); }
   set tooltip(value) { this.setAttribute("tooltip", value); }
+  set type(value) { this.setAttribute("type", value); }
+  set selected(value) { this.setAttribute("selected", value); }
 
   attributeChangedCallback(name, oldVal, newVal) {
     this.render();
   }
 
   render() {
+    console.log("... render()", this.tabName, this.selected);
     this.$tab.id = this.tabName;
     this.$img.src = this.imgSrc;
     this.$tooltip.innerHTML = this.tooltip;
+    if (this.selected == 'selected') {
+      this.$tab.classList.add("selected");
+    }
+    else {
+      this.$tab.classList.remove("selected");
+    }
   }
 }
 
