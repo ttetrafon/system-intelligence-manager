@@ -26,32 +26,6 @@ const state = new State();
 const controls = new Controls(state);
 
 // Set the interface controls
-el["nav-main"].addEventListener("onTabSelected", event => {
-  controls.setSecondaryTabs(el, event.detail);
-});
-el["nav-secondary"].addEventListener("onViewSelected", event => {
-  controls.setView(el, event.detail);
-});
+el["nav"].addEventListener("onTabSelected", event => { controls.setSecondaryTabs(el, event.detail); });
+el["nav"].addEventListener("onViewSelected", event => { controls.setView(el, event.detail); });
 controls.initialView(el, state.$currentView);
-
-
-
-
-// linkButton: document.getElementById('btn-link')
-// elements.linkButton.addEventListener('click', () => {
-//   window.main.openLink("https://www.fantasynamegenerators.com/")
-// });
-
-// const setButton = document.getElementById('btn')
-// const titleInput = document.getElementById('title')
-// setButton.addEventListener('click', () => {
-//   const title = titleInput.value;
-//   window.main.setTitle(title);
-// });
-
-// const btn_of = document.getElementById('btn-of')
-// const filePathElement = document.getElementById('filePath')
-// btn_of.addEventListener('click', async () => {
-//   const filePath = await window.main.openFile();
-//   filePathElement.innerText = filePath;
-// });

@@ -1,7 +1,6 @@
 export const ids = {
   parents: [
-    'nav-main',
-    'nav-secondary'
+    'nav'
   ],
   tabs: [
     "calendar-tab",
