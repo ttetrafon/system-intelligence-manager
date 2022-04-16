@@ -4,7 +4,6 @@ import { Controls } from './controls.js';
 import { ids } from './ids.js';
 import { State } from './state.js';
 
-
 window.main.log([script, "Started!"]);
 
 // Collect all the elements in the page and create all appropriate lists.

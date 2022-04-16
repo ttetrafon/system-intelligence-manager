@@ -1,5 +1,4 @@
 const { app, BrowserWindow, dialog, ipcMain, Notification } = require('electron');
-
 const isDev = (process.env.NODE_ENV == 'dev');
 
 // This actively reloads the view when the code changes!
@@ -26,7 +25,7 @@ const menu = new MenuCreator(logger, config);
 const store = new Store(logger, config, fs);
 const server = new Server(logger, config, store);
 
-logger.log(null, [script, "Started!", process.env, process.env.NODE_ENV, isDev]);
+logger.log(null, [script, "Started!"]);
 
 const createWindow = () => {
   const win = new BrowserWindow({
