@@ -2,8 +2,8 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';">
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';">
     <title>YADTS Manager!</title>
     <script src="./renderer.js" type="module" defer></script>
     <link rel="stylesheet" href="styles.css">
@@ -11,13 +11,13 @@
   <body>
     <!-- Navigation bar contains the tabs for each section. -->
     <nav id="nav">
-      <button id="network-tab" class="tooltip-nav">NW<span class="tooltip-text">Network</span></button>
-      <button id="gameSystem-tab" class="tooltip-nav">GS<span class="tooltip-text">Game System</span></button>
-      <button id="calendar-tab" class="tooltip-nav">CA<span class="tooltip-text">Calendar</span></button>
-      <button id="campaign-tab" class="tooltip-nav">CG<span class="tooltip-text">Campaign</span></button>
-      <button id="creatures-tab" class="tooltip-nav">CR<span class="tooltip-text">Creatures</span></button>
-      <button id="world-tab" class="tooltip-nav">WO<span class="tooltip-text">World</span></button>
-      <button id="settings-tab" class="tooltip-nav">SE<span class="tooltip-text">Settings</span></button>
+      <nav-tab tabName="gameSystem" tooltip="Game System" imgSrc="./UI/buttons/Books 1.png"></nav-tab>
+      <nav-tab tabName="calendar" tooltip="Calendar" imgSrc="./UI/buttons/Calendar 1.png"></nav-tab>
+      <nav-tab tabName="campaign" tooltip="Campaign" imgSrc="./UI/buttons/Notebook 1.png"></nav-tab>
+      <nav-tab tabName="creatures" tooltip="Creatures" imgSrc="./UI/buttons/Cat 1.png"></nav-tab>
+      <nav-tab tabName="world" tooltip="World" imgSrc="./UI/buttons/Building 1.png"></nav-tab>
+      <nav-tab tabName="network" tooltip="Network" imgSrc="./UI/buttons/Network 1.png"></nav-tab>
+      <nav-tab tabName="settings" tooltip="Settings" imgSrc="./UI/buttons/Edit 1.png"></nav-tab>
     </nav>
 
     <header>Header!</header>
@@ -25,13 +25,13 @@
     <!-- Main contains all the relevant information/controls, based on which tab has been selected. -->
     <main>
       <!-- Each article will represent the collection of items in a single category.  -->
-      <article id="network-article" class="visible">NETWORK</article>
-      <article id="gameSystem-article" class="hidden">GAME SYSTEM</article>
-      <article id="calendar-article" class="hidden">CALENDAR</article>
-      <article id="campaign-article" class="hidden">CAMPAIGN</article>
-      <article id="creatures-article" class="hidden">CREATURE</article>
-      <article id="world-article" class="hidden">WORLD</article>
-      <article id="settings-article" class="hidden">SETTINGS</article>
+      <article id="network-article">NETWORK</article>
+      <article id="gameSystem-article">GAME SYSTEM</article>
+      <article id="calendar-article">CALENDAR</article>
+      <article id="campaign-article">CAMPAIGN</article>
+      <article id="creatures-article">CREATURE</article>
+      <article id="world-article">WORLD</article>
+      <article id="settings-article">SETTINGS</article>
     </main>
 
     <!-- Footer is used to log information. -->

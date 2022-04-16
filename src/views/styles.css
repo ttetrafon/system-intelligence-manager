@@ -14,6 +14,8 @@
   --article-surrounding-space: 6px;
 }
 
+
+/* GENERAL */
 body {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   margin: 0;
@@ -23,6 +25,7 @@ body {
   height: 100vh;
 }
 
+/* NAVIGATION */
 nav {
   position: absolute;
   top: var(--header_height);
@@ -31,13 +34,14 @@ nav {
   width: var(--nav_bar_width);
   padding: 5px;
   background-color: var(--colour_back_dark);
-  color: var(--colour_text_light);
+  /* color: var(--colour_text_light); */
   display: flex;
   flex-direction: column;
   align-items: center;
   flex-wrap: nowrap;
 }
 
+/* HEADER */
 header {
   position: absolute;
   left: var(--nav_bar_width);
@@ -49,6 +53,8 @@ header {
   text-align: center;
 }
 
+
+/* MAIN VIEW */
 main {
   position: absolute;
   top: var(--header_height);
@@ -70,9 +76,15 @@ main article {
   flex-direction: column;
   align-items: center;
   flex-wrap: nowrap;
-  z-index: 10;
+  z-index: 0;
+  visibility: hidden;
 }
 
+.visible {
+  visibility: visible;
+}
+
+/* FOOTER */
 footer {
   position: absolute;
   bottom: 0;
@@ -84,63 +96,6 @@ footer {
   color: var(--colour_text_medium);
   z-index: 0;
   text-align: right;
-}
-
-nav button {
-  margin: 2px;
-  width: 35px;
-  height: 35px;
-  z-index: 0;
-}
-
-nav .tooltip-nav {
-  position: relative;
-  display: inline-block;
-}
-
-nav .tooltip-nav .tooltip-text {
-  visibility: hidden;
-  white-space: nowrap;
-  background-color: var(--colour_back_dark);
-  color: var(--colour_text_light);
-  text-align: left;
-  padding: 5px;
-  border-radius: 6px;
-
-  /* Position the tooltip text */
-  position: absolute;
-  z-index: 1;
-  top: 2px;
-  left: 40px;
-  margin-left: 0px;
-
-  /* Fade in tooltip */
-  opacity: 0;
-  transition: opacity 0.5s;
-}
-
-.tooltip-nav .tooltip-text::before {
-  content: "";
-  position: absolute;
-  bottom: 7px;
-  left: -5px;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: transparent var(--colour_title) transparent transparent;
-}
-
-nav .tooltip-nav:hover .tooltip-text {
-  visibility: visible;
-  opacity: 1;
-}
-
-.visible {
-  visibility: visible;
-}
-
-.hidden {
-  visibility: hidden;
 }
 
 

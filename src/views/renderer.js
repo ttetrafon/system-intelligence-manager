@@ -1,23 +1,30 @@
 const script = "renderer.js";
+import './components/nav-tab.js';
 import { Controls } from './controls.js';
 import { ids } from './ids.js';
+import { State } from './state.js';
+
 
 window.main.log([script, "Started!"]);
 
 // Collect all the elements in the page and create all appropriate lists.
 const idList = [];
-idList.push(...ids.tabs, ...ids.articles);
+idList.push(ids.parents, ...ids.articles);
 const el = {};
 for (let i = 0; i < idList.length; i++) {
   el[idList[i]] = document.getElementById(idList[i]);
 }
-const tabs = ids.tabs.map((tab) => { return el[tab] });
+console.log("registered elements:", el);
 
 // Initialise modules
-const controls = new Controls();
+const state = new State();
+const controls = new Controls(state);
 
 // Set the interface controls
-controls.linkTabsAndViews(tabs, ids.articles, el);
+el.nav.addEventListener("onTabSelected", event => {
+  controls.setView(el, event.detail);
+});
+controls.initialView(el, state.$currentView);
 
 
 

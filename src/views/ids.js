@@ -1,11 +1,6 @@
 export const ids = {
-  tabs: [ "network-tab",
-    "gameSystem-tab",
-    "calendar-tab",
-    "campaign-tab",
-    "creatures-tab",
-    "world-tab",
-    "settings-tab"
+  parents: [
+    'nav'
   ],
   articles: [
     "network-article",
