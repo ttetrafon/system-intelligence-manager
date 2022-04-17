@@ -67,7 +67,8 @@ const createWindow = () => {
   win.once('ready-to-show', () => {
     win.show();
     if (isDev) win.webContents.openDevTools();
-    // win.webContents.send("test", 'This is a test message...');
+    // win.webContents.send('test', 'This is a test message...');
+    win.webContents.send('initialUser', store.user);
     console.log('windows:', windows);
   });
 }

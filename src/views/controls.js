@@ -11,14 +11,14 @@ export class Controls {
   }
 
   // Choose the current main view tab list and article.
-  initialView(el) {
-    // console.log(this.state.$currentView);
+  initialView(el, currentView) {
+    console.log(`---> initialView(${currentView})`);
     // Set the tab list and the view.
-    el[this.state.$currentView.tabList + TAB_LIST].classList.toggle('visible');
-    el[this.state.$currentView.view + ARTICLE_SUFFIX].classList.toggle('visible');
+    el[currentView.tabList + TAB_LIST].classList.toggle('visible');
+    el[currentView.view + ARTICLE_SUFFIX].classList.toggle('visible');
     // 'Select' the appropriate main and secondary tabs.
-    el[this.state.$currentView.tabList + TAB_SUFFIX].selected = "selected";
-    el[this.state.$currentView.view + TAB_SUFFIX].selected = "selected";
+    el[currentView.tabList + TAB_SUFFIX].selected = "selected";
+    el[currentView.view + TAB_SUFFIX].selected = "selected";
   }
 
   setSecondaryTabs(el, tabList) {

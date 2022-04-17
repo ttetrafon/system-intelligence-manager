@@ -7,11 +7,11 @@ contextBridge.exposeInMainWorld('main', {
   setTitle: (title) => ipcRenderer.send('set-title', title),
   log: (args) => ipcRenderer.send('log', args),
   // main sends to renderers...
-  test: (channel, func) => ipcRenderer.on(channel, (event, ...args) => func(...args))
-  // receive: (channel, func) => {
-  //   let validChannels = ['test'];
-  //   if (validChannels.includes(channel)) ipcRenderer.on(channel, (event, ...args) => func(...args));
-  // }
+  receive: (channel, func) => {
+    // let validChannels = ['test', 'initialUser'];
+    // if (validChannels.includes(channel))
+    ipcRenderer.on(channel, (event, ...args) => func(...args));
+  }
 });
 
 window.addEventListener('DOMContentLoaded', () => {

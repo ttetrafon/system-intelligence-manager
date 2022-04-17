@@ -32,6 +32,7 @@ class Store {
     self.user = user;
     self.logger.log(null, [script, "user:", self.user]);
   }
+
 };
 
 module.exports = Store;

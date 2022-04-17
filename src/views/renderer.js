@@ -28,18 +28,17 @@ const controls = new Controls(state);
 // Set the interface controls
 el["nav-main"].addEventListener("onTabSelected", event => { controls.setSecondaryTabs(el, event.detail); });
 el["nav-secondary"].addEventListener("onViewSelected", event => { controls.setView(el, event.detail); });
-controls.initialView(el, state.$currentView);
-
-
-
-
-window.main.test('test', (data) => {
-  console.log(`Received '${data}' from main process`);
+window.main.receive('initialUser', (user) => {
+  console.log('... initialUser', user);
+  state.$user = user;
+  controls.initialView(el, state.getCurrentView());
 });
+
+
+
 // window.main.receive('test', (data) => {
 //   console.log(`Received '${data}' from main process`);
 // });
-
 
 // linkButton: document.getElementById('btn-link')
 // elements.linkButton.addEventListener('click', () => {
