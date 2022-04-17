@@ -18,19 +18,26 @@ const MenuCreator = require('./os/menu');
 const Server = require('./os/server');
 const Store = require('./store');
 
+const winIdGenerator = IdGenerator('win', 100);
+const windows = {};
+const linkIdGenerator = IdGenerator('link', 100);
+const links = {};
+function notifyOpenWindows(channel, ...args) {
+  console.log("---> notifyOpenWindows()", channel, ...args);
+  Object.keys(windows).forEach(win => {
+    windows[win].webContents.send(channel, ...args);
+  });
+}
+
 const script = path.parse(__filename).base;
 const logger = new Logger();
 const config = new Config(logger);
 const fs = new FileSystem(logger);
 const menu = new MenuCreator(logger, config);
-const store = new Store(logger, config, fs);
+const store = new Store(logger, config, fs, notifyOpenWindows);
 const server = new Server(logger, config, store);
 
 logger.log(null, [script, "Started!"]);
-const winIdGenerator = IdGenerator('win', 100);
-const windows = {};
-const linkIdGenerator = IdGenerator('link', 100);
-const links = {};
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -87,8 +94,9 @@ const createLinkWindow = (event, url) => {
   const id = linkIdGenerator.next();
   windows[id.value] = win;
 
+  link.setTitle(url);
   link.loadURL(url);
-  win.once('closed', () => { delete windows[id.value]; });
+  link.once('closed', () => { delete windows[id.value]; });
   link.once('ready-to-show', () => { link.show(); });
 }
 
@@ -105,9 +113,10 @@ const handleError = (message) => {
 
 app.whenReady().then(() => {
   ipcMain.handle('dialog:openFile', fs.handleFileOpen);
-  ipcMain.on('set-title', menu.handleSetTitle);
   ipcMain.on('log', logger.log);
-  ipcMain.on('open-link', createLinkWindow)
+  ipcMain.on('open-link', createLinkWindow);
+  ipcMain.on('set-title', menu.handleSetTitle);
+  ipcMain.on('updateUser', store.updateUser);
   createWindow();
 
   app.on('activate', () => {

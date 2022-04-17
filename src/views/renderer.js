@@ -29,9 +29,15 @@ const controls = new Controls(state);
 el["nav-main"].addEventListener("onTabSelected", event => { controls.setSecondaryTabs(el, event.detail); });
 el["nav-secondary"].addEventListener("onViewSelected", event => { controls.setView(el, event.detail); });
 window.main.receive('initialUser', (user) => {
-  console.log('... initialUser', user);
+  // console.log('... initialUser', user);
   state.$user = user;
   controls.initialView(el, state.getCurrentView());
+});
+window.main.receive('updateUser', (user) => {
+  console.log("---> 'updateUser' event received!", user);
+  // ignore changes in currentView, as this will mess up
+  // check if the user data changed, and set appropriate attributes in all articles and controls
+  // TODO...
 });
 
 

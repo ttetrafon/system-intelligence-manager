@@ -8,7 +8,7 @@ export class State {
   }
 
   getCurrentView() {
-    console.log("---> getCurrentView()", this.$user.currentView);
+    // console.log("---> getCurrentView()", this.$user.currentView);
     return (this.$user.currentView ? this.$user.currentView : {
       tabList: "settings",
       view: "user"

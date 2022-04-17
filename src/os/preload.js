@@ -2,10 +2,11 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('main', {
   // renderers send to main...
-  openFile: () => ipcRenderer.invoke('dialog:openFile'),
+  log: (args) => ipcRenderer.send('log', args),
+  openFile: _ => ipcRenderer.invoke('dialog:openFile'),
   openLink: (url) => ipcRenderer.send('open-link', url),
   setTitle: (title) => ipcRenderer.send('set-title', title),
-  log: (args) => ipcRenderer.send('log', args),
+  updateUser: (user) => ipcRenderer.send('updateUser', user),
   // main sends to renderers...
   receive: (channel, func) => {
     // let validChannels = ['test', 'initialUser'];
