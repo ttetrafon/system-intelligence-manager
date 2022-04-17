@@ -109,7 +109,7 @@ class NavTab extends HTMLElement {
   }
 
   render() {
-    console.log("... render()", this.tabName, this.selected);
+    // console.log("... render()", this.tabName, this.selected);
     this.$tab.id = this.tabName;
     this.$img.src = this.imgSrc;
     this.$tooltip.innerHTML = this.tooltip;
