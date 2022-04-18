@@ -5,7 +5,9 @@ class User {
     this.currentView = {
       tabList: "settings",
       view: "user"
-    }
+    };
+    this.gameSystemsList = [];
+    this.activeGameSystem = "";
   }
 
   initialiseUser(obj) {

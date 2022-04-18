@@ -1,8 +1,8 @@
 // All the game data in one place.
 const path = require('path');
-const User = require('./data/user');
+const User = require('../data/user');
 
-const { GenerateHash } = require('./data/helper');
+const { GenerateHash } = require('../data/helper');
 
 var self;
 const script = path.parse(__filename).base;
@@ -22,8 +22,11 @@ class Store {
     };
 
     self.user = null;
+    self.dictionaries = {};
 
     self.initialPreparation();
+    self.loadDictionaries();
+    self.loadGameSystem();
   }
 
   initialPreparation() {
@@ -35,6 +38,14 @@ class Store {
     self.user = user;
     this.storeHash("user", self.user);
     self.logger.log(null, [script, "user:", self.user]);
+  }
+
+  loadDictionaries() {
+
+  }
+
+  loadGameSystem() {
+
   }
 
   async storeHash(name, value) {

@@ -13,12 +13,7 @@ class FileSystem {
     self.logger = logger;
     self.logger.log(null, [script, "Started!"]);
 
-    self.userFolder = app.getPath("documents");
-    self.logger.log(null, [script, "user folder = ", self.userFolder]);
-
-    self.saveFolder = path.join(self.userFolder, folders["root"]);
-    self.checkIfDirectoryExists(self.saveFolder);
-    self.logger.log(null, [script, "save folder = ", self.saveFolder]);
+    self.folderStructureStepOne();
   }
 
   checkIfDirectoryExists(dir) {
@@ -26,10 +21,29 @@ class FileSystem {
       self.logger.log(script, ["folder found: ", dir]);
     }
     else {
-      self.logger.log(script, ["folder not found: ", dir]);
+      self.logger.log(script, ["folder not found and has been created: ", dir]);
       fs.mkdirSync(dir);
     }
   }
+
+  folderStructureStepOne() {
+    self.userFolder = app.getPath("documents");
+    self.logger.log(null, [script, "user folder = ", self.userFolder]);
+
+    self.saveFolder = path.join(self.userFolder, folders.root);
+    self.logger.log(null, [script, "save folder = ", self.saveFolder]);
+    self.checkIfDirectoryExists(self.saveFolder);
+
+    self.dictionariesFolder = path.join(self.saveFolder, folders.dictionaries);
+    self.logger.log(null, [script, "dictionaries folder = ", self.dictionariesFolder]);
+    self.checkIfDirectoryExists(self.dictionariesFolder);
+
+    self.gameSystemBaseFolder = path.join(self.saveFolder, folders.gameSystem);
+    self.logger.log(null, [script, "game system base folder = ", self.gameSystemBaseFolder]);
+    self.checkIfDirectoryExists(self.gameSystemBaseFolder);
+  }
+
+  folderStructureStepTwe() {}
 
   async handleFileOpen() {
     const { canceled, filePaths } = await dialog.showOpenDialog();
