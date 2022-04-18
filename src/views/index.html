@@ -6,7 +6,7 @@
     <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';">
     <title>YADTS Manager!</title>
     <script src="./renderer.js" type="module" defer></script>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./styles.css">
   </head>
   <body>
     <!-- Navigation bar contains the tabs for each section. -->
@@ -38,23 +38,20 @@
     <!-- Main contains all the relevant information/controls, based on which tab has been selected. -->
     <main>
       <!-- Each article will represent the collection of items in a single category.  -->
-      <article id="checks-article">CHECK RULES</article>
-      <article id="user-article">USER</article>
+      <article id="checks-article"></article>
+      <article id="user-article">
+        <user-section
+
+        ></user-section>
+      </article>
     </main>
 
     <!-- Footer is used to log information. -->
     <footer>footer...</footer>
 
 
-    <!-- <div class="title-bar">
-      <span class="document-name">Title Placeholder!</span>
-      <div class="menu-section">
-        <button>add</button>
-        <button>create</button>
-      </div>
-    </div>
 
-    <main>
+    <!-- <main>
       <textarea id="text-area"></textarea>
     </main> -->
 

@@ -1,7 +1,7 @@
 :root {
   --colour_title: #ffa600;
   --colour_text_light: #f5f5f5;
-  --colour_text_medium: #bcbcbc;
+  --colour_text_medium: #505050;
   --colour_text_dark: #0f0000e5;
   --colour_back_white: #f5f5f5;
   --colour_back_light: #5b5b5b;
@@ -12,12 +12,14 @@
   --footer_height: 20px;
   --nav_bar_width: 40px;
   --article-surrounding-space: 6px;
+
+  --font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
 }
 
 
 /* GENERAL */
 body {
-  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-family: var(--font-family);
   margin: 0;
   padding: 0;
   box-sizing: border-box;

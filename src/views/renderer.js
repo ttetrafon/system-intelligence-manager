@@ -1,5 +1,6 @@
 const script = "renderer.js";
 import './components/nav-tab.js';
+import './components/user-section.js';
 import { Controls } from './controls.js';
 import { ids } from './ids.js';
 import { State } from './state.js';
