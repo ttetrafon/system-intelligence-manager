@@ -3,10 +3,6 @@ const isDev = (process.env.NODE_ENV == 'dev');
 
 // This actively reloads the view when the code changes!
 // Will also reload the whole app when backend files are changed, but console logs are lost.
-if (isDev) {
-  try { require('electron-reloader')(module); } catch(exc) {}
-}
-
 const { on } = require('events');
 const { palette } = require('./data/colours');
 const { IdGenerator } = require('./data/helper');
