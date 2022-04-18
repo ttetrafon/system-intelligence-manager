@@ -8,11 +8,12 @@ const script = path.parse(__filename).base;
 class Logger {
   constructor() {
     self = this;
-    self.log(null, [script, "Started!"]);
+    self.log(null, script, "Started!");
   }
 
-  log(_, args) {
-    console.log(...args);
+  log(_, ...args) {
+    let script = args.shift();
+    console.log(`[${script}]`, ...args);
   }
 
 }

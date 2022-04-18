@@ -14,7 +14,7 @@ class Store {
     self.config = config;
     self.fs = fileSystem;
     self.notifyOpenWindows = notifyOpenWindows;
-    self.logger.log(null, [script, "Started!"]);
+    self.logger.log(null, script, "Started!");
 
     // store hashes to control saving/sending over the network
     self.hashes = {
@@ -37,7 +37,7 @@ class Store {
     else user.initialiseUser(data);
     self.user = user;
     this.storeHash("user", self.user);
-    self.logger.log(null, [script, "user:", self.user]);
+    self.logger.log(null, script, "user:", self.user);
   }
 
   loadDictionaries() {
@@ -51,7 +51,7 @@ class Store {
   async storeHash(name, value) {
     console.log(`---> storeHash(${name}, ${JSON.stringify(value)})`);
     self.hashes[name] = GenerateHash(value);
-    self.logger.log(null, [script, "hashes", self.hashes]);
+    self.logger.log(null, script, "hashes", self.hashes);
   }
 
   async updateUser(_, user) {

@@ -2,7 +2,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('main', {
   // renderers send to main...
-  log: (args) => ipcRenderer.send('log', args),
+  log: (...args) => ipcRenderer.send('log', ...args),
   openFile: _ => ipcRenderer.invoke('dialog:openFile'),
   openLink: (url) => ipcRenderer.send('open-link', url),
   setTitle: (title) => ipcRenderer.send('set-title', title),

@@ -9,7 +9,7 @@ class Server {
     self.logger = logger;
     self.config = config;
     self.store = store;
-    self.logger.log(null, [script, "Started!"]);
+    self.logger.log(null, script, "Started!");
   }
 
   // When a client connects, send a list of all stored objects alongside their hashes.

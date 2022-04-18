@@ -37,7 +37,7 @@ const menu = new MenuCreator(logger, config);
 const store = new Store(logger, config, fs, notifyOpenWindows);
 const server = new Server(logger, config, store);
 
-logger.log(null, [script, "Started!"]);
+logger.log(null, script, "Started!");
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -81,7 +81,7 @@ const createWindow = () => {
 }
 
 const createLinkWindow = (event, url) => {
-  logger.log(null, [script, "---> createLinkWindow()", url]);
+  logger.log(null, script, "---> createLinkWindow()", url);
   const link = new BrowserWindow({
     show: false,
     width: 800,

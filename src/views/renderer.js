@@ -4,7 +4,7 @@ import { Controls } from './controls.js';
 import { ids } from './ids.js';
 import { State } from './state.js';
 
-window.main.log([script, "Started!"]);
+window.main.log(script, "Started!");
 
 // Collect all the elements in the page and create all appropriate lists.
 const idList = [];
@@ -34,7 +34,7 @@ window.main.receive('initialUser', (user) => {
   controls.initialView(el, state.getCurrentView());
 });
 window.main.receive('updateUser', (user) => {
-  console.log("---> 'updateUser' event received!", user);
+  // console.log("---> 'updateUser' event received!", user);
   // ignore changes in currentView, as this will mess up
   // check if the user data changed, and set appropriate attributes in all articles and controls
   // TODO...

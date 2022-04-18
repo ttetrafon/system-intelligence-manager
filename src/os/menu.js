@@ -9,12 +9,12 @@ class MenuCreator {
     self = this;
     self.logger = logger;
     self.config = config;
-    self.logger.log(null, [script, "Started!"]);
+    self.logger.log(null, script, "Started!");
   }
 
   createAppMenu(functions) {
-    self.logger.log(null, [script, "---> createAppMenu()"]);
-    self.logger.log(null, [script, "functions:", functions]);
+    self.logger.log(null, script, "---> createAppMenu()");
+    self.logger.log(null, script, "functions:", functions);
     let menuTemplate = [
       ...(self.config.isMac() ? [{
         label: app.name,
@@ -46,26 +46,26 @@ class MenuCreator {
           {
             label: 'Start Server',
             click: async () => {
-              self.logger.log(null, [script, "Server -> Start Server menu item clicked!"]);
+              self.logger.log(null, script, "Server -> Start Server menu item clicked!");
             }
           },
           {
             label: 'Stop Server',
             click: async () => {
-              self.logger.log(null, [script, "Server -> Stop Server menu item clicked!"]);
+              self.logger.log(null, script, "Server -> Stop Server menu item clicked!");
             }
           },
           { type: 'separator' },
           {
             label: 'Connect to Server',
             click: async () => {
-              self.logger.log(null, [script, "Server -> Connect to Server menu item clicked!"]);
+              self.logger.log(null, script, "Server -> Connect to Server menu item clicked!");
             }
           },
           {
             label: 'Disconnect from Server',
             click: async () => {
-              self.logger.log(null, [script, "Server -> Disconnect from Server menu item clicked!"]);
+              self.logger.log(null, script, "Server -> Disconnect from Server menu item clicked!");
             }
           }
         ]
@@ -102,7 +102,7 @@ class MenuCreator {
           {
             label: 'Open New Window',
             click: async () => {
-              self.logger.log(null, [script, "View -> Open New Window menu item clicked!"]);
+              self.logger.log(null, script, "View -> Open New Window menu item clicked!");
               functions["newViewFun"]();
             },
             accelerator: 'CmdOrCtrl+N'
@@ -129,13 +129,13 @@ class MenuCreator {
     //       {
     //         label: 'Test 1',
     //         click: async () => {
-    //           self.logger.log(null, [script, "Context -> Test1 menu item clicked!"]);
+    //           self.logger.log(null, script, "Context -> Test1 menu item clicked!");
     //         }
     //       },
     //       {
     //         label: 'Test 2',
     //         click: async () => {
-    //           self.logger.log(null, [script, "Context -> Test2 menu item clicked!"]);
+    //           self.logger.log(null, script, "Context -> Test2 menu item clicked!");
     //         }
     //       }
     //     ]

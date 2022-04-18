@@ -5,7 +5,7 @@ const TAB_LIST = '-tab-list';
 
 export class Controls {
   constructor(state) {
-    window.main.log([script, "Started!"]);
+    window.main.log(script, "Started!");
 
     this.state = state;
   }

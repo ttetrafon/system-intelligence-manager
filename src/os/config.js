@@ -8,7 +8,7 @@ class Config {
   constructor(logger) {
     self = this;
     self.logger = logger;
-    self.logger.log(null, [script, "Started!"]);
+    self.logger.log(null, script, "Started!");
     self.platform = process.platform;
   }
 

@@ -2,7 +2,7 @@ const script = "state.js";
 
 export class State {
   constructor() {
-    window.main.log([script, "Started!"]);
+    window.main.log(script, "Started!");
 
     this.$user = {};
   }
