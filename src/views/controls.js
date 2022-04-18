@@ -19,6 +19,8 @@ export class Controls {
     // 'Select' the appropriate main and secondary tabs.
     el[currentView.tabList + TAB_SUFFIX].selected = "selected";
     el[currentView.view + TAB_SUFFIX].selected = "selected";
+    // Finally set the window title according to the choices above.
+    window.main.setTitle();
   }
 
   setSecondaryTabs(el, tabList) {
@@ -49,6 +51,7 @@ export class Controls {
     el[this.state.$user.currentView.view + TAB_SUFFIX].selected = 'selected';
     // finally save the current selection in the user properties
     window.main.updateUser(this.state.$user);
+    window.main.setTitle();
   }
 
 }

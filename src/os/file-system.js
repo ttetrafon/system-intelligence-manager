@@ -26,10 +26,10 @@ class FileSystem {
 
   checkIfDirectoryExists(dir) {
     if (fs.existsSync(dir)) {
-      self.logger.log(script, "folder found: ", dir);
+      self.logger.log(null, script, "folder found: ", dir);
     }
     else {
-      self.logger.log(script, "folder not found and has been created: ", dir);
+      self.logger.log(null, script, "folder not found and has been created: ", dir);
       fs.mkdirSync(dir);
     }
   }

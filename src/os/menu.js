@@ -1,15 +1,17 @@
 const { app, BrowserWindow, Menu } = require('electron');
+const { SplitCamelCase } = require('../data/helper');
 const path = require('path');
 
 var self;
 const script = path.parse(__filename).base;
 
 class MenuCreator {
-  constructor(logger, config) {
+  constructor(logger, config, store) {
     self = this;
     self.logger = logger;
     self.config = config;
-    self.logger.log(null, script, "Started!");
+    self.store = store;
+    self.logger.log(null, script, "Started!", self.store.user);
   }
 
   createAppMenu(functions) {
@@ -144,9 +146,10 @@ class MenuCreator {
     // return Menu.buildFromTemplate(contextTemplate);
   }
 
-  handleSetTitle (event, title) {
+  handleSetTitle (event, _) {
     // Updates the title of the window based on what one is looking on.
-    // Template: YADTS Manager - Campaign [player] - 'current view'
+    // Template: YADTS Manager / user [role] / {game} category: view
+    let title = `YADTS Manager / ${self.store.user.userName} [${self.store.user.userRole}] / {${self.store.user.activeGame}} ${SplitCamelCase(self.store.user.currentView.tabList)}: ${SplitCamelCase(self.store.user.currentView.view)}`;
     const webContents = event.sender;
     const win = BrowserWindow.fromWebContents(webContents);
     win.setTitle(title);

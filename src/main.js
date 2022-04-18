@@ -33,9 +33,9 @@ const script = path.parse(__filename).base;
 const logger = new Logger();
 const config = new Config(logger);
 const fs = new FileSystem(logger);
-const menu = new MenuCreator(logger, config);
 const store = new Store(logger, config, fs, notifyOpenWindows);
-const server = new Server(logger, config, store);
+const menu = new MenuCreator(logger, config, store);
+// const server = new Server(logger, config, store);
 
 logger.log(null, script, "Started!");
 

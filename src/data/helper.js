@@ -28,8 +28,24 @@ const GetUid = function() {
   return uuid.v4();
 }
 
+// String manipulation
+const SplitCamelCase = function(str) {
+  // console.log("---> SplitCamelCaseAlt(" + str + ")");
+  let strLow = str.toLowerCase();
+  let ret = str[0];
+  for (var i = 1; i < str.length; i++) {
+    let test1 = (str[i] !== strLow[i]) && (str[i-1] === strLow[i-1]);
+    let test2 = ((i + 1) < str.length) && (str[i] !== strLow[i]) && (str[i+1] === strLow[i+1]);
+    // console.log(str[i], strLow[i], test1, test2);
+    ret += (test1 || test2 ? " " : "" );
+    ret += str[i];
+  }
+  return ret.charAt(0).toUpperCase() + ret.slice(1);
+}
+
 module.exports = {
   GenerateHash,
   GetUid,
-  IdGenerator
+  IdGenerator,
+  SplitCamelCase
 };
