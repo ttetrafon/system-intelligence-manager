@@ -13,6 +13,14 @@ class FileSystem {
     self.logger = logger;
     self.logger.log(null, script, "Started!");
 
+    self.paths = {
+      dictionaries: null,
+      gameFolder: null,
+      gameSystem: null,
+      saveFolder: null,
+      userFolder: null
+    };
+
     self.folderStructureStepOne();
   }
 
@@ -27,23 +35,19 @@ class FileSystem {
   }
 
   folderStructureStepOne() {
-    self.userFolder = app.getPath("documents");
-    self.logger.log(null, script, "user folder = ", self.userFolder);
+    self.paths.userFolder = app.getPath("documents");
+    self.logger.log(null, script, "user folder = ", self.paths.userFolder);
 
-    self.saveFolder = path.join(self.userFolder, folders.root);
-    self.logger.log(null, script, "save folder = ", self.saveFolder);
-    self.checkIfDirectoryExists(self.saveFolder);
-
-    self.dictionariesFolder = path.join(self.saveFolder, folders.dictionaries);
-    self.logger.log(null, script, "dictionaries folder = ", self.dictionariesFolder);
-    self.checkIfDirectoryExists(self.dictionariesFolder);
-
-    self.gameSystemBaseFolder = path.join(self.saveFolder, folders.gameSystem);
-    self.logger.log(null, script, "game system base folder = ", self.gameSystemBaseFolder);
-    self.checkIfDirectoryExists(self.gameSystemBaseFolder);
+    self.setupDirectory("saveFolder", path.join(self.paths.userFolder, folders.root));
+    self.logger.log(null, script, "paths (first pass):", self.paths);
   }
 
-  folderStructureStepTwe() {}
+  folderStructureStepTwo(selectedGame) {
+    self.setupDirectory("gameFolder", path.join(self.paths.saveFolder, selectedGame));
+    self.setupDirectory("dictionaries", path.join(self.paths.gameFolder, folders.dictionaries));
+    self.setupDirectory("gameSystem", path.join(self.paths.gameFolder, folders.gameSystem));
+    self.logger.log(null, script, "paths (second pass):", self.paths);
+  }
 
   async handleFileOpen() {
     const { canceled, filePaths } = await dialog.showOpenDialog();
@@ -65,9 +69,15 @@ class FileSystem {
   }
 
   saveJsonFile(filepath, data) {
+    // console.log("---> saveJsonFile()", filepath, data);
     fs.writeFileSync(filepath, JSON.stringify(data, null, 2));
   }
 
+  setupDirectory(name, path) {
+    self.paths[name] = path;
+    self.logger.log(null, script, `${name} folder:`, self.paths[name]);
+    self.checkIfDirectoryExists(self.paths[name]);
+  }
 }
 
 module.exports = FileSystem;

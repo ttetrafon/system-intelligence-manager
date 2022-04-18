@@ -1,5 +1,5 @@
 // A collection of helper functions to be used by everything else.
-import { v4 as uuid } from 'uuid'; // https://www.npmjs.com/package/uuid
+const uuid = require('uuid'); // https://www.npmjs.com/package/uuid
 
 // HASH //
 const GenerateHash = (d) => { return MD5(JSON.stringify(d)) }
@@ -25,7 +25,7 @@ const IdGenerator = function* (identifier, start) {
   }
 }
 const GetUid = function() {
-  return uuid();
+  return uuid.v4();
 }
 
 module.exports = {

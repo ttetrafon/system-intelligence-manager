@@ -6,17 +6,25 @@ class User {
       tabList: "settings",
       view: "user"
     };
-    this.gameSystemsList = [];
-    this.activeGameSystem = "";
+    this.gamesList = [];
+    this.activeGame = "";
   }
 
   initialiseUser(obj) {
+    console.log("---> User.initialiseUser()", obj);
     if (obj["userName"]) this.userName = obj["userName"];
     if (obj["userRole"]) this.userRole = obj["userRole"];
     this.currentView = {};
     if (this.currentView) {
       if (obj["currentView"]["tabList"]) this.currentView.tabList = obj["currentView"]["tabList"];
       if (obj["currentView"]["view"]) this.currentView.view = obj["currentView"]["view"];
+    }
+    if (obj["gamesList"]) this.gamesList = obj["gamesList"];
+    if (obj["activeGame"] && this.gamesList.includes(obj["activeGame"])) this.activeGame = obj["activeGame"];
+    else if ((this.activeGame === "") && (this.gamesList.length > 0)) this.activeGame = obj["gamesList"][0];
+    else {
+      this.gamesList = [ 'YADTS' ];
+      this.activeGame = "YADTS";
     }
   }
 };
