@@ -22,7 +22,8 @@
     "electron-reloader": "^1.2.3"
   },
   "dependencies": {
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "uuid": "^8.3.2"
   },
   "config": {
     "forge": {
