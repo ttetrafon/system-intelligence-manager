@@ -1,8 +1,11 @@
 const script = "renderer.js";
 import './components/nav-tab.js';
 import './components/user-section.js';
+import './components/view-tab.js';
+
 import { Controls } from './controls.js';
 import { ids } from './ids.js';
+import { ViewTabData } from '../data/objects.js';
 import { State } from './state.js';
 
 window.main.log(script, "Started!");
@@ -12,7 +15,6 @@ const idList = [];
 idList.push(
   ...ids.parents,
   ...ids.tabs,
-  ...ids.categories,
   ...ids.articles
 );
 // console.log(idList);
@@ -26,14 +28,27 @@ console.log("registered elements:", el);
 const state = new State();
 const controls = new Controls(state);
 
-// Set the interface controls
-el["nav-main"].addEventListener("onTabSelected", event => { controls.setSecondaryTabs(el, event.detail); });
-el["nav-secondary"].addEventListener("onViewSelected", event => { controls.setView(el, event.detail); });
-window.main.receive('initialUser', (user) => {
-  // console.log('... initialUser', user);
-  state.$user = user;
-  controls.initialView(el, state.getCurrentView());
+// Populate the navigation bar links.
+el['gameSystem-tab'].views = {
+  'checks': new ViewTabData("checks", "Checks", "./UI/buttons/Dice 1.png")
+};
+el['settings-tab'].views = {
+  user: new ViewTabData("user", "User", "./UI/buttons/User 1.png")
+}
+
+
+
+// Set the interface controls.
+el['nav'].addEventListener("onTabSelected", event => {
+  console.log(`'nav' detected "onTabSelected" event: ${event.detail.category}-${event.detail.view}`);
 });
+// el["nav-main"].addEventListener("onTabSelected", event => { controls.setSecondaryTabs(el, event.detail); });
+// el["nav-secondary"].addEventListener("onViewSelected", event => { controls.setView(el, event.detail); });
+// window.main.receive('initialUser', (user) => {
+//   // console.log('... initialUser', user);
+//   state.$user = user;
+//   controls.initialView(el, state.getCurrentView());
+// });
 window.main.receive('updateUser', (user) => {
   // console.log("---> 'updateUser' event received!", user);
   // ignore changes in currentView, as this will mess up

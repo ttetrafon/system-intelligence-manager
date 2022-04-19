@@ -1,7 +1,6 @@
 export const ids = {
   parents: [
-    'nav-main',
-    'nav-secondary'
+    'nav'
   ],
   tabs: [
     "calendar-tab",
@@ -13,15 +12,6 @@ export const ids = {
     "settings-tab",
     "user-tab",
     "world-tab"
-  ],
-  categories: [
-    "calendar-tab-list",
-    "campaign-tab-list",
-    "creatures-tab-list",
-    "gameSystem-tab-list",
-    "network-tab-list",
-    "settings-tab-list",
-    "world-tab-list"
   ],
   articles: [
     "checks-article",

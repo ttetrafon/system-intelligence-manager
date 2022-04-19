@@ -1,4 +1,7 @@
 :root {
+  font-size: 16px;
+  user-select: none;
+
   --colour_title: #ffa600;
   --colour_text_light: #f5f5f5;
   --colour_text_medium: #505050;
@@ -29,49 +32,21 @@ body {
 
 /* NAVIGATION */
 nav {
+  position: fixed;
   top: var(--header_height);
   bottom: var(--footer_height);
-  width: calc(2 * var(--nav_bar_width));
+  width: var(--nav_bar_width);
+  left: 0;
+  width: var(--nav_bar_width);
   background-color: var(--colour_back_dark);
-}
-
-#nav-main {
-  position: absolute;
-  left: 0;
-  width: var(--nav_bar_width);
   padding: 5px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   flex-wrap: nowrap;
-  z-index: 2;
+  z-index: 10;
 }
 
-#nav-secondary {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  left: var(--nav_bar_width);
-  width: var(--nav_bar_width);
-  padding: 5px;
-  z-index: 1;
-}
-
-.tab-list {
-  position: absolute;
-  visibility: hidden;
-  left: 0;
-  right: 0;
-  top: 0;
-  padding: 5px;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-wrap: nowrap;
-}
 
 /* HEADER */
 header {

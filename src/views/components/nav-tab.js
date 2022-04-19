@@ -2,122 +2,136 @@ const template = document.createElement('template');
 
 template.innerHTML = `
 <style>
-  button {
-    margin: 2px;
-    width: 35px;
-    height: 35px;
-    z-index: 0;
-    background-color: var(--colour_back_dark);
+  .container {
+    display: flex;
+    flex-direction: row;
+    background-color: transparent;
+    border-radius: 10px;
+    color: var(--colour_text_light);
   }
 
-  button img {
-    width: 100%;
-    height: 75%;
+  #category-image {
+    margin: 2px;
+    padding: 2px;
+    width: 30px;
+    height: 30px;
+    background-color: var(--colour_back_dark);
+    border-radius: 5px;
   }
 
   .selected {
     background-color: var(--colour_back_light);
   }
 
-  .tooltip-nav {
-    position: relative;
-    display: inline-block;
+  .container:hover {
+    border: var(--colour_title) solid 2px;
+    border-left: none;
+    border-bottom: none;
   }
 
-  .tooltip-nav .tooltip-text {
-    visibility: hidden;
-    white-space: nowrap;
+  .inner-container {
+    margin-left: 5px;
+    display: none;
     background-color: var(--colour_back_dark);
-    color: var(--colour_text_light);
-    text-align: left;
+    white-space: nowrap;
     padding: 5px;
-    border-radius: 6px;
-    /* Position the tooltip text */
-    position: absolute;
-    z-index: 99;
-    top: 2px;
-    left: 40px;
-    margin-left: 0px;
-    /* Fade in tooltip */
-    opacity: 0;
-    transition: opacity 0.5s;
+    border-radius: 0 10px 10px 0;
   }
 
-  .tooltip-nav .tooltip-text::before {
-    content: "";
-    position: absolute;
-    bottom: 7px;
-    left: -5px;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: transparent var(--colour_title) transparent transparent;
+  .container:hover .inner-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
 
-  button:hover .tooltip-text {
-    visibility: visible;
-    opacity: 1;
+  #title-text {
+    color: var(--colour_title);
   }
 </style>
 
-<button class="nav-tab tooltip-nav">
-  <img class="button-image" />
-  <span class="tooltip-text"></span>
-</button>
+<div class="container">
+  <img id="category-image" src="#" />
+  <div class="inner-container">
+    <div id="title-text">Title</div>
+  </div>
+
+</div>
 `;
 
 class NavTab extends HTMLElement {
   constructor() {
     super();
+    // console.log("NavTab initialised!");
 
     this._shadow = this.attachShadow({ mode: 'closed' });
     this._shadow.appendChild(template.content.cloneNode(true));
 
-    this.$tab = this._shadow.querySelector(".nav-tab");
-    this.$img = this._shadow.querySelector(".button-image");
-    this.$tooltip = this._shadow.querySelector(".tooltip-text");
-    this.$horizontalTabs = this._shadow.querySelector(".horizontal-tabs");
+    this.$tab = this._shadow.querySelector(".container");
+    this.$img = this._shadow.getElementById("category-image");
+    this.$categoryTitle = this._shadow.getElementById("title-text");
+    this.$innerContainer = this._shadow.querySelector(".inner-container");
 
-    this.$tab.addEventListener("click", _ => {
+    // .inner-container will catch click event from view button and send it's own event to the outer nav with 'category' and 'view' in details
+    this.$tab.addEventListener("onViewSelected", (event) => {
+      // console.log("onViewSelected detected:", event.detail);
       this.dispatchEvent(
-        new CustomEvent((this.type == 'main' ? 'onTabSelected' : 'onViewSelected'), {
+        new CustomEvent("onTabSelected", {
           bubbles: true,
-          detail: this.$tab.id
+          detail: {
+            view: event.detail,
+            category: this.category
+          }
         })
       );
-    });
+    })
   }
 
   static get observedAttributes() {
-    return ['tabName', "imgSrc", "tooltip", "type", "selected"];
+    return ["image", "title", "category", "selected", "views"];
   }
 
-  get tabName() { return this.getAttribute("tabName"); }
-  get imgSrc() { return this.getAttribute("imgSrc"); }
-  get tooltip() { return this.getAttribute("tooltip"); }
-  get type() { return this.getAttribute("type"); }
+  get image() { return this.getAttribute("image"); }
   get selected() { return this.getAttribute("selected"); }
+  get title() { return this.getAttribute("title"); }
+  get category() { return this.getAttribute("category"); }
+  get views() { return JSON.parse(this.getAttribute("views")); }
 
-  set tabName(value) { this.setAttribute("tabName", value); }
-  set imgSrc(value) { this.setAttribute("imgSrc", value); }
-  set tooltip(value) { this.setAttribute("tooltip", value); }
-  set type(value) { this.setAttribute("type", value); }
+  set image(value) { this.setAttribute("image", value); }
   set selected(value) { this.setAttribute("selected", value); }
+  set title(value) { this.setAttribute("title", value); }
+  set category(value) { this.setAttribute("category", value); }
+  set views(value) { this.setAttribute("views", JSON.stringify(value)); }
 
-  attributeChangedCallback(name, oldVal, newVal) {
-    this.render();
-  }
-
-  render() {
-    // console.log("... render()", this.tabName, this.selected);
-    this.$tab.id = this.tabName;
-    this.$img.src = this.imgSrc;
-    this.$tooltip.innerHTML = this.tooltip;
-    if (this.selected == 'selected') {
-      this.$tab.classList.add("selected");
-    }
-    else {
-      this.$tab.classList.remove("selected");
+  attributeChangedCallback(property, oldValue, newValue) {
+    if (oldValue === newValue) return;
+    switch(property) {
+      case "image":
+        this.$img.src = this.image;
+        break;
+      case "selected":
+        if (this.selected == 'selected') {
+          this.$tab.classList.add("selected");
+        }
+        else {
+          this.$tab.classList.remove("selected");
+        }
+        break;
+      case "title":
+        this.$categoryTitle.innerHTML = this.title;
+        break;
+      case "views":
+        Object.keys(this.views).forEach(key => {
+          let template = document.createElement('template');
+          template.innerHTML = `<view-tab></view-tab>`;
+          let viewTab = template.content.firstElementChild;
+          this.$innerContainer.appendChild(viewTab);
+          viewTab.id = this.views[key].id;
+          viewTab.title = this.views[key].title;
+          viewTab.image = this.views[key].image;
+        });
+        break;
+      default:
+        break;
     }
   }
 }
