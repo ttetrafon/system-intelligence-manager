@@ -10,7 +10,7 @@ export class State {
   getCurrentView() {
     // console.log("---> getCurrentView()", this.$user.currentView);
     return (this.$user.currentView ? this.$user.currentView : {
-      tabList: "settings",
+      category: "settings",
       view: "user"
     });
   }

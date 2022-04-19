@@ -1,8 +1,6 @@
 const { app, BrowserWindow, dialog, ipcMain, Notification } = require('electron');
 const isDev = (process.env.NODE_ENV == 'dev');
 
-// This actively reloads the view when the code changes!
-// Will also reload the whole app when backend files are changed, but console logs are lost.
 const { on } = require('events');
 const { palette } = require('./data/colours');
 const { IdGenerator } = require('./data/helper');

@@ -149,7 +149,7 @@ class MenuCreator {
   handleSetTitle (event, _) {
     // Updates the title of the window based on what one is looking on.
     // Template: YADTS Manager / user [role] / {game} category: view
-    let title = `YADTS Manager / ${self.store.user.userName} [${self.store.user.userRole}] / {${self.store.user.activeGame}} ${SplitCamelCase(self.store.user.currentView.tabList)}: ${SplitCamelCase(self.store.user.currentView.view)}`;
+    let title = `YADTS Manager / ${self.store.user.userName} [${self.store.user.userRole}] / {${self.store.user.activeGame}} ${SplitCamelCase(self.store.user.currentView.category)}: ${SplitCamelCase(self.store.user.currentView.view)}`;
     const webContents = event.sender;
     const win = BrowserWindow.fromWebContents(webContents);
     win.setTitle(title);

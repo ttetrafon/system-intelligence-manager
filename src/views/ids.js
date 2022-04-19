@@ -14,7 +14,7 @@ export const ids = {
     "user-tab",
     "world-tab"
   ],
-  tabLists: [
+  categories: [
     "calendar-tab-list",
     "campaign-tab-list",
     "creatures-tab-list",

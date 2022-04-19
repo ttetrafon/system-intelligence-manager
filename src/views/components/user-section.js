@@ -2,6 +2,12 @@ const template = document.createElement('template');
 
 template.innerHTML = `
 <style>
+table {
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 </style>
 
 <table>

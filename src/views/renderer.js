@@ -12,7 +12,7 @@ const idList = [];
 idList.push(
   ...ids.parents,
   ...ids.tabs,
-  ...ids.tabLists,
+  ...ids.categories,
   ...ids.articles
 );
 // console.log(idList);

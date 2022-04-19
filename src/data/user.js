@@ -3,7 +3,7 @@ class User {
     this.userName = "username";
     this.userRole = "GM";
     this.currentView = {
-      tabList: "settings",
+      category: "settings",
       view: "user"
     };
     this.gamesList = [];
@@ -16,7 +16,7 @@ class User {
     if (obj["userRole"]) this.userRole = obj["userRole"];
     this.currentView = {};
     if (this.currentView) {
-      if (obj["currentView"]["tabList"]) this.currentView.tabList = obj["currentView"]["tabList"];
+      if (obj["currentView"]["category"]) this.currentView.category = obj["currentView"]["category"];
       if (obj["currentView"]["view"]) this.currentView.view = obj["currentView"]["view"];
     }
     if (obj["gamesList"]) this.gamesList = obj["gamesList"];
