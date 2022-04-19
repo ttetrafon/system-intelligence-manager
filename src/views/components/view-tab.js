@@ -9,12 +9,12 @@ template.innerHTML = `
     flex-direction: row;
     gap: 8px;
     align-items: center;
+    border-radius: 5px;
   }
 
   .view-container:hover {
     border-left: var(--colour_title) solid 1px;
-    border-radius: 5px;
-    background-color: var(--colour_back_medium);
+    background-color: var(--colour_back_light);
   }
 
   .view-image {
@@ -27,7 +27,7 @@ template.innerHTML = `
   }
 
   .selected {
-    background-color: var(--colour_back_light);
+    border: var(--colour_title) solid 1px;
   }
 </style>
 

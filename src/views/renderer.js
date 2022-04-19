@@ -22,13 +22,14 @@ const el = {};
 for (let i = 0; i < idList.length; i++) {
   el[idList[i]] = document.getElementById(idList[i]);
 }
-console.log("registered elements:", el);
+// console.log("registered elements:", el);
 
 // Initialise modules
 const state = new State();
 const controls = new Controls(state);
 
-// Populate the navigation bar links.
+// Populate and register UI elements programmatically.
+document.addEventListener('registerElements', event => { Object.assign(el, event.detail); });
 el['gameSystem-tab'].views = {
   'checks': new ViewTabData("checks", "Checks", "./UI/buttons/Dice 1.png")
 };
@@ -39,16 +40,12 @@ el['settings-tab'].views = {
 
 
 // Set the interface controls.
-el['nav'].addEventListener("onTabSelected", event => {
-  console.log(`'nav' detected "onTabSelected" event: ${event.detail.category}-${event.detail.view}`);
+el['nav'].addEventListener("onTabSelected", event => { controls.setView(el, event.detail); });
+window.main.receive('initialUser', (user) => {
+  // console.log('... initialUser', user);
+  state.$user = user;
+  controls.initialView(el, state.getCurrentView());
 });
-// el["nav-main"].addEventListener("onTabSelected", event => { controls.setSecondaryTabs(el, event.detail); });
-// el["nav-secondary"].addEventListener("onViewSelected", event => { controls.setView(el, event.detail); });
-// window.main.receive('initialUser', (user) => {
-//   // console.log('... initialUser', user);
-//   state.$user = user;
-//   controls.initialView(el, state.getCurrentView());
-// });
 window.main.receive('updateUser', (user) => {
   // console.log("---> 'updateUser' event received!", user);
   // ignore changes in currentView, as this will mess up

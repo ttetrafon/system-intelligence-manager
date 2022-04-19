@@ -20,7 +20,7 @@ template.innerHTML = `
   }
 
   .selected {
-    background-color: var(--colour_back_light);
+    border: var(--colour_title) solid 1px;
   }
 
   .container:hover {
@@ -70,6 +70,7 @@ class NavTab extends HTMLElement {
     this.$img = this._shadow.getElementById("category-image");
     this.$categoryTitle = this._shadow.getElementById("title-text");
     this.$innerContainer = this._shadow.querySelector(".inner-container");
+    this.$views = {};
 
     // .inner-container will catch click event from view button and send it's own event to the outer nav with 'category' and 'view' in details
     this.$tab.addEventListener("onViewSelected", (event) => {
@@ -125,9 +126,16 @@ class NavTab extends HTMLElement {
           template.innerHTML = `<view-tab></view-tab>`;
           let viewTab = template.content.firstElementChild;
           this.$innerContainer.appendChild(viewTab);
+          this.$views[key] = viewTab;
           viewTab.id = this.views[key].id;
           viewTab.title = this.views[key].title;
           viewTab.image = this.views[key].image;
+          this.dispatchEvent(
+            new CustomEvent('registerElements', {
+              bubbles: true,
+              detail: this.$views
+            })
+          );
         });
         break;
       default:

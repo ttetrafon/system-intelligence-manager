@@ -4,7 +4,16 @@ export class State {
   constructor() {
     window.main.log(script, "Started!");
 
-    this.$user = {};
+    this.$user = {
+      userName: "username",
+      userRole: "GM",
+      currentView: {
+        category: "settings",
+        view: "user"
+      },
+      gamesList: ['YADTS'],
+      activeGame: 'YADTS'
+    };
   }
 
   getCurrentView() {

@@ -66,6 +66,7 @@ class Store {
     let hash = GenerateHash(user);
     if (self.hashes.user == hash) return;
     // if there was a difference save the new data
+    self.user = user;
     self.fs.saveJsonFile(path.join(self.fs.paths.saveFolder, files.user), user);
     // ... and notify all open windows
     self.notifyOpenWindows('updateUser', user);
