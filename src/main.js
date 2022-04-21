@@ -1,10 +1,6 @@
 const { app, BrowserWindow, dialog, ipcMain, Notification } = require('electron');
 const isDev = (process.env.NODE_ENV == 'dev');
 
-if (isDev) {
-  try { require('electron-reloader')(module); } catch(exc) {}
-}
-
 const { on } = require('events');
 const { palette } = require('./data/colours');
 const { IdGenerator } = require('./data/helper');

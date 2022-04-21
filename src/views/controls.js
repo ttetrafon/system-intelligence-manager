@@ -22,7 +22,7 @@ export class Controls {
   }
 
   setView(el, view) {
-    if (view.view === this.state?.$user?.currentView?.view) return;
+    // if (view.view === this.state?.$user?.currentView?.view) return;
 
     // first hide the currently open view and unselect the current tabs
     if (this.state.$user?.currentView?.view) {

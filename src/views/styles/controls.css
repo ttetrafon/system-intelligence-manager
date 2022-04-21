@@ -1,0 +1,46 @@
+input, select, option {
+  border: none;
+  background: none;
+  height: 1.4rem;
+  font-size: 1rem;
+  width: 100%;
+  cursor: pointer;
+  border-radius: 5px;
+}
+input:focus, select:focus {
+  outline: none;
+  background-color: var(--colour_back_white);
+}
+
+input {
+  width: 95%;
+  text-align: left;
+  padding: 0 5px;
+}
+
+select {
+  text-align: center;
+}
+
+td.control {
+  border-bottom: 0.5px solid var(--colour_back_white);
+}
+
+.right-sided {
+  text-align: right;
+}
+
+.btn-small {
+  display: inline-block;
+  border: none;
+  border-radius: 25%;
+  background: none;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: var(--colour_controls);
+  cursor: pointer;
+}
+.btn-small:hover {
+  border-bottom: var(--colour_title) solid 2px;
+  margin-bottom: -2px;
+}

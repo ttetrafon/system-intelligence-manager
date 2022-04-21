@@ -138,8 +138,6 @@ class NavTab extends HTMLElement {
           );
         });
         break;
-      default:
-        break;
     }
   }
 }

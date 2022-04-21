@@ -7,9 +7,10 @@
   --colour_text_medium: #505050;
   --colour_text_dark: #0f0000e5;
   --colour_back_white: #f5f5f5;
-  --colour_back_light: #5b5b5b;
+  --colour_back_light: #a1a1a1;
   --colour_back_medium: #2c2f33;
   --colour_back_dark: #23272a;
+  --colour_controls: #ff3c00;
 
   --header_height: 0px;
   --footer_height: 20px;
@@ -22,6 +23,7 @@
 
 /* GENERAL */
 body {
+  background-color: var(--colour_back_light);
   font-family: var(--font-family);
   margin: 0;
   padding: 0;
@@ -65,7 +67,7 @@ header {
 main {
   position: absolute;
   top: var(--header_height);
-  left: calc(2 * var(--nav_bar_width));
+  left: var(--nav_bar_width);
   right: 0px;
   bottom: var(--footer_height);
   z-index: 0;
@@ -85,6 +87,10 @@ main article {
   flex-wrap: nowrap;
   z-index: 0;
   visibility: hidden;
+}
+
+.view-section {
+  width: 100%;
 }
 
 .visible {

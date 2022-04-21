@@ -1,0 +1,18 @@
+table {
+  font-family: var(--font-family);
+  font-size: 1rem;
+  align-items: center;
+  margin-top: 2rem;
+  margin: auto;
+}
+
+table, th, td {
+  border: 1px solid var(--colour_back_light);
+  border-collapse: collapse;
+  white-space: nowrap;
+  padding: 5px 10px;
+}
+
+table {
+  margin-top: 25px;
+}

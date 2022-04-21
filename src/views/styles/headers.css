@@ -1,0 +1,44 @@
+h1 {
+  font-size: 1.6rem;
+  padding-left: 10px;
+  display: flex;
+  white-space: nowrap;
+}
+h1::before {
+  flex: 1;
+}
+h1::after {
+  flex: 0.1;
+}
+h1::before, h1::after {
+  content: "";
+  align-self: center;
+  border-bottom: 1px solid CurrentColor;
+}
+h1::before {margin-right: .3em}
+h1::after {margin-left: .3em}
+
+h2 {
+  font-size: 1.5rem;
+  padding-left: 10px;
+}
+
+h3 {
+  font-size: 1.4rem;
+  padding-left: 10px;
+}
+
+h4 {
+  font-size: 1.3rem;
+  padding-left: 10px;
+}
+
+h5 {
+  font-size: 1.2rem;
+  padding-left: 10px;
+}
+
+h5 {
+  font-size: 1.1rem;
+  padding-left: 10px;
+}
