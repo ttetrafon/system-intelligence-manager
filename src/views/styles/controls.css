@@ -1,4 +1,4 @@
-input, select, option {
+select, option {
   border: none;
   background: none;
   height: 1.4rem;
@@ -10,12 +10,6 @@ input, select, option {
 input:focus, select:focus {
   outline: none;
   background-color: var(--colour_back_white);
-}
-
-input {
-  width: 95%;
-  text-align: left;
-  padding: 0 5px;
 }
 
 select {

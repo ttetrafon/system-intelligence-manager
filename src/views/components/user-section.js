@@ -13,10 +13,12 @@ template.innerHTML = `
   <tbody>
     <tr>
       <td class="right-sided">Username</td>
-      <td class="control"><input id="username-input" placeholder="username" type="text"></td>
-      <td>
-        <button class="btn-small">&#9745;</button>
-        <button class="btn-small">&#9746;</button>
+      <td class="control">
+        <input-field id="username-input"
+          type="user"
+          target="user.userName"
+          placeholder="username"
+        ></input-field>
       </td>
     </tr>
     <tr>
@@ -27,32 +29,33 @@ template.innerHTML = `
           <option value="player">Player</option>
         </select>
       </td>
-      <td>
-        <button class="btn-small">&#9745;</button>
-        <button class="btn-small">&#9746;</button>
-      </td>
     </tr>
     <tr>
       <td class="right-sided">Selected Game</td>
       <td class="control"><select id="game-selector"></select></td>
-      <td>
-        <button class="btn-small">&#9745;</button>
-        <button class="btn-small">&#9746;</button>
-      </td>
     </tr>
     <tr>
       <td class="right-sided">Create New Game</td>
-      <td class="control"><input  id="new-game-name-input" placeholder="new game name" type="text"></td>
-      <td>
-        <button class="btn-small" class="confirm">&#9745;</button>
-        <button class="btn-small" class="cancel">&#9746;</button>
+      <td class="control">
+        <input-field id="new-game-name-input"
+          type="user"
+          target="user.gamesList"
+          placeholder="new game name"
+        ></input-field>
       </td>
     </tr>
   </tbody>
 </table>
 `;
 
-// TODO: make the two confirm/cancel buttons a component!
+// TODO: create all input fields as components, and emit events with details:
+// {
+//    type: "..." (creature, user, world, etc)
+//    target: ['user', 'userName'],
+//    value: "..."
+// }
+// store the incoming target as 'user.userName', so that properties of arbitrary length can be easily parsed by using split('.').
+// catch these events on the main level, and handle them accordingly
 
 class UserSection extends HTMLElement {
   constructor() {
@@ -80,7 +83,7 @@ class UserSection extends HTMLElement {
     if (oldValue === newValue) return;
     switch(property) {
       case "user":
-        this.$usernameInput.value = this.user.userName;
+        this.$usernameInput.text = this.user.userName;
         this.$roleSelector.value = this.roleOptions.includes(this.user.userRole) ? this.user.userRole : "player";
         for (let i = 0; i < this.user.gamesList.length; i++) {
           var opt = document.createElement("option");

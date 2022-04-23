@@ -1,4 +1,10 @@
 import './components/user-section.js';
+import './components/input-field.js';
+
+const main = document.querySelector("main");
+main.addEventListener('valueChanged', event => {
+  console.log("input value changed event captured:", event.detail);
+});
 
 const article = document.querySelector("article");
 article.classList.add("visible");

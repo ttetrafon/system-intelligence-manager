@@ -52,6 +52,7 @@ class ViewTab extends HTMLElement {
       this.dispatchEvent(
         new CustomEvent("onViewSelected", {
           bubbles: true,
+          composed: true,
           detail: this.id
         })
       );

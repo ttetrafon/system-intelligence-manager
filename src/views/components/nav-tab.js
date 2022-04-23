@@ -78,9 +78,10 @@ class NavTab extends HTMLElement {
       this.dispatchEvent(
         new CustomEvent("onTabSelected", {
           bubbles: true,
+          composed: true,
           detail: {
-            view: event.detail,
-            category: this.category
+            category: this.category,
+            view: event.detail
           }
         })
       );
@@ -133,6 +134,7 @@ class NavTab extends HTMLElement {
           this.dispatchEvent(
             new CustomEvent('registerElements', {
               bubbles: true,
+              composed: true,
               detail: this.$views
             })
           );
