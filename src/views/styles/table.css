@@ -2,8 +2,7 @@ table {
   font-family: var(--font-family);
   font-size: 1rem;
   align-items: center;
-  margin-top: 2rem;
-  margin: auto;
+  width: 90%;
 }
 
 table, th, td {
@@ -11,8 +10,4 @@ table, th, td {
   border-collapse: collapse;
   white-space: nowrap;
   padding: 5px 10px;
-}
-
-table {
-  margin-top: 25px;
 }

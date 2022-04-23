@@ -16,5 +16,8 @@ export const ids = {
   articles: [
     "checks-article",
     "user-article"
+  ],
+  sections: [
+    'user-section'
   ]
 };

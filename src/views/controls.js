@@ -13,9 +13,12 @@ export class Controls {
   // Choose the current main view tab list and article.
   initialView(el, currentView) {
     // select the visible view and highlight the appropriate tabs
-    el[this.state.$user.currentView.view + ARTICLE_SUFFIX].classList.add('visible');
-    el[this.state.$user.currentView.category + TAB_SUFFIX].selected = 'selected';
-    el[this.state.$user.currentView.view].selected = 'selected';
+    el[currentView.view + ARTICLE_SUFFIX].classList.add('visible');
+    el[currentView.category + TAB_SUFFIX].selected = 'selected';
+    el[currentView.view].selected = 'selected';
+
+    // populate the appropriate data
+    this.setViewData(el, currentView.view);
 
     // and set the window title according to the choices above
     window.main.setTitle();
@@ -39,9 +42,20 @@ export class Controls {
     el[this.state.$user.currentView.category + TAB_SUFFIX].selected = 'selected';
     el[this.state.$user.currentView.view].selected = 'selected';
 
+    // then populate the appropriate data
+    this.setViewData(el, this.state.$user.currentView.view);
+
     // finally save the current selection in the user properties
     window.main.updateUser(this.state.$user);
     window.main.setTitle();
+  }
+
+  setViewData(el, view) {
+    switch(view) {
+      case 'user':
+        el['user-section'].user = this.state.$user;
+        break;
+    }
   }
 
 }

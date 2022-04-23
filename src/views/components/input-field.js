@@ -19,7 +19,7 @@ div {
     font-weight: bold;
     color: var(--colour_controls);
     cursor: pointer;
-    visibility: hidden;
+    display: none;
   }
   button:hover {
     border-left: var(--colour_title) solid 2px;
@@ -56,7 +56,7 @@ div {
   }
 
   .active {
-    visibility: visible;
+    display: inherit;
   }
 </style>
 
