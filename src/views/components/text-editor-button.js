@@ -8,13 +8,14 @@ template.innerHTML = `
     height: 25px;
     background-color: var(--colour_back_light);
     cursor: pointer;
+    border-radius: 5px;
   }
   button:hover {
     border: var(--colour_title) solid 2px;
   }
   img {
     width: 100%;
-    height: 95%;
+    height: 90%;
   }
 
   span {
@@ -23,7 +24,7 @@ template.innerHTML = `
     white-space: nowrap;
     position: absolute;
     left: 50%;
-    bottom: 115%;
+    bottom: 125%;
     transform: translateX(-50%);
     border: 1px solid var(--colour_back_dark);
     border-radius: 5px;
@@ -35,7 +36,7 @@ template.innerHTML = `
   }
 </style>
 
-<button id="title"><img src="./UI/buttons/Editor - title.png" />
+<button><img src="./UI/buttons/Editor - title.png" />
   <span></span>
 </button>
 `;
@@ -51,6 +52,15 @@ class TextEditorButton extends HTMLElement {
     this.$tooltip = this._shadow.querySelector("span");
 
     this.$button.addEventListener('click', _ => {
+      this.dispatchEvent(
+        new CustomEvent('editorButton', {
+          bubbles: true,
+          composed: true,
+          detail: {
+            id: this.id
+          }
+        })
+      )
     });
   }
 
@@ -69,9 +79,6 @@ class TextEditorButton extends HTMLElement {
   attributeChangedCallback(property, oldValue, newValue) {
     if (oldValue === newValue) return;
     switch(property) {
-      case "id":
-        this.$button.id = this.id;
-        break;
       case "image":
         this.$image.src = this.image;
         break;

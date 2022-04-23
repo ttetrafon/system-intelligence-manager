@@ -12,7 +12,6 @@ div {
     position: absolute;
     right: -1rem;
     font-size: 0.95rem;
-    display: inline-block;
     border: none;
     border-radius: 25%;
     background: none;

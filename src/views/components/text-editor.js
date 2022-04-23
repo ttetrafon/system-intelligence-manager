@@ -9,6 +9,7 @@ template.innerHTML = `
   }
 
   #controls {
+    position: relative;
     height: 30px;
     flex: 0;
     background-color: var(--colour_back_medium);
@@ -20,29 +21,48 @@ template.innerHTML = `
     gap: 5px;
   }
 
-  button {
-    width: 25px;
-    height: 25px;
-    background-color: var(--colour_back_light);
-    cursor: pointer;
-  }
-  button:hover {
-    border: var(--colour_title) solid 2px;
-  }
-
   .separator {
     width: 5px;
   }
 
-  img {
-    width: 100%;
-    height: 95%;
+  button {
+    position: absolute;
+    right: 15px;
+    font-size: 0.95rem;
+    border: none;
+    border-radius: 25%;
+    background: none;
+    font-weight: bold;
+    color: var(--colour_controls);
+    cursor: pointer;
+    display: none;
+  }
+  button:hover {
+    border-left: var(--colour_title) solid 2px;
+    border-right: var(--colour_title) solid 2px;
+    margin-left: -2px;
+    margin-right: -2px;
+  }
+
+  #confirm-btn {
+    margin-top: -2px;
+    top: 0;
+  }
+
+  #cancel-btn {
+    margin-bottom: -2px;
+    bottom: 0;
+  }
+
+  .active {
+    display: block;
   }
 
   textarea {
     padding: 10px;
     resize: none;
   }
+
 
 </style>
 
@@ -52,6 +72,7 @@ template.innerHTML = `
     <span class="separator"></span>
     <text-editor-button id="bold" tooltip="Bold" image="./UI/buttons/Editor - bold.png"></text-editor-button>
     <text-editor-button id="italic" tooltip="Italic" image="./UI/buttons/Editor - italic.png"></text-editor-button>
+    <text-editor-button id="italic" tooltip="Underlined" image="./UI/buttons/Editor - underline.png"></text-editor-button>
     <span class="separator"></span>
     <text-editor-button id="indent-increase" tooltip="Increase Indent" image="./UI/buttons/Editor - indent increase.png"></text-editor-button>
     <text-editor-button id="indent-decrease" tooltip="Decrease Indent" image="./UI/buttons/Editor - indent decrease.png"></text-editor-button>
@@ -69,7 +90,10 @@ template.innerHTML = `
     <text-editor-button id="align-centre" tooltip="Align Centre" image="./UI/buttons/Editor - align centre.png"></text-editor-button>
     <text-editor-button id="align-right" tooltip="Align Right" image="./UI/buttons/Editor - align right.png"></text-editor-button>
     <text-editor-button id="justify" tooltip="Justify Content" image="./UI/buttons/Editor - justify.png"></text-editor-button>
-  </div>
+    <span class="separator"></span>
+    <button id="confirm-btn">&#9745;</button>
+    <button id="cancel-btn">&#9746;</button>
+    </div>
   <textarea
     spellcheck="false"
     autocomplete="off"
@@ -78,7 +102,10 @@ template.innerHTML = `
 </section>
 <section id="view">
   <div></div>
-  <div id="contents"></div>
+  <div id="contents">
+    <h1>A Title</h1>
+    <p>## Create Your Markdown</p>
+  </div>
 </section>
 `;
 
@@ -90,21 +117,52 @@ class TextEditor extends HTMLElement {
 
     this.$editor = this._shadow.querySelector("textarea");
     this.$content = this._shadow.getElementById("contents");
+    this.$controls = this._shadow.getElementById("controls");
+    this.$confirm = this._shadow.getElementById("confirm-btn");
+    this.$cancel = this._shadow.getElementById("cancel-btn");
 
     this.$editor.addEventListener("keyup", event => {
       console.log(event.key);
+      if (this.text != this.$editor.value) this.showButtons();
+      else this.hideButtons();
+    });
+    this.$controls.addEventListener("editorButton", ({detail}) => {
+      console.log("editor button clicked: ", detail.id);
+    });
+    this.$confirm.addEventListener("click", _ => {
+      this.dispatchEvent(
+        new CustomEvent('valueChanged', {
+          bubbles: true,
+          composed: true,
+          detail: {
+            type: this.type,
+            target: this.target.split('.'),
+            value: this.$editor.value
+          }
+        })
+      );
+      this.text = this.$editor.value;
+      this.displayText();
+    });
+    this.$cancel.addEventListener("click", _ => {
+      this.$editor.value = this.text;
+      this.hideButtons();
     });
   }
 
   static get observedAttributes() {
-    return [ "userRole", "text" ];
+    return [ "userRole", "text", "type", "target" ];
   }
 
   get userRole() { return this.getAttribute("userRole"); }
   get text() { return this.getAttribute("text"); }
+  get type() { return this.getAttribute("type"); }
+  get target() { return this.getAttribute("target"); }
 
   set userRole(value) { this.setAttribute("userRole", value); }
   set text(value) { this.setAttribute("text", value); }
+  set type(value) { this.setAttribute("type", value); }
+  set target(value) { this.setAttribute("target", value); }
 
   attributeChangedCallback(property, oldValue, newValue) {
     if (oldValue === newValue) return;
@@ -120,8 +178,36 @@ class TextEditor extends HTMLElement {
   }
 
   async displayText() {
+    // first remove the old elements
+    let old = this.$content.childNodes;
+    for (let i = old.length - 1; i >= 0; i--) {
+      old[i].remove();
+    }
+    // then create the text again
+    let lines = this.text.split("\n");
+    for (let i = 0; i < lines.length; i++) {
+      // split the lines
+      let text = lines[i].trim();
+      if (text.length == 0) continue;
+      // get the starting symbol(s)
+      // create the appropriate element
+      let p = document.createElement("p");
+      // parse the line for inner formatting
+      // assign the final result in the newly created element
+      p.innerHTML = text;
+      // append the new element
+      this.$content.appendChild(p);
+    }
+  }
 
-    this.$content.innerHTML = this.text;
+  showButtons() {
+    this.$confirm.classList.add("active");
+    this.$cancel.classList.add("active");
+  }
+
+  hideButtons() {
+    this.$confirm.classList.remove("active");
+    this.$cancel.classList.remove("active");
   }
 }
 

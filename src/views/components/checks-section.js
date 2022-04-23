@@ -6,7 +6,10 @@ template.innerHTML = `
 </style>
 
 <h1>Checks</h1>
-<text-editor id="intro-text"></text-editor>
+<text-editor id="intro-text"
+  type="gameSystem"
+  target="gameSystem.checks.intro"
+></text-editor>
 `;
 
 class ChecksSection extends HTMLElement {
