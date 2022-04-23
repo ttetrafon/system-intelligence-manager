@@ -124,6 +124,11 @@ class InputSelector extends HTMLElement {
     if (oldValue === newValue) return;
     switch(property) {
       case "options":
+        // let opts = document.querySelectorAll("option");
+        console.log(this.$selector.options);
+        for (let i = this.$selector.options.length - 1; i >= 0; i--) {
+          this.$selector.options[i].remove();
+        }
         for (let i = 0; i < this.options.list.length; i++) {
           var opt = document.createElement("option");
           opt.value = this.options.list[i];
