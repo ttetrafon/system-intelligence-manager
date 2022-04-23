@@ -56,6 +56,7 @@ window.main.receive('updateUser', (user) => {
   // ignore changes in currentView, as this will mess up
   // check if the user data changed, and set appropriate attributes in all articles and controls
   // TODO...
+  controls.setArticleData();
 });
 
 

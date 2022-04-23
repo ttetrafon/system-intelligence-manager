@@ -18,7 +18,7 @@ export class Controls {
     this.el[currentView.view].selected = 'selected';
 
     // populate the appropriate data
-    this.setViewData(currentView.view);
+    this.setArticleData();
 
     // and set the window title according to the choices above
     window.main.setTitle();
@@ -45,13 +45,10 @@ export class Controls {
     this.el[this.state.$user.currentView.view + ARTICLE_SUFFIX].classList.add('visible');
     this.el[this.state.$user.currentView.category + TAB_SUFFIX].selected = 'selected';
     this.el[this.state.$user.currentView.view].selected = 'selected';
-
-    // then populate the appropriate data
-    this.setViewData(this.state.$user.currentView.view);
   }
 
-  setViewData(view) {
-    switch(view) {
+  setArticleData() {
+    switch(this.state.$user.currentView.view) {
       case 'user':
         this.el['user-section'].user = this.state.$user;
         break;
@@ -64,6 +61,7 @@ export class Controls {
         this.handleUserUpdated(details);
         break;
     }
+    this.setArticleData();
   }
 
   handleUserUpdated(details) {
