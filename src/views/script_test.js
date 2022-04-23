@@ -1,5 +1,6 @@
 import './components/user-section.js';
 import './components/input-field.js';
+import './components/input-selector.js';
 
 const main = document.querySelector("main");
 main.addEventListener('valueChanged', event => {

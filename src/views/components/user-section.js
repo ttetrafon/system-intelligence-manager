@@ -24,22 +24,27 @@ template.innerHTML = `
     <tr>
       <td class="right-sided">Role</td>
       <td class="control">
-        <select id="role-selector">
-          <option value="GM">GM</option>
-          <option value="player">Player</option>
-        </select>
+        <input-selector id="role-selector"
+          type="user"
+          target="user.userRole"
+        ></input-selector>
       </td>
     </tr>
     <tr>
       <td class="right-sided">Selected Game</td>
-      <td class="control"><select id="game-selector"></select></td>
+      <td class="control">
+        <input-selector id="game-selector"
+          type="user"
+          target="user.activeGame"
+        ></input-selector>
+      </td>
     </tr>
     <tr>
       <td class="right-sided">Create New Game</td>
       <td class="control">
         <input-field id="new-game-name-input"
           type="user"
-          target="user.gamesList"
+          target="user.activeGame"
           placeholder="new game name"
         ></input-field>
       </td>
@@ -47,15 +52,6 @@ template.innerHTML = `
   </tbody>
 </table>
 `;
-
-// TODO: create all input fields as components, and emit events with details:
-// {
-//    type: "..." (creature, user, world, etc)
-//    target: ['user', 'userName'],
-//    value: "..."
-// }
-// store the incoming target as 'user.userName', so that properties of arbitrary length can be easily parsed by using split('.').
-// catch these events on the main level, and handle them accordingly
 
 class UserSection extends HTMLElement {
   constructor() {
@@ -84,14 +80,14 @@ class UserSection extends HTMLElement {
     switch(property) {
       case "user":
         this.$usernameInput.text = this.user.userName;
-        this.$roleSelector.value = this.roleOptions.includes(this.user.userRole) ? this.user.userRole : "player";
-        for (let i = 0; i < this.user.gamesList.length; i++) {
-          var opt = document.createElement("option");
-          opt.value = this.user.gamesList[i];
-          opt.innerHTML = this.user.gamesList[i];
-          this.$gameSelector.appendChild(opt);
+        this.$roleSelector.options = {
+          selected: this.user.userRole,
+          list: this.roleOptions
         }
-        this.$gameSelector.value = this.user.activeGame;
+        this.$gameSelector.options = {
+          selected: this.user.activeGame,
+          list: this.user.gamesList
+        }
     }
   }
 
