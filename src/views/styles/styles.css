@@ -1,6 +1,7 @@
 :root {
   font-size: 16px;
   user-select: none;
+  scroll-behavior: smooth;
 
   --colour_title: #ffa600;
   --colour_text_light: #f5f5f5;

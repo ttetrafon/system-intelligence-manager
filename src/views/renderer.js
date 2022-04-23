@@ -1,7 +1,9 @@
 const script = "renderer.js";
+import './components/checks-section.js';
 import './components/input-field.js';
 import './components/input-selector.js';
 import './components/nav-tab.js';
+import './components/text-editor.js';
 import './components/user-section.js';
 import './components/view-tab.js';
 
