@@ -14,5 +14,5 @@ article.classList.add("visible");
 
 const section = document.querySelector("checks-section");
 section.checks = {
-  intro: "An introduction to checks!\nThis is some example text!"
+  intro: "An introduction to checks!\nThis is some example text!\n\nAnd even more text...\nAnd even more text...\nAnd even more text...\nAnd even more text...\nAnd even more text...\nAnd even more text...\nAnd even more text...\nAnd even more text...\nAnd even more text...\nAnd even more text...\nAnd even more text...\nAnd even more text...\nAnd even more text...\nAnd even more text...\nAnd even more text...\nAnd even more text...\nAnd even more text...\nAnd even more text...\nAnd even more text..."
 };

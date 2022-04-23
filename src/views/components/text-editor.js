@@ -60,10 +60,15 @@ template.innerHTML = `
 
   textarea {
     padding: 10px;
-    resize: none;
+    resize: vertical;
+    height: 10rem;
   }
 
-
+  #contents p {
+    font-size: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+  }
 </style>
 
 <section id="edit">
@@ -72,23 +77,24 @@ template.innerHTML = `
     <span class="separator"></span>
     <text-editor-button id="bold" tooltip="Bold" image="./UI/buttons/Editor - bold.png"></text-editor-button>
     <text-editor-button id="italic" tooltip="Italic" image="./UI/buttons/Editor - italic.png"></text-editor-button>
-    <text-editor-button id="italic" tooltip="Underlined" image="./UI/buttons/Editor - underline.png"></text-editor-button>
+    <text-editor-button id="underlined" tooltip="Underlined" image="./UI/buttons/Editor - underline.png"></text-editor-button>
+    <text-editor-button id="strikethrough" tooltip="Strikethrough" image="./UI/buttons/Editor - strikethrough.png"></text-editor-button>
     <span class="separator"></span>
-    <text-editor-button id="indent-increase" tooltip="Increase Indent" image="./UI/buttons/Editor - indent increase.png"></text-editor-button>
-    <text-editor-button id="indent-decrease" tooltip="Decrease Indent" image="./UI/buttons/Editor - indent decrease.png"></text-editor-button>
+    <text-editor-button id="indentIncrease" tooltip="Increase Indent" image="./UI/buttons/Editor - indent increase.png"></text-editor-button>
+    <text-editor-button id="indentDecrease" tooltip="Decrease Indent" image="./UI/buttons/Editor - indent decrease.png"></text-editor-button>
     <span class="separator"></span>
     <text-editor-button id="checklist" tooltip="Checklist" image="./UI/buttons/Editor - checklist.png"></text-editor-button>
-    <text-editor-button id="ordered-list" tooltip="Numbered List" image="./UI/buttons/Editor - ordered list.png"></text-editor-button>
-    <text-editor-button id="unordered-list" tooltip="Bulleted List" image="./UI/buttons/Editor - unordered list.png"></text-editor-button>
+    <text-editor-button id="orderedList" tooltip="Numbered List" image="./UI/buttons/Editor - ordered list.png"></text-editor-button>
+    <text-editor-button id="unorderedList" tooltip="Bulleted List" image="./UI/buttons/Editor - unordered list.png"></text-editor-button>
     <span class="separator"></span>
     <text-editor-button id="link" tooltip="Insert Link" image="./UI/buttons/Editor - link.png"></text-editor-button>
     <text-editor-button id="image" tooltip="Insert Image" image="./UI/buttons/Editor - image.png"></text-editor-button>
     <text-editor-button id="quote" tooltip="Insert Quote" image="./UI/buttons/Editor - quote.png"></text-editor-button>
     <text-editor-button id="note" tooltip="Insert Note" image="./UI/buttons/Editor - note.png"></text-editor-button>
     <span class="separator"></span>
-    <text-editor-button id="align-left" tooltip="Align Left" image="./UI/buttons/Editor - align left.png"></text-editor-button>
-    <text-editor-button id="align-centre" tooltip="Align Centre" image="./UI/buttons/Editor - align centre.png"></text-editor-button>
-    <text-editor-button id="align-right" tooltip="Align Right" image="./UI/buttons/Editor - align right.png"></text-editor-button>
+    <text-editor-button id="alignLeft" tooltip="Align Left" image="./UI/buttons/Editor - align left.png"></text-editor-button>
+    <text-editor-button id="alignCentre" tooltip="Align Centre" image="./UI/buttons/Editor - align centre.png"></text-editor-button>
+    <text-editor-button id="alignRight" tooltip="Align Right" image="./UI/buttons/Editor - align right.png"></text-editor-button>
     <text-editor-button id="justify" tooltip="Justify Content" image="./UI/buttons/Editor - justify.png"></text-editor-button>
     <span class="separator"></span>
     <button id="confirm-btn">&#9745;</button>
@@ -121,13 +127,89 @@ class TextEditor extends HTMLElement {
     this.$confirm = this._shadow.getElementById("confirm-btn");
     this.$cancel = this._shadow.getElementById("cancel-btn");
 
+    this.selectionStyles = ['bold', 'italic', 'underlined', 'strikethrough', 'quote'];
+    this.startOfLineStyles = ['title', 'title1', 'title2', 'title3', 'title4', 'title5', 'title6', 'checklist', 'orderedList', 'unorderedList', 'alignLeft', 'alignCentre', 'alignRight', 'justify'];
+    this.stylingSymbols = {
+      title: "#",
+      title1: "#1",
+      title2: "#2",
+      title3: "#3",
+      title4: "#4",
+      title5: "#5",
+      title6: "#6",
+      bold: "**",
+      italic: "//",
+      underlined: "__",
+      strikethrough: "--",
+      indentIncrease: "",
+      indentDecrease: "",
+      checklist: "",
+      orderedList: "1.",
+      unorderedList: "..",
+      link: "",
+      image: "",
+      quote: "''",
+      note: "",
+      alignLeft: "",
+      alignCentre: "",
+      alignRight: "",
+      justify: ""
+    }
+
     this.$editor.addEventListener("keyup", event => {
       console.log(event.key);
       if (this.text != this.$editor.value) this.showButtons();
       else this.hideButtons();
     });
     this.$controls.addEventListener("editorButton", ({detail}) => {
-      console.log("editor button clicked: ", detail.id);
+      // console.log("editor button clicked: ", detail.id);
+      // check if something is selected, and apply the style there if appropriate
+      let selStart = this.$editor.selectionStart;
+      let selEnd = this.$editor.selectionEnd;
+      let selDirection = this.$editor.selectionDirection;
+      let symbol = this.stylingSymbols[detail.id];
+      let symbolLength = symbol.length;
+      let symbolLenMultiplier = 1;
+    if (this.selectionStyles.includes(detail.id) && (selEnd != selStart)) {
+        symbolLenMultiplier = 2;
+        let partStart = this.$editor.value.substring(0, selStart);
+        let partSel = this.$editor.value.substring(selStart, selEnd);
+        let partEnd = this.$editor.value.substring(selEnd);
+        this.$editor.value = partStart + symbol + partSel + symbol + partEnd;
+        // set the cursor to the appropriate place and focus to the editor window again
+        this.$editor.focus();
+        this.$editor.selectionEnd = (selDirection == 'forward' ? selEnd + (symbolLenMultiplier * symbolLength) : selStart + symbolLength);
+      }
+      else if (this.startOfLineStyles.includes(detail.id)) {
+        // find the start of the line
+        let newLines = [];
+        let pos = selStart;
+        let nl = this.$editor.value.lastIndexOf("\n", pos);
+        newLines.push(nl >= 0 ? nl : 0);
+        while(pos < selEnd) {
+          nl = this.$editor.value.indexOf("\n", pos + 1);
+          pos = nl;
+          if (nl < 0) break;
+          if (nl < selEnd) newLines.push(nl)
+          else break;
+        }
+        for (let i = 0; i < newLines.length; i++) {
+          // TODO: Check if similar symbol is already set, and either ignore or replace?
+          let loc = (newLines[i] > 0 ? i * symbolLength + newLines[i] + (newLines[0] <= selStart ? 1 : 0) : 0);
+          console.log(`... nl = ${newLines[i]}, loc = ${loc}`);
+          let partBefore = this.$editor.value.substring(0, loc);
+          let partAfter = this.$editor.value.substring(loc);
+          this.$editor.value = partBefore + symbol + partAfter;
+        }
+        this.$editor.focus();
+        this.$editor.selectionEnd = (selDirection == 'forward' ? selEnd + (symbolLenMultiplier * symbolLength * newLines.length) : selStart + symbolLength);
+        this.$editor.selStart = this.$editor.selectionEnd;
+      }
+      else {
+
+      }
+      if (this.text != this.$editor.value) this.showButtons();
+      else this.hideButtons();
     });
     this.$confirm.addEventListener("click", _ => {
       this.dispatchEvent(
