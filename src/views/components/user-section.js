@@ -39,7 +39,7 @@ template.innerHTML = `
         ></input-selector>
       </td>
     </tr>
-    <tr>
+<!--    <tr>
       <td class="right-sided">Create New Game</td>
       <td class="control">
         <input-field id="new-game-name-input"
@@ -48,10 +48,12 @@ template.innerHTML = `
           placeholder="new game name"
         ></input-field>
       </td>
-    </tr>
+    </tr> -->
   </tbody>
 </table>
 `;
+
+// TODO: Add section for creating a new game
 
 class UserSection extends HTMLElement {
   constructor() {
@@ -65,6 +67,7 @@ class UserSection extends HTMLElement {
     this.$usernameInput = this._shadow.getElementById("username-input");
     this.$roleSelector = this._shadow.getElementById("role-selector");
     this.$gameSelector = this._shadow.getElementById("game-selector");
+    // this.$newGameNameInput = this._shadow.getElementById("new-game-name-input");
   }
 
   static get observedAttributes() {
@@ -88,6 +91,7 @@ class UserSection extends HTMLElement {
           selected: this.user.activeGame,
           list: this.user.gamesList
         }
+        // this.$newGameNameInput = "";
     }
   }
 
