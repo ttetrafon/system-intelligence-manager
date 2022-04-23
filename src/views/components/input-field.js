@@ -88,7 +88,6 @@ class InputField extends HTMLElement {
       }
     });
     this.$confirm.addEventListener('click', _ => {
-      console.log("... confirm clicked");
       this.dispatchEvent(
         new CustomEvent('valueChanged', {
           bubbles: true,

@@ -1,5 +1,6 @@
 export const ids = {
   parents: [
+    'main',
     'nav'
   ],
   tabs: [

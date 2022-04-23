@@ -29,7 +29,7 @@ for (let i = 0; i < idList.length; i++) {
 
 // Initialise modules
 const state = new State();
-const controls = new Controls(state);
+const controls = new Controls(state, el);
 
 
 // Populate and register UI elements programmatically.
@@ -44,11 +44,12 @@ el['settings-tab'].views = {
 
 
 // Set the interface controls.
-el['nav'].addEventListener("onTabSelected", event => { controls.setView(el, event.detail); });
+el['nav'].addEventListener("onTabSelected", event => { controls.setView(event.detail); });
+el['main'].addEventListener("valueChanged", event => { controls.valueChanged(event.detail) });
 window.main.receive('initialUser', (user) => {
   // console.log('... initialUser', user);
   state.$user = user;
-  controls.initialView(el, state.getCurrentView());
+  controls.initialView(state.getCurrentView());
 });
 window.main.receive('updateUser', (user) => {
   // console.log("---> 'updateUser' event received!", user);
