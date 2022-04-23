@@ -65,7 +65,7 @@ export class Controls {
   }
 
   handleUserUpdated(details) {
-    console.log(`---> handleUserUpdated(${JSON.stringify(details)})`);
+    // console.log(`---> handleUserUpdated(${JSON.stringify(details)})`);
     this.updateObjectProperty(this.state.$user, details.target.slice(1), details.value);
     if (details.target.includes('activeGame') && !this.state.$user.gamesList.includes(details.value)) {
       this.state.$user.gamesList.push(details.value);

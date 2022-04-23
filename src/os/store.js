@@ -26,9 +26,8 @@ class Store {
     };
 
     self.initialPreparation();
-    self.fs.folderStructureStepTwo(self.user.activeGame);
-    // self.loadDictionaries();
-    // self.loadGameSystem();
+    self.loadDictionaries();
+    self.loadGameSystem();
   }
 
   initialPreparation() {
@@ -52,6 +51,7 @@ class Store {
   }
 
   loadGameSystem() {
+    self.fs.folderStructureStepTwo(self.user.activeGame);
 
   }
 
@@ -74,7 +74,10 @@ class Store {
     // ... and notify all open windows of the new user info
     self.notifyOpenWindows('updateUser', user);
     // ... and if the game changed, about the new game data
-    // TODO: load new game data and send them to all windows
+    if (gameChanged) {
+      self.loadGameSystem();
+      // TODO: send data to all windows
+    }
   }
 
 };
