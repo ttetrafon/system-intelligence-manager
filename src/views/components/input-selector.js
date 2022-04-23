@@ -125,7 +125,6 @@ class InputSelector extends HTMLElement {
     switch(property) {
       case "options":
         // let opts = document.querySelectorAll("option");
-        console.log(this.$selector.options);
         for (let i = this.$selector.options.length - 1; i >= 0; i--) {
           this.$selector.options[i].remove();
         }

@@ -39,12 +39,12 @@ class FileSystem {
     self.logger.log(null, script, "user folder = ", self.paths.userFolder);
 
     self.setupDirectory("saveFolder", path.join(self.paths.userFolder, folders.root));
+    self.setupDirectory("dictionaries", path.join(self.paths.saveFolder, folders.dictionaries));
     self.logger.log(null, script, "paths (first pass):", self.paths);
   }
 
   folderStructureStepTwo(selectedGame) {
     self.setupDirectory("gameFolder", path.join(self.paths.saveFolder, selectedGame));
-    self.setupDirectory("dictionaries", path.join(self.paths.gameFolder, folders.dictionaries));
     self.setupDirectory("gameSystem", path.join(self.paths.gameFolder, folders.gameSystem));
     self.logger.log(null, script, "paths (second pass):", self.paths);
   }
