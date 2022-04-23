@@ -48,25 +48,27 @@ template.innerHTML = `
 
 <section id="edit">
   <div id="controls">
-    <button id="title"><img src="./UI/buttons/Editor - title.png" /></button>
+    <text-editor-button id="title" tooltip="Title" image="./UI/buttons/Editor - title.png"></text-editor-button>
     <span class="separator"></span>
-    <button id="bold"><img src="./UI/buttons/Editor - bold.png" /></button>
-    <button id="italic"><img src="./UI/buttons/Editor - italic.png" /></button>
+    <text-editor-button id="bold" tooltip="Bold" image="./UI/buttons/Editor - bold.png"></text-editor-button>
+    <text-editor-button id="italic" tooltip="Italic" image="./UI/buttons/Editor - italic.png"></text-editor-button>
     <span class="separator"></span>
-    <button id="checklist"><img src="./UI/buttons/Editor - checklist.png" /></button>
-    <button id="ordered-list"><img src="./UI/buttons/Editor - ordered list.png" /></button>
-    <button id="unordered-list"><img src="./UI/buttons/Editor - unordered list.png" /></button>
+    <text-editor-button id="indent-increase" tooltip="Increase Indent" image="./UI/buttons/Editor - indent increase.png"></text-editor-button>
+    <text-editor-button id="indent-decrease" tooltip="Decrease Indent" image="./UI/buttons/Editor - indent decrease.png"></text-editor-button>
     <span class="separator"></span>
-    <button id="link"><img src="./UI/buttons/Editor - link.png" /></button>
-    <button id="image"><img src="./UI/buttons/Editor - image.png" /></button>
+    <text-editor-button id="checklist" tooltip="Checklist" image="./UI/buttons/Editor - checklist.png"></text-editor-button>
+    <text-editor-button id="ordered-list" tooltip="Numbered List" image="./UI/buttons/Editor - ordered list.png"></text-editor-button>
+    <text-editor-button id="unordered-list" tooltip="Bulleted List" image="./UI/buttons/Editor - unordered list.png"></text-editor-button>
     <span class="separator"></span>
-    <button id="align-left"><img src="./UI/buttons/Editor - align left.png" /></button>
-    <button id="align-centre"><img src="./UI/buttons/Editor - align centre.png" /></button>
-    <button id="align-right"><img src="./UI/buttons/Editor - align right.png" /></button>
-    <button id="justify"><img src="./UI/buttons/Editor - justify.png" /></button>
+    <text-editor-button id="link" tooltip="Insert Link" image="./UI/buttons/Editor - link.png"></text-editor-button>
+    <text-editor-button id="image" tooltip="Insert Image" image="./UI/buttons/Editor - image.png"></text-editor-button>
+    <text-editor-button id="quote" tooltip="Insert Quote" image="./UI/buttons/Editor - quote.png"></text-editor-button>
+    <text-editor-button id="note" tooltip="Insert Note" image="./UI/buttons/Editor - note.png"></text-editor-button>
     <span class="separator"></span>
-    <button id="indent-increase"><img src="./UI/buttons/Editor - indent increase.png" /></button>
-    <button id="indent-decrease"><img src="./UI/buttons/Editor - indent decrease.png" /></button>
+    <text-editor-button id="align-left" tooltip="Align Left" image="./UI/buttons/Editor - align left.png"></text-editor-button>
+    <text-editor-button id="align-centre" tooltip="Align Centre" image="./UI/buttons/Editor - align centre.png"></text-editor-button>
+    <text-editor-button id="align-right" tooltip="Align Right" image="./UI/buttons/Editor - align right.png"></text-editor-button>
+    <text-editor-button id="justify" tooltip="Justify Content" image="./UI/buttons/Editor - justify.png"></text-editor-button>
   </div>
   <textarea
     spellcheck="false"
@@ -88,6 +90,10 @@ class TextEditor extends HTMLElement {
 
     this.$editor = this._shadow.querySelector("textarea");
     this.$content = this._shadow.getElementById("contents");
+
+    this.$editor.addEventListener("keyup", event => {
+      console.log(event.key);
+    });
   }
 
   static get observedAttributes() {

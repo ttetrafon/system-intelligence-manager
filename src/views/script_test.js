@@ -2,6 +2,7 @@ import './components/checks-section.js';
 import './components/input-field.js';
 import './components/input-selector.js';
 import './components/text-editor.js';
+import './components/text-editor-button.js';
 
 const main = document.querySelector("main");
 main.addEventListener('valueChanged', event => {
