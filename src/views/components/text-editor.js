@@ -12,12 +12,13 @@ template.innerHTML = `
     position: relative;
     flex: 0;
     background-color: var(--colour_back_medium);
+    border-radius: 10px;
     width: 100%;
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
     padding: 5px;
     gap: 5px;
+    box-sizing: border-box;
   }
 
   .separator {
@@ -58,9 +59,26 @@ template.innerHTML = `
   }
 
   textarea {
+    width: 100%;
     padding: 10px;
     resize: vertical;
-    height: 10rem;
+    height: 20rem;
+    border-radius: 10px;
+    box-sizing: border-box;
+  }
+
+  textarea::-webkit-scrollbar {
+    width: 0.25rem;
+  }
+  textarea::-webkit-scrollbar-track {
+    background-color: var(--colour_back_dark);
+    border-radius: 2px;
+    margin: 10px 0;
+  }
+  textarea::-webkit-scrollbar-thumb {
+    background-color: var(--colour_controls);
+    outline: 1px solid var(--colour_controls);
+    border-radius: 5px;
   }
 
   #contents p {

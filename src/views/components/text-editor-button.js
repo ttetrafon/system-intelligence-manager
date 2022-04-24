@@ -9,13 +9,16 @@ template.innerHTML = `
     background-color: var(--colour_back_light);
     cursor: pointer;
     border-radius: 5px;
+    box-shadow: 2px 2px 1px var(--colour_back_white);
   }
   button:hover {
     border: var(--colour_title) solid 2px;
+    box-shadow: none;
   }
+
   img {
     width: 100%;
-    height: 90%;
+    height: 85%;
   }
 
   span {
