@@ -37,10 +37,61 @@ template.innerHTML = `
   button:hover span {
     display: block;
   }
+
+  #container {
+    position: absolute;
+    top: 115%;
+    left: -15%;
+    padding: 10px;
+    display: none;
+    background-color: var(--colour_back_light);
+    border: 1px solid var(--colour_back_dark);
+    border-radius: 10px;
+    white-space: nowrap;
+    }
+  button:hover #container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #container h1, #container h2, #container h3, #container h4, #container h5, #container h6 {
+    padding: 5px 10px;
+    margin: 5px;
+    border: 1px solid var(--colour_back_dark);
+    border-radius: 10px;
+  }
+  #container h1:hover, #container h2:hover, #container h3:hover, #container h4:hover, #container h5:hover, div h6:hover {
+    box-shadow: 3px 3px 5px var(--colour_back_dark);
+  }
+
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.4rem;
+  }
+
+  h4 {
+    font-size: 1.3rem;
+  }
+
+  h5 {
+    font-size: 1.2rem;
+  }
+
+  h6 {
+    font-size: 1.1rem;
+  }
+
 </style>
 
 <button><img src="./UI/buttons/Editor - title.png" />
-  <span></span>
+  <span>tooltip...</span>
 </button>
 `;
 
@@ -55,6 +106,7 @@ class TextEditorButton extends HTMLElement {
     this.$tooltip = this._shadow.querySelector("span");
 
     this.$button.addEventListener('click', _ => {
+      if (['title'].includes(this.id)) return;
       this.dispatchEvent(
         new CustomEvent('editorButton', {
           bubbles: true,
@@ -82,6 +134,97 @@ class TextEditorButton extends HTMLElement {
   attributeChangedCallback(property, oldValue, newValue) {
     if (oldValue === newValue) return;
     switch(property) {
+      case "id":
+        if (this.id == 'title') {
+          let container = document.createElement("div");
+          container.id = "container";
+          let h1 = document.createElement("h1");
+          h1.innerHTML = "Heading 1";
+          h1.addEventListener('click', _ => {
+            this.dispatchEvent(
+              new CustomEvent('editorButton', {
+                bubbles: true,
+                composed: true,
+                detail: {
+                  id: "title1"
+                }
+              })
+            )
+          });
+          container.appendChild(h1);
+          let h2 = document.createElement("h2");
+          h2.innerHTML = "Heading 2";
+          h2.addEventListener('click', _ => {
+            this.dispatchEvent(
+              new CustomEvent('editorButton', {
+                bubbles: true,
+                composed: true,
+                detail: {
+                  id: "title2"
+                }
+              })
+            )
+          });
+          container.appendChild(h2);
+          let h3 = document.createElement("h3");
+          h3.innerHTML = "Heading 3";
+          h3.addEventListener('click', _ => {
+            this.dispatchEvent(
+              new CustomEvent('editorButton', {
+                bubbles: true,
+                composed: true,
+                detail: {
+                  id: "title3"
+                }
+              })
+            )
+          });
+          container.appendChild(h3);
+          let h4 = document.createElement("h4");
+          h4.innerHTML = "Heading 4";
+          h4.addEventListener('click', _ => {
+            this.dispatchEvent(
+              new CustomEvent('editorButton', {
+                bubbles: true,
+                composed: true,
+                detail: {
+                  id: "title4"
+                }
+              })
+            )
+          });
+          container.appendChild(h4);
+          let h5 = document.createElement("h5");
+          h5.innerHTML = "Heading 5";
+          h5.addEventListener('click', _ => {
+            this.dispatchEvent(
+              new CustomEvent('editorButton', {
+                bubbles: true,
+                composed: true,
+                detail: {
+                  id: "title5"
+                }
+              })
+            )
+          });
+          container.appendChild(h5);
+          let h6 = document.createElement("h6");
+          h6.innerHTML = "Heading 6";
+          h6.addEventListener('click', _ => {
+            this.dispatchEvent(
+              new CustomEvent('editorButton', {
+                bubbles: true,
+                composed: true,
+                detail: {
+                  id: "title6"
+                }
+              })
+            )
+          });
+          container.appendChild(h6);
+          this.$button.appendChild(container);
+        }
+        break;
       case "image":
         this.$image.src = this.image;
         break;

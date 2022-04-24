@@ -144,10 +144,9 @@ class TextEditor extends HTMLElement {
     this.$confirm = this._shadow.getElementById("confirm-btn");
     this.$cancel = this._shadow.getElementById("cancel-btn");
 
-    this.selectionStyles = ['bold', 'italic', 'underlined', 'strikethrough', 'quote'];
-    this.startOfLineStyles = ['title', 'title1', 'title2', 'title3', 'title4', 'title5', 'title6', 'checklist', 'orderedList', 'unorderedList', 'alignLeft', 'alignCentre', 'alignRight', 'justify'];
+    this.$ctrlMod = false;
+
     this.stylingSymbols = {
-      title: "#",
       title1: "#1",
       title2: "#2",
       title3: "#3",
@@ -158,73 +157,121 @@ class TextEditor extends HTMLElement {
       italic: "//",
       underlined: "__",
       strikethrough: "--",
-      indentIncrease: "",
+      indentIncrease: "->",
       indentDecrease: "",
-      checklist: "",
+      checklist: "|.",
       orderedList: "1.",
       unorderedList: "..",
       link: "",
       image: "",
       quote: "''",
       note: "",
-      alignLeft: "",
-      alignCentre: "",
-      alignRight: "",
-      justify: ""
+      alignLeft: "<<",
+      alignCentre: "><",
+      alignRight: ">>",
+      justify: "<>"
     }
 
     this.$editor.addEventListener("keyup", event => {
-      console.log(event.key);
+      // console.log(event.key);
       if (this.text != this.$editor.value) this.showButtons();
       else this.hideButtons();
+      if (event.key == 'Control') this.$ctrlMod = false;
+    });
+    this.$editor.addEventListener("keydown", event => {
+      // console.log(event.key);
+      if (event.key == 'Control') this.$ctrlMod = true;
     });
     this.$controls.addEventListener("editorButton", ({detail}) => {
-      // console.log("editor button clicked: ", detail.id);
       // check if something is selected, and apply the style there if appropriate
       let selStart = this.$editor.selectionStart;
       let selEnd = this.$editor.selectionEnd;
       let selDirection = this.$editor.selectionDirection;
       let symbol = this.stylingSymbols[detail.id];
+      if (!symbol) return;
       let symbolLength = symbol.length;
-      let symbolLenMultiplier = 1;
-    if (this.selectionStyles.includes(detail.id) && (selEnd != selStart)) {
-        symbolLenMultiplier = 2;
-        let partStart = this.$editor.value.substring(0, selStart);
-        let partSel = this.$editor.value.substring(selStart, selEnd);
-        let partEnd = this.$editor.value.substring(selEnd);
-        this.$editor.value = partStart + symbol + partSel + symbol + partEnd;
-        // set the cursor to the appropriate place and focus to the editor window again
-        this.$editor.focus();
-        this.$editor.selectionEnd = (selDirection == 'forward' ? selEnd + (symbolLenMultiplier * symbolLength) : selStart + symbolLength);
+      let insertionOffsetStart = 0;
+      let insertionOffsetEnd = 0;
+
+      // first find the start of the line(s)
+      let newLines = [];
+      let pos = selStart;
+      let nl = this.$editor.value.lastIndexOf("\n", pos);
+      newLines.push(nl >= 0 ? nl : 0);
+      while(pos < selEnd) {
+        nl = this.$editor.value.indexOf("\n", pos + 1);
+        pos = nl;
+        if (nl < 0) break;
+        if (nl < selEnd) newLines.push(nl)
+        else break;
       }
-      else if (this.startOfLineStyles.includes(detail.id)) {
-        // find the start of the line
-        let newLines = [];
-        let pos = selStart;
-        let nl = this.$editor.value.lastIndexOf("\n", pos);
-        newLines.push(nl >= 0 ? nl : 0);
-        while(pos < selEnd) {
-          nl = this.$editor.value.indexOf("\n", pos + 1);
-          pos = nl;
-          if (nl < 0) break;
-          if (nl < selEnd) newLines.push(nl)
-          else break;
+      let num = newLines.length;
+      // console.log(newLines);
+
+      // break the text into lines for easier handling
+      let partBefore = this.$editor.value.substring(0, newLines[0]);
+      // console.log(partBefore);
+      let partSelected = this.$editor.value.substring(newLines[0], selEnd);
+      // console.log(partSelected);
+      let partAfter = this.$editor.value.substring(selEnd);
+      // console.log(partAfter);
+      let lines = partSelected.split("\n");
+      lines.shift();
+      // console.log(lines);
+
+      if (['bold', 'italic', 'underlined', 'strikethrough'].includes(detail.id)) {
+        // if (selEnd != selStart) {
+        //   let partStart = this.$editor.value.substring(0, selStart);
+        //   let partSel = this.$editor.value.substring(selStart, selEnd);
+        //   let partEnd = this.$editor.value.substring(selEnd);
+        //   this.$editor.value = partStart + symbol + partSel + symbol + partEnd;
+        //   selectionOffset = (selDirection == 'forward' ? symbolLength * 2 : symbol);
+        //   // TODO: check for new lines between start and end, to apply styles in each line properly?
+        // }
+        // else {
+        //   let partBefore = this.$editor.value.substring(0, selStart);
+        //   let partAfter = this.$editor.value.substring(selEnd);
+        //   this.$editor.value = partBefore + symbol + partAfter;
+        //   selectionOffset = symbolLength;
+        // }
+        // this.$editor.focus();
+        // this.$editor.selectionEnd = (selDirection == 'forward' ? selEnd  : selStart) + selectionOffset;
+      }
+      else if (['title1', 'title2', 'title3', 'title4', 'title5', 'title6'].includes(detail.id)) {
+        // apply the symbol to all new-lines found, but replace non-stacking symbols or ignore if the same exists already
+        for (let i = 0; i < num; i++) {
+          let l = lines[i];
+          // console.log(`new line at ${newLines[i]}: ${l}`);
+          let list = ["#1", "#2", "#3", "#4", "#5", "#6"];
+          for(let j = 0; j < list.length; j++) {
+            let t = list[j];
+            pos = l.indexOf(t);
+            // console.log(`${l}: ${t} found at ${pos}`);
+            if (pos >= 0) {
+              let t_l = t.length;
+              l = l.slice(0, pos) + l.slice(pos + t_l);
+              if (i == 0) insertionOffsetStart -= t_l;
+              insertionOffsetEnd -= t_l;
+            }
+          }
+          l = symbol + l;
+          // console.log(` -> ${l}`);
+          lines[i] = l;
         }
-        for (let i = 0; i < newLines.length; i++) {
-          // TODO: Check if similar symbol is already set, and either ignore or replace?
-          let loc = (newLines[i] > 0 ? i * symbolLength + newLines[i] + (newLines[0] <= selStart ? 1 : 0) : 0);
-          console.log(`... nl = ${newLines[i]}, loc = ${loc}`);
-          let partBefore = this.$editor.value.substring(0, loc);
-          let partAfter = this.$editor.value.substring(loc);
-          this.$editor.value = partBefore + symbol + partAfter;
-        }
-        this.$editor.focus();
-        this.$editor.selectionEnd = (selDirection == 'forward' ? selEnd + (symbolLenMultiplier * symbolLength * newLines.length) : selStart + symbolLength);
-        this.$editor.selStart = this.$editor.selectionEnd;
+        insertionOffsetStart += symbolLength;
+        insertionOffsetEnd += symbolLength * num;
+        // console.log(lines);
+      }
+      else if (detail.id == 'indentDecrease') {
+
       }
       else {
 
       }
+      this.$editor.value = partBefore + "\n" + lines.join("\n") + partAfter;
+      this.$editor.focus();
+      this.$editor.selectionStart = selStart + insertionOffsetStart;
+      this.$editor.selectionEnd = selEnd + insertionOffsetEnd;
       if (this.text != this.$editor.value) this.showButtons();
       else this.hideButtons();
     });
@@ -292,6 +339,9 @@ class TextEditor extends HTMLElement {
       // create the appropriate element
       let p = document.createElement("p");
       // parse the line for inner formatting
+      //  (1) locate positions of all symbols
+      //  (2) create dictionary with positions { bold: [12, 15], italic [17, 29], ... }
+      //  (3) apply appropriate spans with classes at given positions, from end to start to avoid drift of indexes.
       // assign the final result in the newly created element
       p.innerHTML = text;
       // append the new element
