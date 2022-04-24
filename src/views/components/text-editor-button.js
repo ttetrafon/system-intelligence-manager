@@ -4,8 +4,8 @@ template.innerHTML = `
 <style>
   button {
     position: relative;
-    width: 25px;
-    height: 25px;
+    width: 33px;
+    height: 33px;
     background-color: var(--colour_back_light);
     cursor: pointer;
     border-radius: 5px;

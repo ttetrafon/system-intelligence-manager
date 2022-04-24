@@ -10,7 +10,6 @@ template.innerHTML = `
 
   #controls {
     position: relative;
-    height: 30px;
     flex: 0;
     background-color: var(--colour_back_medium);
     width: 100%;
