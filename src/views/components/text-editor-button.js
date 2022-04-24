@@ -139,7 +139,7 @@ class TextEditorButton extends HTMLElement {
           let container = document.createElement("div");
           container.id = "container";
           let h1 = document.createElement("h1");
-          h1.innerHTML = "Heading 1";
+          h1.innerHTML = "Heading 1 (#1)";
           h1.addEventListener('click', _ => {
             this.dispatchEvent(
               new CustomEvent('editorButton', {
@@ -153,7 +153,7 @@ class TextEditorButton extends HTMLElement {
           });
           container.appendChild(h1);
           let h2 = document.createElement("h2");
-          h2.innerHTML = "Heading 2";
+          h2.innerHTML = "Heading 2 (#2)";
           h2.addEventListener('click', _ => {
             this.dispatchEvent(
               new CustomEvent('editorButton', {
@@ -167,7 +167,7 @@ class TextEditorButton extends HTMLElement {
           });
           container.appendChild(h2);
           let h3 = document.createElement("h3");
-          h3.innerHTML = "Heading 3";
+          h3.innerHTML = "Heading 3 (#3)";
           h3.addEventListener('click', _ => {
             this.dispatchEvent(
               new CustomEvent('editorButton', {
@@ -181,7 +181,7 @@ class TextEditorButton extends HTMLElement {
           });
           container.appendChild(h3);
           let h4 = document.createElement("h4");
-          h4.innerHTML = "Heading 4";
+          h4.innerHTML = "Heading 4 (#4)";
           h4.addEventListener('click', _ => {
             this.dispatchEvent(
               new CustomEvent('editorButton', {
@@ -195,7 +195,7 @@ class TextEditorButton extends HTMLElement {
           });
           container.appendChild(h4);
           let h5 = document.createElement("h5");
-          h5.innerHTML = "Heading 5";
+          h5.innerHTML = "Heading 5 (#5)";
           h5.addEventListener('click', _ => {
             this.dispatchEvent(
               new CustomEvent('editorButton', {
@@ -209,7 +209,7 @@ class TextEditorButton extends HTMLElement {
           });
           container.appendChild(h5);
           let h6 = document.createElement("h6");
-          h6.innerHTML = "Heading 6";
+          h6.innerHTML = "Heading 6 (#6)";
           h6.addEventListener('click', _ => {
             this.dispatchEvent(
               new CustomEvent('editorButton', {

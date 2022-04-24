@@ -59,6 +59,7 @@ template.innerHTML = `
   }
 
   textarea {
+    font-size: 1rem;
     width: 100%;
     padding: 10px;
     resize: vertical;
@@ -90,29 +91,30 @@ template.innerHTML = `
 
 <section id="edit">
   <div id="controls">
-    <text-editor-button id="title" tooltip="Title" image="./UI/buttons/Editor - title.png"></text-editor-button>
+    <text-editor-button id="title" tooltip="Add Title" image="./UI/buttons/Editor - title.png"></text-editor-button>
+    <text-editor-button id="text" tooltip="Normal Text" image="./UI/buttons/Editor - text.png"></text-editor-button>
     <span class="separator"></span>
-    <text-editor-button id="bold" tooltip="Bold" image="./UI/buttons/Editor - bold.png"></text-editor-button>
-    <text-editor-button id="italic" tooltip="Italic" image="./UI/buttons/Editor - italic.png"></text-editor-button>
-    <text-editor-button id="underlined" tooltip="Underlined" image="./UI/buttons/Editor - underline.png"></text-editor-button>
-    <text-editor-button id="strikethrough" tooltip="Strikethrough" image="./UI/buttons/Editor - strikethrough.png"></text-editor-button>
+    <text-editor-button id="bold" tooltip="Format Bold (**)" image="./UI/buttons/Editor - bold.png"></text-editor-button>
+    <text-editor-button id="italic" tooltip="Format Italic (//)" image="./UI/buttons/Editor - italic.png"></text-editor-button>
+    <text-editor-button id="underlined" tooltip="Format Underlined (__)" image="./UI/buttons/Editor - underline.png"></text-editor-button>
+    <text-editor-button id="strikethrough" tooltip="Format Strikethrough (--)" image="./UI/buttons/Editor - strikethrough.png"></text-editor-button>
     <span class="separator"></span>
-    <text-editor-button id="indentIncrease" tooltip="Increase Indent" image="./UI/buttons/Editor - indent increase.png"></text-editor-button>
+    <text-editor-button id="indentIncrease" tooltip="Increase Indent (->)" image="./UI/buttons/Editor - indent increase.png"></text-editor-button>
     <text-editor-button id="indentDecrease" tooltip="Decrease Indent" image="./UI/buttons/Editor - indent decrease.png"></text-editor-button>
     <span class="separator"></span>
-    <text-editor-button id="checklist" tooltip="Checklist" image="./UI/buttons/Editor - checklist.png"></text-editor-button>
-    <text-editor-button id="orderedList" tooltip="Numbered List" image="./UI/buttons/Editor - ordered list.png"></text-editor-button>
-    <text-editor-button id="unorderedList" tooltip="Bulleted List" image="./UI/buttons/Editor - unordered list.png"></text-editor-button>
+<!--    <text-editor-button id="checklist" tooltip="Set Checklist ([] or [x])" image="./UI/buttons/Editor - checklist.png"></text-editor-button> -->
+    <text-editor-button id="orderedList" tooltip="Set Numbered List (1.)" image="./UI/buttons/Editor - ordered list.png"></text-editor-button>
+    <text-editor-button id="unorderedList" tooltip="Set Bulleted List (..)" image="./UI/buttons/Editor - unordered list.png"></text-editor-button>
     <span class="separator"></span>
-    <text-editor-button id="link" tooltip="Insert Link" image="./UI/buttons/Editor - link.png"></text-editor-button>
-    <text-editor-button id="image" tooltip="Insert Image" image="./UI/buttons/Editor - image.png"></text-editor-button>
-    <text-editor-button id="quote" tooltip="Insert Quote" image="./UI/buttons/Editor - quote.png"></text-editor-button>
-    <text-editor-button id="note" tooltip="Insert Note" image="./UI/buttons/Editor - note.png"></text-editor-button>
-    <span class="separator"></span>
-    <text-editor-button id="alignLeft" tooltip="Align Left" image="./UI/buttons/Editor - align left.png"></text-editor-button>
-    <text-editor-button id="alignCentre" tooltip="Align Centre" image="./UI/buttons/Editor - align centre.png"></text-editor-button>
-    <text-editor-button id="alignRight" tooltip="Align Right" image="./UI/buttons/Editor - align right.png"></text-editor-button>
-    <text-editor-button id="justify" tooltip="Justify Content" image="./UI/buttons/Editor - justify.png"></text-editor-button>
+    <text-editor-button id="link" tooltip="Insert Link ()" image="./UI/buttons/Editor - link.png"></text-editor-button>
+    <text-editor-button id="image" tooltip="Insert Image ()" image="./UI/buttons/Editor - image.png"></text-editor-button>
+    <text-editor-button id="quote" tooltip="Insert Quote ()" image="./UI/buttons/Editor - quote.png"></text-editor-button>
+    <text-editor-button id="note" tooltip="Insert Note ()" image="./UI/buttons/Editor - note.png"></text-editor-button>
+<!--    <span class="separator"></span>
+    <text-editor-button id="alignLeft" tooltip="Align Left (<<)" image="./UI/buttons/Editor - align left.png"></text-editor-button>
+    <text-editor-button id="alignCentre" tooltip="Align Centre (><)" image="./UI/buttons/Editor - align centre.png"></text-editor-button>
+    <text-editor-button id="alignRight" tooltip="Align Right (>>)" image="./UI/buttons/Editor - align right.png"></text-editor-button>
+    <text-editor-button id="justify" tooltip="Justify Content (<>)" image="./UI/buttons/Editor - justify.png"></text-editor-button> -->
     <span class="separator"></span>
     <button id="confirm-btn">&#9745;</button>
     <button id="cancel-btn">&#9746;</button>
@@ -147,37 +149,37 @@ class TextEditor extends HTMLElement {
     this.$ctrlMod = false;
 
     this.stylingSymbols = {
-      title1: "#1",
-      title2: "#2",
-      title3: "#3",
-      title4: "#4",
-      title5: "#5",
-      title6: "#6",
+      title1: "#1 ",
+      title2: "#2 ",
+      title3: "#3 ",
+      title4: "#4 ",
+      title5: "#5 ",
+      title6: "#6 ",
       bold: "**",
       italic: "//",
       underlined: "__",
       strikethrough: "--",
-      indentIncrease: "->",
+      indentIncrease: "-> ",
       indentDecrease: "",
-      checklist: "|.",
-      orderedList: "1.",
-      unorderedList: "..",
+      checklist: "[] ",
+      orderedList: "1. ",
+      unorderedList: ".. ",
       link: "",
       image: "",
       quote: "''",
       note: "",
-      alignLeft: "<<",
-      alignCentre: "><",
-      alignRight: ">>",
-      justify: "<>"
+      alignLeft: " <<",
+      alignCentre: " ><",
+      alignRight: " >>",
+      justify: " <>"
     }
 
-    this.$editor.addEventListener("keyup", event => {
-      // console.log(event.key);
-      if (this.text != this.$editor.value) this.showButtons();
-      else this.hideButtons();
-      if (event.key == 'Control') this.$ctrlMod = false;
-    });
+    // this.$editor.addEventListener("keyup", event => {
+    //   // console.log(event.key);
+    //   if (this.text != this.$editor.value) this.showButtons();
+    //   else this.hideButtons();
+    //   if (event.key == 'Control') this.$ctrlMod = false;
+    // });
     this.$editor.addEventListener("keydown", event => {
       // console.log(event.key);
       if (event.key == 'Control') this.$ctrlMod = true;
@@ -206,9 +208,9 @@ class TextEditor extends HTMLElement {
         else break;
       }
       let num = newLines.length;
-      // console.log(newLines);
+      console.log("new lines at: ", newLines);
 
-      // break the text into lines for easier handling
+      // break the selected text into lines for easier handling
       let partBefore = this.$editor.value.substring(0, newLines[0]);
       // console.log(partBefore);
       let partSelected = this.$editor.value.substring(newLines[0], selEnd);
@@ -216,26 +218,45 @@ class TextEditor extends HTMLElement {
       let partAfter = this.$editor.value.substring(selEnd);
       // console.log(partAfter);
       let lines = partSelected.split("\n");
-      lines.shift();
-      // console.log(lines);
+      if(lines[0] == "") lines.shift();
+      console.log("lines of text: ", lines);
+      if (lines.length != num) return;
 
       if (['bold', 'italic', 'underlined', 'strikethrough'].includes(detail.id)) {
-        // if (selEnd != selStart) {
-        //   let partStart = this.$editor.value.substring(0, selStart);
-        //   let partSel = this.$editor.value.substring(selStart, selEnd);
-        //   let partEnd = this.$editor.value.substring(selEnd);
-        //   this.$editor.value = partStart + symbol + partSel + symbol + partEnd;
-        //   selectionOffset = (selDirection == 'forward' ? symbolLength * 2 : symbol);
-        //   // TODO: check for new lines between start and end, to apply styles in each line properly?
-        // }
-        // else {
-        //   let partBefore = this.$editor.value.substring(0, selStart);
-        //   let partAfter = this.$editor.value.substring(selEnd);
-        //   this.$editor.value = partBefore + symbol + partAfter;
-        //   selectionOffset = symbolLength;
-        // }
-        // this.$editor.focus();
-        // this.$editor.selectionEnd = (selDirection == 'forward' ? selEnd  : selStart) + selectionOffset;
+        let l = lines[0];
+        let posStart = selStart - newLines[0];
+        let posEnd = selEnd - newLines[num - 1];
+        if (selEnd != selStart) {
+          if (num == 1) {
+            if (l.length > 0) l = l.slice(0, posStart - 1) + symbol + l.slice(posStart - 1, posEnd) + symbol + l.slice(posEnd);
+            lines[0] = l;
+            // insertionOffsetStart += symbolLength;
+            insertionOffsetEnd += symbolLength * 2;
+          }
+          else {
+            if (l.length > 0) l = l.slice(0, posStart - 1) + symbol + l.slice(posStart - 1) + symbol;
+            lines[0] = l;
+            insertionOffsetEnd += symbolLength * 2;
+            for (let i = 1; i < num; i++) {
+              l = lines[i];
+              if (i == (num - 1)) {
+                if (l.length > 0) l = symbol + l.slice(0, posEnd) + symbol + l.slice(posEnd);
+                insertionOffsetEnd += symbolLength * 2;
+              }
+              else {
+                if (l.length > 0) l = symbol + l + symbol;
+                insertionOffsetEnd += symbolLength * 2;
+              }
+              lines[i] = l;
+            }
+          }
+        }
+        else {
+          if (l.length > 0) l = l.slice(0, posStart) + symbol + symbol + l.slice(posStart);
+          lines[0] = l;
+          // insertionOffsetStart += symbolLength;
+          insertionOffsetEnd += symbolLength * 2;
+        }
       }
       else if (['title1', 'title2', 'title3', 'title4', 'title5', 'title6'].includes(detail.id)) {
         // apply the symbol to all new-lines found, but replace non-stacking symbols or ignore if the same exists already
@@ -262,16 +283,27 @@ class TextEditor extends HTMLElement {
         insertionOffsetEnd += symbolLength * num;
         // console.log(lines);
       }
+      else if (detail.id == 'indentIncrease') {
+        console.log("...");
+        // for (let i = 0; i < num; i++) {
+        //   let l = lines[i];
+        //   l = symbol + l;
+        //   lines[i] = l;
+        //   insertionOffsetStart += symbolLength;
+        //   insertionOffsetEnd += symbolLength * num;
+        // }
+      }
       else if (detail.id == 'indentDecrease') {
 
       }
       else {
 
       }
-      this.$editor.value = partBefore + "\n" + lines.join("\n") + partAfter;
+      this.$editor.value = partBefore + (newLines[0] > 0 ? "\n" : "") + lines.join("\n") + partAfter;
       this.$editor.focus();
       this.$editor.selectionStart = selStart + insertionOffsetStart;
       this.$editor.selectionEnd = selEnd + insertionOffsetEnd;
+      this.$editor.selectionDirection = selDirection;
       if (this.text != this.$editor.value) this.showButtons();
       else this.hideButtons();
     });
