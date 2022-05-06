@@ -178,9 +178,15 @@ class TextEditor extends HTMLElement {
       '#3': 'h3',
       '#4': 'h4',
       '#5': 'h5',
-      '#6': 'h6'
+      '#6': 'h6',
+      ',.': 'li',
+      '1.': 'li'
     }
-    this.lineElementsHierarchy = ['#1', '#2', '#3', '#4', '#5', '#6'];
+    this.listElements = {
+      ',.': 'ul',
+      '1.': 'ol'
+    };
+    this.lineElementsHierarchy = ['#1', '#2', '#3', '#4', '#5', '#6', ',.', '1.'];
 
     // this.$editor.addEventListener("keyup", event => {
     //   // console.log(event.key);
@@ -361,15 +367,16 @@ class TextEditor extends HTMLElement {
     // define the regex expressions
     let whitespace = /^\s*$/;
     let leadingSpaces = /\S/;
-    let h1 = /#1(.*$)/;
+    let h1 = /#1/;
     let h2 = /#2/;
     let h3 = /#3/;
     let h4 = /#4/;
     let h5 = /#5/;
     let h6 = /#6/;
     let lineSymbols = /#[1-6]/g;
-    let bold = /\*\*(.*)\*\*/;
-    let italic = /\/\/(.*)\/\//;
+    let listSymbols = /,.|1./g;
+    // define placeholders
+    let list = null;
     // parse the test, line by line
     let lines = this.text.split("\n");
     for (let i = 0; i < lines.length; i++) {
@@ -382,29 +389,60 @@ class TextEditor extends HTMLElement {
       console.log(`leading spaces: ${leading}`);
       if (leading > 0) text = text.trim();
       // get the line symbol(s)
-      let ls = text.match(lineSymbols);
+      let ls;
       console.log(ls);
-      if (ls) {
+      if (ls = text.match(lineSymbols)) {
         let le = this.selectMostImportantLineElement(ls);
         console.log(`selected line element: '${le}' -> '${this.lineElementsMarkupToHtml[le]}'`);
+        if (list) {
+          this.$content.appendChild(list);
+          list = null;
+        }
         line = document.createElement(this.lineElementsMarkupToHtml[le]);
         this.lineElementsHierarchy.forEach(el => {
           text = text.replace(el, "");
         });
+        // parse the line for inner formatting
+        line.innerHTML = this.convertLineToHtml(text);
+        // and finally append the new element
+        this.$content.appendChild(line);
+      }
+      else if (ls = text.match(listSymbols)) {
+        let le = this.selectMostImportantLineElement(ls);
+        console.log(`selected line element: '${le}' -> '${this.lineElementsMarkupToHtml[le]}'`);
+        if (!list) list = document.createElement(this.listElements[le]);
+        line = document.createElement('li');
+        this.lineElementsHierarchy.forEach(el => {
+          text = text.replace(el, "");
+        });
+        // parse the line for inner formatting
+        line.innerHTML = this.convertLineToHtml(text);
+        // add the new element to the list
+        list.appendChild(line);
       }
       else {
         // ... or if no line-element appears, just create a normal paragraph
+        if (list) {
+          this.$content.appendChild(list);
+          list = null;
+        }
         line = document.createElement("p");
+        // parse the line for inner formatting
+        line.innerHTML = this.convertLineToHtml(text);
+        // and finally append the new element
+        this.$content.appendChild(line);
       }
-      // parse the line for inner formatting
-      //  (1) locate positions of all symbols
-      //  (2) create dictionary with positions { bold: [12, 15], italic [17, 29], ... }
-      //  (3) apply appropriate spans with classes at given positions, from end to start to avoid drift of indexes.
-      // assign the final result in the newly created element
-      line.innerHTML = text;
-      // and finally append the new element
-      this.$content.appendChild(line);
     }
+  }
+
+  convertLineToHtml(text) {
+    // define the regex
+    let bold = /\*\*(.*?)\*\*/g;
+    let italic = /\/\/(.*?)\/\//g;
+    // replace the markup symbols with html elements
+    text = text.replaceAll(bold, "<strong>$1</strong>")
+    text = text.replaceAll(italic, "<i>$1</i>");
+    return text;
   }
 
   selectMostImportantLineElement(elements) {
