@@ -19,3 +19,4 @@ section.checks = {
   // intro: "Some **text** //with **nothing// serious going** on...\nlist end!"
   intro: "#1 A list!\n1. Item 1\n1. Item 2\n1. Item 3\nNo more list!"
 };
+section.user_role = "GM";

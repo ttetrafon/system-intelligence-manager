@@ -3,7 +3,7 @@ const template = document.createElement('template');
 template.innerHTML = `
 <style>
   #edit {
-    display: flex;
+    display: none;
     flex-direction: column;
     margin: 0;
   }
@@ -82,6 +82,21 @@ template.innerHTML = `
     border-radius: 5px;
   }
 
+  #handler {
+    position: relative;
+    width: 100%;
+    height: 0;
+  }
+  img {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    cursor: cell;
+    display: none;
+  }
+
   #contents p {
     font-size: 1rem;
     margin-top: 0.5rem;
@@ -92,9 +107,8 @@ template.innerHTML = `
 <section id="edit">
   <div id="controls">
     <text-editor-button id="title" tooltip="Add Title" image="./UI/buttons/Editor - title.png"></text-editor-button>
-<!--    <text-editor-button id="checklist" tooltip="Set Checklist ([] or [x])" image="./UI/buttons/Editor - checklist.png"></text-editor-button> -->
     <text-editor-button id="orderedList" tooltip="Set Numbered List (1.)" image="./UI/buttons/Editor - ordered list.png"></text-editor-button>
-    <text-editor-button id="unorderedList" tooltip="Set Bulleted List (..)" image="./UI/buttons/Editor - unordered list.png"></text-editor-button>
+    <text-editor-button id="unorderedList" tooltip="Set Bulleted List (-.)" image="./UI/buttons/Editor - unordered list.png"></text-editor-button>
     <text-editor-button id="text" tooltip="Normal Text" image="./UI/buttons/Editor - text.png"></text-editor-button>
     <span class="separator"></span>
     <text-editor-button id="bold" tooltip="Format Bold (**)" image="./UI/buttons/Editor - bold.png"></text-editor-button>
@@ -102,18 +116,10 @@ template.innerHTML = `
     <text-editor-button id="underlined" tooltip="Format Underlined (__)" image="./UI/buttons/Editor - underline.png"></text-editor-button>
     <text-editor-button id="strikethrough" tooltip="Format Strikethrough (--)" image="./UI/buttons/Editor - strikethrough.png"></text-editor-button>
     <span class="separator"></span>
-<!--    <text-editor-button id="indentIncrease" tooltip="Increase Indent (->)" image="./UI/buttons/Editor - indent increase.png"></text-editor-button>
-    <text-editor-button id="indentDecrease" tooltip="Decrease Indent" image="./UI/buttons/Editor - indent decrease.png"></text-editor-button>
-    <span class="separator"></span> -->
     <text-editor-button id="link" tooltip="Insert Link ()" image="./UI/buttons/Editor - link.png"></text-editor-button>
     <text-editor-button id="image" tooltip="Insert Image ()" image="./UI/buttons/Editor - image.png"></text-editor-button>
     <text-editor-button id="quote" tooltip="Insert Quote ()" image="./UI/buttons/Editor - quote.png"></text-editor-button>
     <text-editor-button id="note" tooltip="Insert Note ()" image="./UI/buttons/Editor - note.png"></text-editor-button>
-<!--    <span class="separator"></span>
-    <text-editor-button id="alignLeft" tooltip="Align Left (<<)" image="./UI/buttons/Editor - align left.png"></text-editor-button>
-    <text-editor-button id="alignCentre" tooltip="Align Centre (><)" image="./UI/buttons/Editor - align centre.png"></text-editor-button>
-    <text-editor-button id="alignRight" tooltip="Align Right (>>)" image="./UI/buttons/Editor - align right.png"></text-editor-button>
-    <text-editor-button id="justify" tooltip="Justify Content (<>)" image="./UI/buttons/Editor - justify.png"></text-editor-button> -->
     <span class="separator"></span>
     <button id="confirm-btn">&#9745;</button>
     <button id="cancel-btn">&#9746;</button>
@@ -125,7 +131,9 @@ template.innerHTML = `
   >## Create Your Markdown</textarea>
 </section>
 <section id="view">
-  <div></div>
+  <div id="handler">
+    <img src="./UI/buttons/Ellipsis 1.png">
+  </div>
   <div id="contents">
     <h1>A Title</h1>
     <p>## Create Your Markdown</p>
@@ -133,12 +141,24 @@ template.innerHTML = `
 </section>
 `;
 
+/*
+<text-editor-button id="checklist" tooltip="Set Checklist ([] or [x])" image="./UI/buttons/Editor - checklist.png"></text-editor-button>
+<text-editor-button id="indentIncrease" tooltip="Increase Indent (->)" image="./UI/buttons/Editor - indent increase.png"></text-editor-button>
+<text-editor-button id="indentDecrease" tooltip="Decrease Indent" image="./UI/buttons/Editor - indent decrease.png"></text-editor-button>
+<text-editor-button id="alignLeft" tooltip="Align Left (<<)" image="./UI/buttons/Editor - align left.png"></text-editor-button>
+<text-editor-button id="alignCentre" tooltip="Align Centre (><)" image="./UI/buttons/Editor - align centre.png"></text-editor-button>
+<text-editor-button id="alignRight" tooltip="Align Right (>>)" image="./UI/buttons/Editor - align right.png"></text-editor-button>
+<text-editor-button id="justify" tooltip="Justify Content (<>)" image="./UI/buttons/Editor - justify.png"></text-editor-button>
+*/
+
 class TextEditor extends HTMLElement {
   constructor() {
     super();
     this._shadow = this.attachShadow({ mode: 'closed' });
     this._shadow.appendChild(template.content.cloneNode(true));
 
+    this.$editPane = this._shadow.getElementById("edit");
+    this.$editButton = this._shadow.querySelector("img");
     this.$editor = this._shadow.querySelector("textarea");
     this.$content = this._shadow.getElementById("contents");
     this.$controls = this._shadow.getElementById("controls");
@@ -179,24 +199,29 @@ class TextEditor extends HTMLElement {
       '#4': 'h4',
       '#5': 'h5',
       '#6': 'h6',
-      ',.': 'li',
+      '-.': 'li',
       '1.': 'li'
     }
     this.listElements = {
-      ',.': 'ul',
+      '-.': 'ul',
       '1.': 'ol'
     };
-    this.lineElementsHierarchy = ['#1', '#2', '#3', '#4', '#5', '#6', ',.', '1.'];
+    this.lineElementsHierarchy = ['#1', '#2', '#3', '#4', '#5', '#6', '-.', '1.'];
 
-    // this.$editor.addEventListener("keyup", event => {
-    //   // console.log(event.key);
-    //   if (this.text != this.$editor.value) this.showButtons();
-    //   else this.hideButtons();
-    //   if (event.key == 'Control') this.$ctrlMod = false;
-    // });
-    this.$editor.addEventListener("keydown", event => {
+    this.$editor.addEventListener("keyup", event => {
       // console.log(event.key);
-      if (event.key == 'Control') this.$ctrlMod = true;
+      if (this.text != this.$editor.value) this.showButtons();
+      else this.hideButtons();
+      // if (event.key == 'Control') this.$ctrlMod = false;
+    });
+    // this.$editor.addEventListener("keydown", event => {
+    //   // console.log(event.key);
+    //   if (event.key == 'Control') this.$ctrlMod = true;
+    // });
+    this.$editButton.addEventListener("click", _ => {
+      // console.log("... start edit!");
+      let display = this.$editPane.style.display;
+      this.$editPane.style.display = display == 'flex' ? 'none' : 'flex';
     });
     this.$controls.addEventListener("editorButton", ({detail}) => {
       // check if something is selected, and apply the style there if appropriate
@@ -332,30 +357,43 @@ class TextEditor extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return [ "userRole", "text", "type", "target" ];
+    return [ "user_role", "text", "type", "target" ];
   }
 
-  get userRole() { return this.getAttribute("userRole"); }
+  get user_role() { return this.getAttribute("user_role"); }
   get text() { return this.getAttribute("text"); }
   get type() { return this.getAttribute("type"); }
   get target() { return this.getAttribute("target"); }
 
-  set userRole(value) { this.setAttribute("userRole", value); }
+  set user_role(value) { this.setAttribute("user_role", value); }
   set text(value) { this.setAttribute("text", value); }
   set type(value) { this.setAttribute("type", value); }
   set target(value) { this.setAttribute("target", value); }
 
   attributeChangedCallback(property, oldValue, newValue) {
+    // console.log(`attributeChangedCallback(${property}, ${oldValue}, ${newValue})`);
     if (oldValue === newValue) return;
     switch(property) {
       case "text":
         this.$editor.value = this.text;
         this.displayText();
         break;
-      case "userRole":
-        this.$intro.userRole = this.userRole;
+      case "user_role":
+        console.log(`user_role = ${this.user_role}`);
+        if (this.user_role === 'GM') this.$editButton.classList.add("active");
+        else this.$editButton.classList.remove("active");
         break;
     }
+  }
+
+  convertInnerLineMarkupToHtml(text) {
+    // define the regex
+    let bold = /\*\*(.*?)\*\*/g;
+    let italic = /\/\/(.*?)\/\//g;
+    // replace the markup symbols with html elements
+    text = text.replaceAll(bold, "<strong>$1</strong>")
+    text = text.replaceAll(italic, "<i>$1</i>");
+    return text;
   }
 
   async displayText() {
@@ -374,26 +412,26 @@ class TextEditor extends HTMLElement {
     let h5 = /#5/;
     let h6 = /#6/;
     let lineSymbols = /#[1-6]/g;
-    let listSymbols = /,.|1./g;
+    let listSymbols = /-.|1./g;
     // define placeholders
     let list = null;
     // parse the test, line by line
     let lines = this.text.split("\n");
     for (let i = 0; i < lines.length; i++) {
       let text = lines[i];
-      console.log(`----------------------------------------\ntest: '${text}'`);
+      // console.log(`----------------------------------------\ntest: '${text}'`);
       if ((text.length == 0) || text.match(whitespace)) continue;
       let line = null;
       // count the starting spaces
       let leading = text.search(leadingSpaces);
-      console.log(`leading spaces: ${leading}`);
+      // console.log(`leading spaces: ${leading}`);
       if (leading > 0) text = text.trim();
       // get the line symbol(s)
       let ls;
-      console.log(ls);
+      // console.log(ls);
       if (ls = text.match(lineSymbols)) {
         let le = this.selectMostImportantLineElement(ls);
-        console.log(`selected line element: '${le}' -> '${this.lineElementsMarkupToHtml[le]}'`);
+        // console.log(`selected line element: '${le}' -> '${this.lineElementsMarkupToHtml[le]}'`);
         if (list) {
           this.$content.appendChild(list);
           list = null;
@@ -403,20 +441,20 @@ class TextEditor extends HTMLElement {
           text = text.replace(el, "");
         });
         // parse the line for inner formatting
-        line.innerHTML = this.convertLineToHtml(text);
+        line.innerHTML = this.convertInnerLineMarkupToHtml(text);
         // and finally append the new element
         this.$content.appendChild(line);
       }
       else if (ls = text.match(listSymbols)) {
         let le = this.selectMostImportantLineElement(ls);
-        console.log(`selected line element: '${le}' -> '${this.lineElementsMarkupToHtml[le]}'`);
+        // console.log(`selected line element: '${le}' -> '${this.lineElementsMarkupToHtml[le]}'`);
         if (!list) list = document.createElement(this.listElements[le]);
         line = document.createElement('li');
         this.lineElementsHierarchy.forEach(el => {
           text = text.replace(el, "");
         });
         // parse the line for inner formatting
-        line.innerHTML = this.convertLineToHtml(text);
+        line.innerHTML = this.convertInnerLineMarkupToHtml(text);
         // add the new element to the list
         list.appendChild(line);
       }
@@ -428,21 +466,20 @@ class TextEditor extends HTMLElement {
         }
         line = document.createElement("p");
         // parse the line for inner formatting
-        line.innerHTML = this.convertLineToHtml(text);
+        line.innerHTML = this.convertInnerLineMarkupToHtml(text);
         // and finally append the new element
         this.$content.appendChild(line);
       }
     }
+    if (list) {
+      this.$content.appendChild(list);
+      list = null;
+    }
   }
 
-  convertLineToHtml(text) {
-    // define the regex
-    let bold = /\*\*(.*?)\*\*/g;
-    let italic = /\/\/(.*?)\/\//g;
-    // replace the markup symbols with html elements
-    text = text.replaceAll(bold, "<strong>$1</strong>")
-    text = text.replaceAll(italic, "<i>$1</i>");
-    return text;
+  hideButtons() {
+    this.$confirm.classList.remove("active");
+    this.$cancel.classList.remove("active");
   }
 
   selectMostImportantLineElement(elements) {
@@ -459,11 +496,6 @@ class TextEditor extends HTMLElement {
   showButtons() {
     this.$confirm.classList.add("active");
     this.$cancel.classList.add("active");
-  }
-
-  hideButtons() {
-    this.$confirm.classList.remove("active");
-    this.$cancel.classList.remove("active");
   }
 }
 
