@@ -92,6 +92,9 @@ template.innerHTML = `
 <section id="edit">
   <div id="controls">
     <text-editor-button id="title" tooltip="Add Title" image="./UI/buttons/Editor - title.png"></text-editor-button>
+<!--    <text-editor-button id="checklist" tooltip="Set Checklist ([] or [x])" image="./UI/buttons/Editor - checklist.png"></text-editor-button> -->
+    <text-editor-button id="orderedList" tooltip="Set Numbered List (1.)" image="./UI/buttons/Editor - ordered list.png"></text-editor-button>
+    <text-editor-button id="unorderedList" tooltip="Set Bulleted List (..)" image="./UI/buttons/Editor - unordered list.png"></text-editor-button>
     <text-editor-button id="text" tooltip="Normal Text" image="./UI/buttons/Editor - text.png"></text-editor-button>
     <span class="separator"></span>
     <text-editor-button id="bold" tooltip="Format Bold (**)" image="./UI/buttons/Editor - bold.png"></text-editor-button>
@@ -99,13 +102,9 @@ template.innerHTML = `
     <text-editor-button id="underlined" tooltip="Format Underlined (__)" image="./UI/buttons/Editor - underline.png"></text-editor-button>
     <text-editor-button id="strikethrough" tooltip="Format Strikethrough (--)" image="./UI/buttons/Editor - strikethrough.png"></text-editor-button>
     <span class="separator"></span>
-    <text-editor-button id="indentIncrease" tooltip="Increase Indent (->)" image="./UI/buttons/Editor - indent increase.png"></text-editor-button>
+<!--    <text-editor-button id="indentIncrease" tooltip="Increase Indent (->)" image="./UI/buttons/Editor - indent increase.png"></text-editor-button>
     <text-editor-button id="indentDecrease" tooltip="Decrease Indent" image="./UI/buttons/Editor - indent decrease.png"></text-editor-button>
-    <span class="separator"></span>
-<!--    <text-editor-button id="checklist" tooltip="Set Checklist ([] or [x])" image="./UI/buttons/Editor - checklist.png"></text-editor-button> -->
-    <text-editor-button id="orderedList" tooltip="Set Numbered List (1.)" image="./UI/buttons/Editor - ordered list.png"></text-editor-button>
-    <text-editor-button id="unorderedList" tooltip="Set Bulleted List (..)" image="./UI/buttons/Editor - unordered list.png"></text-editor-button>
-    <span class="separator"></span>
+    <span class="separator"></span> -->
     <text-editor-button id="link" tooltip="Insert Link ()" image="./UI/buttons/Editor - link.png"></text-editor-button>
     <text-editor-button id="image" tooltip="Insert Image ()" image="./UI/buttons/Editor - image.png"></text-editor-button>
     <text-editor-button id="quote" tooltip="Insert Quote ()" image="./UI/buttons/Editor - quote.png"></text-editor-button>
@@ -172,7 +171,16 @@ class TextEditor extends HTMLElement {
       alignCentre: " ><",
       alignRight: " >>",
       justify: " <>"
+    };
+    this.lineElementsMarkupToHtml = {
+      '#1': 'h1',
+      '#2': 'h2',
+      '#3': 'h3',
+      '#4': 'h4',
+      '#5': 'h5',
+      '#6': 'h6'
     }
+    this.lineElementsHierarchy = ['#1', '#2', '#3', '#4', '#5', '#6'];
 
     // this.$editor.addEventListener("keyup", event => {
     //   // console.log(event.key);
@@ -222,6 +230,7 @@ class TextEditor extends HTMLElement {
       console.log("lines of text: ", lines);
       if (lines.length != num) return;
 
+      // TODO: Limit styling (bold, italic, underlined, strikethrough) to single lines only.
       if (['bold', 'italic', 'underlined', 'strikethrough'].includes(detail.id)) {
         let l = lines[0];
         let posStart = selStart - newLines[0];
@@ -260,6 +269,7 @@ class TextEditor extends HTMLElement {
       }
       else if (['title1', 'title2', 'title3', 'title4', 'title5', 'title6'].includes(detail.id)) {
         // apply the symbol to all new-lines found, but replace non-stacking symbols or ignore if the same exists already
+        // (use .replace to clear out all line-elements and then replace with the new one)
         for (let i = 0; i < num; i++) {
           let l = lines[i];
           // console.log(`new line at ${newLines[i]}: ${l}`);
@@ -283,22 +293,9 @@ class TextEditor extends HTMLElement {
         insertionOffsetEnd += symbolLength * num;
         // console.log(lines);
       }
-      else if (detail.id == 'indentIncrease') {
-        console.log("...");
-        // for (let i = 0; i < num; i++) {
-        //   let l = lines[i];
-        //   l = symbol + l;
-        //   lines[i] = l;
-        //   insertionOffsetStart += symbolLength;
-        //   insertionOffsetEnd += symbolLength * num;
-        // }
-      }
-      else if (detail.id == 'indentDecrease') {
-
-      }
-      else {
-
-      }
+      else if (detail.id == 'indentIncrease') {}
+      else if (detail.id == 'indentDecrease') {}
+      // finalise the edit
       this.$editor.value = partBefore + (newLines[0] > 0 ? "\n" : "") + lines.join("\n") + partAfter;
       this.$editor.focus();
       this.$editor.selectionStart = selStart + insertionOffsetStart;
@@ -361,24 +358,64 @@ class TextEditor extends HTMLElement {
     for (let i = old.length - 1; i >= 0; i--) {
       old[i].remove();
     }
-    // then create the text again
+    // define the regex expressions
+    let whitespace = /^\s*$/;
+    let leadingSpaces = /\S/;
+    let h1 = /#1(.*$)/;
+    let h2 = /#2/;
+    let h3 = /#3/;
+    let h4 = /#4/;
+    let h5 = /#5/;
+    let h6 = /#6/;
+    let lineSymbols = /#[1-6]/g;
+    let bold = /\*\*(.*)\*\*/;
+    let italic = /\/\/(.*)\/\//;
+    // parse the test, line by line
     let lines = this.text.split("\n");
     for (let i = 0; i < lines.length; i++) {
-      // split the lines
-      let text = lines[i].trim();
-      if (text.length == 0) continue;
-      // get the starting symbol(s)
-      // create the appropriate element
-      let p = document.createElement("p");
+      let text = lines[i];
+      console.log(`----------------------------------------\ntest: '${text}'`);
+      if ((text.length == 0) || text.match(whitespace)) continue;
+      let line = null;
+      // count the starting spaces
+      let leading = text.search(leadingSpaces);
+      console.log(`leading spaces: ${leading}`);
+      if (leading > 0) text = text.trim();
+      // get the line symbol(s)
+      let ls = text.match(lineSymbols);
+      console.log(ls);
+      if (ls) {
+        let le = this.selectMostImportantLineElement(ls);
+        console.log(`selected line element: '${le}' -> '${this.lineElementsMarkupToHtml[le]}'`);
+        line = document.createElement(this.lineElementsMarkupToHtml[le]);
+        this.lineElementsHierarchy.forEach(el => {
+          text = text.replace(el, "");
+        });
+      }
+      else {
+        // ... or if no line-element appears, just create a normal paragraph
+        line = document.createElement("p");
+      }
       // parse the line for inner formatting
       //  (1) locate positions of all symbols
       //  (2) create dictionary with positions { bold: [12, 15], italic [17, 29], ... }
       //  (3) apply appropriate spans with classes at given positions, from end to start to avoid drift of indexes.
       // assign the final result in the newly created element
-      p.innerHTML = text;
-      // append the new element
-      this.$content.appendChild(p);
+      line.innerHTML = text;
+      // and finally append the new element
+      this.$content.appendChild(line);
     }
+  }
+
+  selectMostImportantLineElement(elements) {
+    // console.log(`selectMostImportantLineElement(${JSON.stringify(elements)})`);
+    let index = 1000;
+    for (let i = 0; i < elements.length; i++) {
+      // console.log(`'${elements[i]}' at position ${this.lineElementsHierarchy.indexOf(elements[i])} in he hierarchy`);
+      let ind = this.lineElementsHierarchy.indexOf(elements[i]);
+      if (ind < index) index = ind;
+    }
+    return this.lineElementsHierarchy[index >=0 ? index : 0];
   }
 
   showButtons() {
