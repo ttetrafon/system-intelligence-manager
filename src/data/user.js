@@ -11,7 +11,7 @@ class User {
   }
 
   initialiseUser(obj) {
-    console.log("---> User.initialiseUser()", obj);
+    // console.log("---> User.initialiseUser()", obj);
     if (obj["userName"]) this.userName = obj["userName"];
     if (obj["userRole"]) this.userRole = obj["userRole"];
     this.currentView = {};

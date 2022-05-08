@@ -57,7 +57,7 @@ window.main.receive('initialUser', (user) => {
   controls.initialView(state.$user.currentView);
 });
 window.main.receive('updateUser', (user) => {
-  console.log("---> 'updateUser' event received!", user);
+  // console.log("---> 'updateUser' event received!", user);
   // ignore changes in currentView, as this will mess up
   // check if the user data changed, and set appropriate attributes in all articles and controls
   if (JSON.stringify(state.$user) == JSON.stringify(user)) return;
@@ -66,12 +66,12 @@ window.main.receive('updateUser', (user) => {
 });
 
 window.main.receive('initialGameSystem', (gameSystemData) => {
-  console.log("---> 'initialGameSystem' event received", gameSystemData);
+  // console.log("---> 'initialGameSystem' event received", gameSystemData);
   state.$checks = gameSystemData.checks;
   controls.setArticleData();
 });
 window.main.receive('updateGameSystem', (part, data) => {
-  console.log("---> 'updateGameSystem' event received", part, data);
+  // console.log("---> 'updateGameSystem' event received", part, data);
   if (JSON.stringify(state["$" + part]) == JSON.stringify(data)) return;
   state["$" + part] = data;
   controls.setArticleData();

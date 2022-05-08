@@ -4,7 +4,7 @@ class Checks {
   }
 
   initialiseChecks(obj) {
-    console.log(`---> initialiseChecks(${JSON.stringify(obj)})`);
+    // console.log(`---> initialiseChecks(${JSON.stringify(obj)})`);
     if (obj["intro"]) this.intro = obj["intro"];
   }
 }

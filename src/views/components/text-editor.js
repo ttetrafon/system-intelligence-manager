@@ -374,7 +374,7 @@ class TextEditor extends HTMLElement {
   set target(value) { this.setAttribute("target", value); }
 
   attributeChangedCallback(property, oldValue, newValue) {
-    console.log(`attributeChangedCallback(${property}, ${oldValue}, ${newValue})`);
+    // console.log(`attributeChangedCallback(${property}, ${oldValue}, ${newValue})`);
     if (oldValue === newValue) return;
     switch(property) {
       case "text":

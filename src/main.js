@@ -17,7 +17,7 @@ const windows = {};
 const linkIdGenerator = IdGenerator('link', 100);
 const links = {};
 function notifyOpenWindows(channel, ...args) {
-  console.log("---> notifyOpenWindows()", channel, ...args);
+  // console.log("---> notifyOpenWindows()", channel, ...args);
   Object.keys(windows).forEach(win => {
     windows[win].webContents.send(channel, ...args);
   });
@@ -60,9 +60,9 @@ const createWindow = () => {
   windows[id.value] = win;
 
   win.once('closed', () => {
-    console.log(`... closing window ${id.value}`);
+    // console.log(`... closing window ${id.value}`);
     delete windows[id.value];
-    console.log(windows);
+    // console.log(windows);
   });
 
   win.once('ready-to-show', () => {
@@ -72,7 +72,7 @@ const createWindow = () => {
     win.maximize();
     win.webContents.send('initialUser', store.user);
     win.webContents.send('initialGameSystem', store.gameSystem);
-    console.log('windows:', windows);
+    // console.log('windows:', windows);
   });
 }
 

@@ -1,5 +1,6 @@
 const script = "controls.js";
 const ARTICLE_SUFFIX = '-article';
+const SECTION_SUFFIX = '-section';
 const TAB_SUFFIX = '-tab';
 
 export class Controls {
@@ -12,7 +13,7 @@ export class Controls {
 
   // Choose the current main view tab list and article.
   initialView(currentView) {
-    console.log(`initialView(${JSON.stringify(currentView)})`);
+    // console.log(`initialView(${JSON.stringify(currentView)})`);
     // select the visible view and highlight the appropriate tabs
     this.el[currentView.view + ARTICLE_SUFFIX].classList.add('visible');
     this.el[currentView.category + TAB_SUFFIX].selected = 'selected';
@@ -53,11 +54,11 @@ export class Controls {
     let view = this.state.$user.currentView.view;
     switch(view) {
       case 'checks':
-        this.el[view + '-section'].user_role = this.state.$user.userRole;
-        this.el[view + '-section'].checks = this.state.$checks;
+        this.el[view + SECTION_SUFFIX].user_role = this.state.$user.userRole;
+        this.el[view + SECTION_SUFFIX].checks = this.state.$checks;
         break;
       case 'user':
-        this.el[view + '-section'].user = this.state.$user;
+        this.el[view + SECTION_SUFFIX].user = this.state.$user;
         break;
     }
   }
@@ -78,9 +79,9 @@ export class Controls {
   }
 
   handleGameSystemUpdated(details) {
-    console.log(`---> handleGameSystemUpdated(${JSON.stringify(details)})`);
+    // console.log(`---> handleGameSystemUpdated(${JSON.stringify(details)})`);
     this.updateObjectProperty(this.state[details.target[1]], details.target.slice(2), details.value);
-    console.log("... $checks:", this.state.$checks);
+    // console.log("... $checks:", this.state.$checks);
     window.main.updateGameSystem("checks", this.state.$checks);
   }
 

@@ -61,18 +61,18 @@ class Store {
     self.gameSystem.checks = new Checks();
     if (checksData == null) self.fs.saveJsonFile(checksFile, self.gameSystem.checks);
     else self.gameSystem.checks.initialiseChecks(checksData);
-    console.log("... initialised checks:", self.gameSystem.checks);
+    // console.log("... initialised checks:", self.gameSystem.checks);
     self.storeHash("checks", self.gameSystem.checks);
     self.logger.log(null, script, "checks:", self.gameSystem.checks);
   }
 
   async storeHash(name, value) {
-    console.log(`---> storeHash(${name}, ${JSON.stringify(value)})`);
+    // console.log(`---> storeHash(${name}, ${JSON.stringify(value)})`);
     self.hashes[name] = GenerateHash(value);
   }
 
   async updateGameSystem(_, part, data) {
-    console.log(`---> updateGameSystem(_, ${part}, ${JSON.stringify(data)})`);
+    // console.log(`---> updateGameSystem(_, ${part}, ${JSON.stringify(data)})`);
     // check the hash first, and abort if nothing has changed
     let hash = GenerateHash(data);
     if (self.hashes[part] == hash) return;
