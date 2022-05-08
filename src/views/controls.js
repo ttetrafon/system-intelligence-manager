@@ -12,6 +12,7 @@ export class Controls {
 
   // Choose the current main view tab list and article.
   initialView(currentView) {
+    console.log(`initialView(${JSON.stringify(currentView)})`);
     // select the visible view and highlight the appropriate tabs
     this.el[currentView.view + ARTICLE_SUFFIX].classList.add('visible');
     this.el[currentView.category + TAB_SUFFIX].selected = 'selected';
@@ -49,6 +50,10 @@ export class Controls {
 
   setArticleData() {
     switch(this.state.$user.currentView.view) {
+      case 'checks':
+        this.el['checks-section'].user_role = this.state.$user.userRole;
+        this.el['checks-section'].checks = this.state.$checks;
+        break;
       case 'user':
         this.el['user-section'].user = this.state.$user;
         break;

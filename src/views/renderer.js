@@ -53,13 +53,19 @@ el['main'].addEventListener("valueChanged", event => { controls.valueChanged(eve
 window.main.receive('initialUser', (user) => {
   // console.log('... initialUser', user);
   state.$user = user;
-  controls.initialView(state.getCurrentView());
+  controls.initialView(state.$user.currentView);
 });
 window.main.receive('updateUser', (user) => {
-  // console.log("---> 'updateUser' event received!", user);
+  console.log("---> 'updateUser' event received!", user);
   // ignore changes in currentView, as this will mess up
   // check if the user data changed, and set appropriate attributes in all articles and controls
   // TODO...
+  state.$user = user;
+  controls.setArticleData();
+});
+window.main.receive('initialGameSystem', (gameSystemData) => {
+  console.log("---> 'initialGameSystem' event received", gameSystemData);
+  state.$checks = gameSystemData.checks;
   controls.setArticleData();
 });
 

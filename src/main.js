@@ -69,7 +69,9 @@ const createWindow = () => {
     win.show();
     if (isDev) win.webContents.openDevTools();
     // win.webContents.send('test', 'This is a test message...');
+    win.maximize();
     win.webContents.send('initialUser', store.user);
+    win.webContents.send('initialGameSystem', store.gameSystem);
     console.log('windows:', windows);
   });
 }

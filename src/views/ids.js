@@ -1,7 +1,7 @@
 export const ids = {
   parents: [
-    'main',
-    'nav'
+    "main",
+    "nav"
   ],
   tabs: [
     "calendar-tab",
@@ -19,6 +19,7 @@ export const ids = {
     "user-article"
   ],
   sections: [
-    'user-section'
+    "checks-section",
+    "user-section"
   ]
 };

@@ -1,5 +1,6 @@
 var files = {
-  dictionaryNames: "names.js",
+  checks: "checks.json",
+  dictionaryNames: "names.json",
   user: "user.json"
 };
 

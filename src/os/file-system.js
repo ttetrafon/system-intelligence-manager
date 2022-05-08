@@ -44,6 +44,7 @@ class FileSystem {
   }
 
   folderStructureStepTwo(selectedGame) {
+    // This is called after the first load and the game is selected (in Store.js).
     self.setupDirectory("gameFolder", path.join(self.paths.saveFolder, selectedGame));
     self.setupDirectory("gameSystem", path.join(self.paths.gameFolder, folders.gameSystem));
     self.logger.log(null, script, "paths (second pass):", self.paths);

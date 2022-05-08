@@ -4,6 +4,7 @@ export class State {
   constructor() {
     window.main.log(script, "Started!");
 
+    // General data
     this.$user = {
       userName: "username",
       userRole: "GM",
@@ -14,13 +15,13 @@ export class State {
       gamesList: ['YADTS'],
       activeGame: 'YADTS'
     };
+
+    // Game System data
+    this.$checks = {
+      intro: "..."
+    }
+
+    // Entities data
   }
 
-  getCurrentView() {
-    // console.log("---> getCurrentView()", this.$user.currentView);
-    return (this.$user.currentView ? this.$user.currentView : {
-      category: "settings",
-      view: "user"
-    });
-  }
 }

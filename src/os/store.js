@@ -1,5 +1,6 @@
 // All the game data in one place.
 const path = require('path');
+const Checks = require('../data/checks');
 const User = require('../data/user');
 
 const { GenerateHash } = require('../data/helper');
@@ -24,6 +25,9 @@ class Store {
     self.dictionaries = {
       names: {}
     };
+    self.gameSystem = {
+      checks: null
+    };
 
     self.initialPreparation();
     self.loadDictionaries();
@@ -33,19 +37,18 @@ class Store {
   initialPreparation() {
     let userFile = path.join(self.fs.paths.saveFolder, files.user);
     let data = self.fs.readJsonFile(userFile);
-    let user = new User();
-    if (data == null) self.fs.saveJsonFile(userFile, user);
-    else user.initialiseUser(data);
-    self.user = user;
+    self.user = new User();
+    if (data == null) self.fs.saveJsonFile(userFile, self.user);
+    else self.user.initialiseUser(data);
     self.storeHash("user", self.user);
     self.logger.log(null, script, "user:", self.user);
   }
 
   loadDictionaries() {
     let namesDict = path.join(self.fs.paths.dictionaries, files.dictionaryNames);
-    let data = self.fs.readJsonFile(namesDict);
-    if (data == null) self.fs.saveJsonFile(namesDict, self.dictionaries.names);
-    else self.dictionaries.names = data;
+    let namesData = self.fs.readJsonFile(namesDict);
+    if (namesData == null) self.fs.saveJsonFile(namesDict, self.dictionaries.names);
+    else self.dictionaries.names = namesData;
     this.storeHash("names", self.dictionaries.names);
     self.logger.log(null, script, "dictionaries:", self.dictionaries);
   }
@@ -53,6 +56,14 @@ class Store {
   loadGameSystem() {
     self.fs.folderStructureStepTwo(self.user.activeGame);
 
+    let checksFile = path.join(self.fs.paths.gameSystem, files.checks);
+    let checksData = self.fs.readJsonFile(checksFile);
+    self.gameSystem.checks = new Checks();
+    if (checksData == null) self.fs.saveJsonFile(checksFile, self.gameSystem.checks);
+    else self.gameSystem.checks.initialiseChecks(checksData);
+    console.log("... initialised checks:", self.gameSystem.checks);
+    self.storeHash("checks", self.gameSystem.checks);
+    self.logger.log(null, script, "checks:", self.gameSystem.checks);
   }
 
   async storeHash(name, value) {

@@ -113,8 +113,6 @@ template.innerHTML = `
     <span class="separator"></span>
     <text-editor-button id="bold" tooltip="Format Bold (**)" image="./UI/buttons/Editor - bold.png"></text-editor-button>
     <text-editor-button id="italic" tooltip="Format Italic (//)" image="./UI/buttons/Editor - italic.png"></text-editor-button>
-    <text-editor-button id="underlined" tooltip="Format Underlined (__)" image="./UI/buttons/Editor - underline.png"></text-editor-button>
-    <text-editor-button id="strikethrough" tooltip="Format Strikethrough (--)" image="./UI/buttons/Editor - strikethrough.png"></text-editor-button>
     <span class="separator"></span>
     <text-editor-button id="link" tooltip="Insert Link ()" image="./UI/buttons/Editor - link.png"></text-editor-button>
     <text-editor-button id="image" tooltip="Insert Image ()" image="./UI/buttons/Editor - image.png"></text-editor-button>
@@ -142,13 +140,15 @@ template.innerHTML = `
 `;
 
 /*
-<text-editor-button id="checklist" tooltip="Set Checklist ([] or [x])" image="./UI/buttons/Editor - checklist.png"></text-editor-button>
-<text-editor-button id="indentIncrease" tooltip="Increase Indent (->)" image="./UI/buttons/Editor - indent increase.png"></text-editor-button>
-<text-editor-button id="indentDecrease" tooltip="Decrease Indent" image="./UI/buttons/Editor - indent decrease.png"></text-editor-button>
-<text-editor-button id="alignLeft" tooltip="Align Left (<<)" image="./UI/buttons/Editor - align left.png"></text-editor-button>
-<text-editor-button id="alignCentre" tooltip="Align Centre (><)" image="./UI/buttons/Editor - align centre.png"></text-editor-button>
-<text-editor-button id="alignRight" tooltip="Align Right (>>)" image="./UI/buttons/Editor - align right.png"></text-editor-button>
-<text-editor-button id="justify" tooltip="Justify Content (<>)" image="./UI/buttons/Editor - justify.png"></text-editor-button>
+    <text-editor-button id="underlined" tooltip="Format Underlined (__)" image="./UI/buttons/Editor - underline.png"></text-editor-button>
+    <text-editor-button id="strikethrough" tooltip="Format Strikethrough (--)" image="./UI/buttons/Editor - strikethrough.png"></text-editor-button>
+    <text-editor-button id="checklist" tooltip="Set Checklist ([] or [x])" image="./UI/buttons/Editor - checklist.png"></text-editor-button>
+    <text-editor-button id="indentIncrease" tooltip="Increase Indent (->)" image="./UI/buttons/Editor - indent increase.png"></text-editor-button>
+    <text-editor-button id="indentDecrease" tooltip="Decrease Indent" image="./UI/buttons/Editor - indent decrease.png"></text-editor-button>
+    <text-editor-button id="alignLeft" tooltip="Align Left (<<)" image="./UI/buttons/Editor - align left.png"></text-editor-button>
+    <text-editor-button id="alignCentre" tooltip="Align Centre (><)" image="./UI/buttons/Editor - align centre.png"></text-editor-button>
+    <text-editor-button id="alignRight" tooltip="Align Right (>>)" image="./UI/buttons/Editor - align right.png"></text-editor-button>
+    <text-editor-button id="justify" tooltip="Justify Content (<>)" image="./UI/buttons/Editor - justify.png"></text-editor-button>
 */
 
 class TextEditor extends HTMLElement {
@@ -371,7 +371,7 @@ class TextEditor extends HTMLElement {
   set target(value) { this.setAttribute("target", value); }
 
   attributeChangedCallback(property, oldValue, newValue) {
-    // console.log(`attributeChangedCallback(${property}, ${oldValue}, ${newValue})`);
+    console.log(`attributeChangedCallback(${property}, ${oldValue}, ${newValue})`);
     if (oldValue === newValue) return;
     switch(property) {
       case "text":
@@ -379,7 +379,6 @@ class TextEditor extends HTMLElement {
         this.displayText();
         break;
       case "user_role":
-        console.log(`user_role = ${this.user_role}`);
         if (this.user_role === 'GM') this.$editButton.classList.add("active");
         else this.$editButton.classList.remove("active");
         break;
@@ -387,6 +386,10 @@ class TextEditor extends HTMLElement {
   }
 
   convertInnerLineMarkupToHtml(text) {
+    // TODO: Instead of using replaces tokenise the text and then use spans with the appropriate styles.
+    // markdown text:   This is **some text// that **needs formatting//.
+    // tokenised text:  ['This is ', BOLD_START, 'some text ', ITALICS_START, 'that', BOLD_END, ' needs formatting', ITALICS_END, '.']
+    // html result:     This is <span class="bold">some text </span><span class="bold italics">that</span><span class="italics"> needs formatting</span>.
     // define the regex
     let bold = /\*\*(.*?)\*\*/g;
     let italic = /\/\/(.*?)\/\//g;
