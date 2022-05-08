@@ -112,6 +112,7 @@ app.whenReady().then(() => {
   ipcMain.on('log', logger.log);
   ipcMain.on('open-link', createLinkWindow);
   ipcMain.on('set-title', menu.handleSetTitle);
+  ipcMain.on('updateGameSystem', store.updateGameSystem);
   ipcMain.on('updateUser', store.updateUser);
   createWindow();
 

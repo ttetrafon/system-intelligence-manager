@@ -71,6 +71,19 @@ class Store {
     self.hashes[name] = GenerateHash(value);
   }
 
+  async updateGameSystem(_, part, data) {
+    console.log(`---> updateGameSystem(_, ${part}, ${JSON.stringify(data)})`);
+    // check the hash first, and abort if nothing has changed
+    let hash = GenerateHash(data);
+    if (self.hashes[part] == hash) return;
+    // if there was a difference save the new data
+    self.gameSystem[part] = data;
+    self.hashes[part] = hash;
+    self.fs.saveJsonFile(path.join(self.fs.paths.gameSystem, part + ".json"), data);
+    // ... and notify all open windows of the info
+    self.notifyOpenWindows('updateGameSystem', part, data);
+  }
+
   async updateUser(_, user) {
     // console.log("---> updateUser()", user);
     // check the hash first, and abort if nothing has changed
@@ -80,7 +93,7 @@ class Store {
     let gameChanged = (user.activeGame !== self.user.activeGame);
     // if there was a difference save the new data
     self.user = user;
-    self.storeHash("user", self.user);
+    self.hashes.user = hash;
     self.fs.saveJsonFile(path.join(self.fs.paths.saveFolder, files.user), user);
     // ... and notify all open windows of the new user info
     self.notifyOpenWindows('updateUser', user);

@@ -6,6 +6,7 @@ contextBridge.exposeInMainWorld('main', {
   openFile: _ => ipcRenderer.invoke('dialog:openFile'),
   openLink: (url) => ipcRenderer.send('open-link', url),
   setTitle: (_) => ipcRenderer.send('set-title', _),
+  updateGameSystem: (part, data) => ipcRenderer.send('updateGameSystem', part, data),
   updateUser: (user) => ipcRenderer.send('updateUser', user),
   // main sends to renderers...
   receive: (channel, func) => {

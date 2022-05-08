@@ -50,6 +50,7 @@ el['settings-tab'].views = {
 // Set the interface controls.
 el['nav'].addEventListener("onTabSelected", event => { controls.setView(event.detail); });
 el['main'].addEventListener("valueChanged", event => { controls.valueChanged(event.detail) });
+
 window.main.receive('initialUser', (user) => {
   // console.log('... initialUser', user);
   state.$user = user;
@@ -59,13 +60,20 @@ window.main.receive('updateUser', (user) => {
   console.log("---> 'updateUser' event received!", user);
   // ignore changes in currentView, as this will mess up
   // check if the user data changed, and set appropriate attributes in all articles and controls
-  // TODO...
+  if (JSON.stringify(state.$user) == JSON.stringify(user)) return;
   state.$user = user;
   controls.setArticleData();
 });
+
 window.main.receive('initialGameSystem', (gameSystemData) => {
   console.log("---> 'initialGameSystem' event received", gameSystemData);
   state.$checks = gameSystemData.checks;
+  controls.setArticleData();
+});
+window.main.receive('updateGameSystem', (part, data) => {
+  console.log("---> 'updateGameSystem' event received", part, data);
+  if (JSON.stringify(state["$" + part]) == JSON.stringify(data)) return;
+  state["$" + part] = data;
   controls.setArticleData();
 });
 

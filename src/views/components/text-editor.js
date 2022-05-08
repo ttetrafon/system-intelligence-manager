@@ -348,10 +348,13 @@ class TextEditor extends HTMLElement {
         })
       );
       this.text = this.$editor.value;
+      this.hideButtons();
+      this.$editPane.style.display = 'none';
       this.displayText();
     });
     this.$cancel.addEventListener("click", _ => {
       this.$editor.value = this.text;
+      this.$editPane.style.display = 'none';
       this.hideButtons();
     });
   }

@@ -48,25 +48,40 @@ export class Controls {
     this.el[this.state.$user.currentView.view].selected = 'selected';
   }
 
+
   setArticleData() {
-    switch(this.state.$user.currentView.view) {
+    let view = this.state.$user.currentView.view;
+    switch(view) {
       case 'checks':
-        this.el['checks-section'].user_role = this.state.$user.userRole;
-        this.el['checks-section'].checks = this.state.$checks;
+        this.el[view + '-section'].user_role = this.state.$user.userRole;
+        this.el[view + '-section'].checks = this.state.$checks;
         break;
       case 'user':
-        this.el['user-section'].user = this.state.$user;
+        this.el[view + '-section'].user = this.state.$user;
         break;
     }
   }
+
 
   valueChanged(details) {
     switch(details.type) {
       case "user":
         this.handleUserUpdated(details);
         break;
+      case "gameSystem":
+        this.handleGameSystemUpdated(details);
+        break;
+      default:
+        window.main.log(script, `valueChanged(${JSON.stringify(details)}): not handled`);
     }
     this.setArticleData();
+  }
+
+  handleGameSystemUpdated(details) {
+    console.log(`---> handleGameSystemUpdated(${JSON.stringify(details)})`);
+    this.updateObjectProperty(this.state[details.target[1]], details.target.slice(2), details.value);
+    console.log("... $checks:", this.state.$checks);
+    window.main.updateGameSystem("checks", this.state.$checks);
   }
 
   handleUserUpdated(details) {
@@ -80,6 +95,7 @@ export class Controls {
     window.main.updateUser(this.state.$user);
     window.main.setTitle();
   }
+
 
   getObjectProperty(obj, prop) {
     if (prop.length == 0) return obj;

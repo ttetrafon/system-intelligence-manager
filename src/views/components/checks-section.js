@@ -8,7 +8,7 @@ template.innerHTML = `
 <h1>Checks</h1>
 <text-editor id="intro-text"
   type="gameSystem"
-  target="gameSystem.checks.intro"
+  target="gameSystem.$checks.intro"
 ></text-editor>
 `;
 
