@@ -17,6 +17,7 @@ section.checks = {
   // intro: "#1An introduction to checks!\n#2#4This is some example text!\n   And even more text 1...\n#3#1And even more text 2..."
   // intro: "#2#4This is some example text!"
   // intro: "Some **text** //with **nothing// serious going** on...\nlist end!"
-  intro: "#1 A list!\n1. Item 1\n1. Item 2\n1. Item 3\nNo more list!"
+  intro: "#1 A list!\n1. Item 1\n1. Item 2\n1. Item 3\nNo more list!",
+  useAttributeChecks: true
 };
 section.user_role = "GM";
