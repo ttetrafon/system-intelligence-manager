@@ -1,4 +1,5 @@
 import './components/checks-section.js';
+import './components/checks-subsection.js';
 import './components/input-field.js';
 import './components/input-selector.js';
 import './components/text-editor.js';
@@ -18,6 +19,11 @@ section.checks = {
   // intro: "#2#4This is some example text!"
   // intro: "Some **text** //with **nothing// serious going** on...\nlist end!"
   intro: "#1 A list!\n1. Item 1\n1. Item 2\n1. Item 3\nNo more list!",
-  useAttributeChecks: true
+  mainUsed: true,
+  mainName: "Attribute Checks",
+  mainDescription: "This is the description of the attribute checks!",
+  secondaryUsed: true,
+  secondaryName: "Stockpiles",
+  secondaryDescription: "This is the description of the stockpile mechanic!"
 };
 section.user_role = "GM";
