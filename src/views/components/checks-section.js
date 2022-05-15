@@ -47,12 +47,12 @@ class ChecksSection extends HTMLElement {
     switch(property) {
       case "checks":
         this.$intro.text = this.checks.intro;
-        this.$main.checks_mech = {
+        this.$main.checks = {
           used: this.checks.mainUsed,
           name: this.checks.mainName,
           description: this.checks.mainDescription
         };
-        this.$secondary.checks_mech = {
+        this.$secondary.checks = {
           used: this.checks.secondaryUsed,
           name: this.checks.secondaryName,
           description: this.checks.secondaryDescription

@@ -4,17 +4,21 @@ import './components/input-field.js';
 import './components/input-selector.js';
 import './components/text-editor.js';
 import './components/text-editor-button.js';
+import './diceRoller.js';
+import { DiceRoller } from './diceRoller.js';
 
 const main = document.querySelector("main");
 main.addEventListener('valueChanged', event => {
   console.log("input value changed event captured:", event.detail);
 });
 
+const dr = new DiceRoller();
+
 const article = document.querySelector("article");
 article.classList.add("visible");
 
 const section = document.querySelector("checks-section");
-section.checks = {
+const checks = {
   // intro: "#1An introduction to checks!\n#2#4This is some example text!\n   And even more text 1...\n#3#1And even more text 2..."
   // intro: "#2#4This is some example text!"
   // intro: "Some **text** //with **nothing// serious going** on...\nlist end!"
@@ -26,4 +30,13 @@ section.checks = {
   secondaryName: "Stockpiles",
   secondaryDescription: "This is the description of the stockpile mechanic!"
 };
+section.checks = checks;
 section.user_role = "GM";
+
+dr.initialiseDiceRoller();
+dr.check({
+  numberInGroup: 4,
+  bonus: 1,
+  target: 11,
+  difficulty: 2
+});
