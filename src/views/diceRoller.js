@@ -8,7 +8,9 @@ export class DiceRoller {
 
     // functions to be used - determined during initialisation
     this.$check;
+    this.$roll;
     this.$resolve;
+    this.$applyBonuses
   }
 
   initialiseDiceRoller() {
@@ -20,11 +22,14 @@ export class DiceRoller {
     // resolution style ('under', 'over'):
     this.$resolve = this.resolveUnder;
     // bonuses/penalties ('diceNumber', 'rollValue', 'none'):
+    this.$applyBonuses = this.$applyBonuses;
   }
 
   check(details) {
     console.log(`---> check(${JSON.stringify(details)})`);
-    let rolls = this.$check(details.numberInGroup);
+    let numberInGroup = this.$applyBonuses(details.numberInGroup);
+    console.log("numberInGroup after bonuses/penalties: " + numberInGroup);
+    let rolls = this.$check(numberInGroup);
     console.log("rolls:", rolls);
     let res = rolls.map(roll => this.$resolve(details.target, roll));
     console.log("res:", res);
@@ -66,6 +71,14 @@ export class DiceRoller {
   resolveOver(target, result) {
     console.log(`---> resolveOver(${target}, ${result})`)
     return target <= result;
+  }
+
+  /////////////////////////////
+  //   Bonuses & Penalties   //
+  /////////////////////////////
+  onNumberOfDice(numberInGroup) {
+
+    return numberInGroup;
   }
 
   ////////////////
