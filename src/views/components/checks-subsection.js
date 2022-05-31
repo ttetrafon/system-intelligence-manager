@@ -70,7 +70,7 @@ class ChecksSubSection extends HTMLElement {
     this.$editor = this._shadow.querySelector("text-editor");
     this.$editor.target = `gameSystem.$checks.${this.id}Description`;
     this.$resolution = this._shadow.getElementById("resolution");
-    this.$resolution = this._shadow.getElementById("bonuses");
+    this.$bonuses = this._shadow.getElementById("bonuses");
 
     this.$usedCheckbox.addEventListener("change", ({target}) => {
       this.dispatchEvent(
@@ -99,7 +99,7 @@ class ChecksSubSection extends HTMLElement {
         })
       );
     });
-    this.$resolution.addEventListener("change", ({target}) => {
+    this.$bonuses.addEventListener("change", ({target}) => {
       this.dispatchEvent(
         new CustomEvent('valueChanged', {
           bubbles: true,

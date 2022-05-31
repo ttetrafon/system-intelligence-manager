@@ -22,7 +22,7 @@ export class DiceRoller {
     // resolution style ('under', 'over'):
     this.$resolve = this.resolveUnder;
     // bonuses/penalties ('diceNumber', 'rollValue', 'none'):
-    this.$applyBonuses = this.$applyBonuses;
+    this.$applyBonuses = this.onNumberOfDice;
   }
 
   check(details) {
