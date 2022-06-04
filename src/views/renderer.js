@@ -1,6 +1,6 @@
 const script = "renderer.js";
 import './components/checks-section.js';
-import './components/checks-sub-section.js';
+import './components/checks-subsection.js';
 import './components/input-field.js';
 import './components/input-selector.js';
 import './components/nav-tab.js';
