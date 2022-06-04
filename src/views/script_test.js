@@ -27,8 +27,8 @@ const checks = {
   mainName: "Attribute Checks",
   mainDescription: "This is the description of the attribute checks!",
   secondaryUsed: true,
-  secondaryName: "Stockpiles",
-  secondaryDescription: "This is the description of the stockpile mechanic!"
+  secondaryName: "Single Die",
+  secondaryDescription: "This is the description of the single die mechanic!"
 };
 section.checks = checks;
 section.user_role = "GM";
@@ -37,6 +37,7 @@ dr.initialiseDiceRoller();
 dr.check({
   numberInGroup: 4,
   bonus: 1,
+  penalty: 0,
   target: 11,
   difficulty: 2
 });

@@ -1,10 +1,6 @@
 export class DiceRoller {
   constructor() {
-    this.resolutionType = "group";
-    this.resolution = "under";
-    this.diceType = "single";
     this.dice = 20;
-    this.bonuses = "diceNumber";
 
     // functions to be used - determined during initialisation
     this.$check;
@@ -20,14 +16,14 @@ export class DiceRoller {
     // dice type ('specific', 'sequence'):
     this.$roll = this.specificDie;
     // resolution style ('under', 'over'):
-    this.$resolve = this.resolveUnder;
+    this.$resolve = this.resolveOver;
     // bonuses/penalties ('diceNumber', 'rollValue', 'none'):
     this.$applyBonuses = this.onNumberOfDice;
   }
 
   check(details) {
     console.log(`---> check(${JSON.stringify(details)})`);
-    let numberInGroup = this.$applyBonuses(details.numberInGroup);
+    let numberInGroup = this.$applyBonuses(details.numberInGroup, details.bonus, details.penalty);
     console.log("numberInGroup after bonuses/penalties: " + numberInGroup);
     let rolls = this.$check(numberInGroup);
     console.log("rolls:", rolls);
@@ -76,9 +72,9 @@ export class DiceRoller {
   /////////////////////////////
   //   Bonuses & Penalties   //
   /////////////////////////////
-  onNumberOfDice(numberInGroup) {
-
-    return numberInGroup;
+  onNumberOfDice(numberInGroup, bonus, penalty) {
+    let num = numberInGroup + bonus - penalty;
+    return num > 0 ? num : 1;
   }
 
   ////////////////
