@@ -42,7 +42,7 @@ class ChecksSection extends HTMLElement {
   // set use_attribute_checks(value) { this.setAttribute("use_attribute_checks", value); }
 
   attributeChangedCallback(property, oldValue, newValue) {
-    // console.log(`attributeChangedCallback(${property}, ${oldValue}, ${newValue})`);
+    // console.log(`ChecksSection.attributeChangedCallback(${property}, ${oldValue}, ${newValue})`);
     if (oldValue === newValue) return;
     switch(property) {
       case "checks":
