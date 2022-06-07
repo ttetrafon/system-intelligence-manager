@@ -26,11 +26,7 @@ template.innerHTML = `
   type="gameSystem"
   target="gameSystem.$attributes.intro"
 ></text-editor>
-<div>
-  <attribute-item></attribute-item>
-  <attribute-item></attribute-item>
-  <attribute-item></attribute-item>
-</div>
+<div></div>
 `;
 
 class AttributesSection extends HTMLElement {
@@ -61,12 +57,26 @@ class AttributesSection extends HTMLElement {
     switch(property) {
       case "attributes":
         this.$intro.text = this.attributes.intro;
+        for (let i = 0; i < this.attributes.attributes.length; i++) {
+          let element = document.createElement("attribute-item");
+          element.names = this.names;
+          element.attribute_data = this.attributes.attributes[i];
+          this.$container.appendChild(element);
+        }
+        this.setUserRoles();
         break;
       case "user_role":
-        this.$intro.user_role = this.user_role;
+        this.setUserRoles();
         break;
     }
+  }
 
+  setUserRoles() {
+    if (this.user_role) {
+      for (let i = 0; i < this.$container.childElementCount; i++) {
+        this.$container.children[i].user_role = this.user_role;
+      }
+    }
   }
 
 }

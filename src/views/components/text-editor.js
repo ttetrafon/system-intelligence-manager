@@ -374,7 +374,7 @@ class TextEditor extends HTMLElement {
   set target(value) { this.setAttribute("target", value); }
 
   attributeChangedCallback(property, oldValue, newValue) {
-    // console.log(`attributeChangedCallback(${property}, ${oldValue}, ${newValue})`);
+    console.log(`TextEditor.attributeChangedCallback(${property}, ${oldValue}, ${newValue})`);
     if (oldValue === newValue) return;
     switch(property) {
       case "text":
@@ -403,6 +403,7 @@ class TextEditor extends HTMLElement {
   }
 
   async displayText() {
+    console.log(`---> displayText(${this.text})`);
     // first remove the old elements
     let old = this.$content.childNodes;
     for (let i = old.length - 1; i >= 0; i--) {

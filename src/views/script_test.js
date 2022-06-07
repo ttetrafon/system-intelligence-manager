@@ -14,6 +14,11 @@ main.addEventListener('valueChanged', event => {
   console.log("input value changed event captured:", event.detail);
 });
 
+const names = {
+  "3194d5e9-f8fe-4c05-a085-18e2efeb559c": "Might",
+  "180b2afa-eae3-4843-b03e-3a13b91aa67a": "Agility"
+};
+
 const dr = new DiceRoller();
 
 const article = document.querySelector("article");
@@ -46,6 +51,19 @@ article.classList.add("visible");
 
 const section = document.querySelector("attributes-section");
 section.user_role = "GM";
+section.names = names;
 section.attributes = {
-  intro: "An intro to attributes..."
+  intro: "An intro to attributes...",
+  attributes: [
+    {
+      uid: "3194d5e9-f8fe-4c05-a085-18e2efeb559c",
+      mod: "MIG",
+      description: "You are mighty!"
+    },
+    {
+      uid: "180b2afa-eae3-4843-b03e-3a13b91aa67a",
+      mod: "AGI",
+      description: "You are agile!"
+    }
+  ]
 };

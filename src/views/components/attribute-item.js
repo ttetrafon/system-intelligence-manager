@@ -2,33 +2,48 @@ const template = document.createElement('template');
 
 template.innerHTML = `
 <style>
-  div {
+  .att {
     width: 100%;
-    background-color: yellow;
-    padding: 4px;
+    padding: 5px;
     border-radius: 5px;
     box-shadow: 0px 0px 5px var(--colour_back_white);
     display: flex;
-    flex-flow: row nowrap;
-    align-items: stretch;
-    align-content: stretch;
-    gap: 1rem;
+    flex-flow: column nowrap;
+    gap: 0.1rem;
   }
 
-  .grown {
-    flex-grow: 1;
+  .line {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 0.2rem;
+    align-items: baseline;
+    font-weight: bold;
+  }
+
+  .name {
+    font-size: 1.2rem
+  }
+
+  .mod, .mod-text {
+    font-size: 1.1rem
+  }
+
+  .desc {
+    padding-left: 10px;
   }
 </style>
 
-<div>
-  <span>"handle"</span>
-  <span>num</span>
-  <span>Att Name</span>
-  <span>MOD</span>
-  <span class="grown">
-    <text-editor text="attribute's description"></text-editor>
-  </span>
+<div class="att">
+  <div class="line">
+    <span class="name">Name</span>
+    <span class="mod">(</span>
+    <span class="mod-text">MOD</span>
+    <span class="mod">)</span>
+  </div>
+  <text-editor class="desc"></text-editor>
 </div>
+
 `;
 
 class AttributeItem extends HTMLElement {
@@ -36,6 +51,11 @@ class AttributeItem extends HTMLElement {
     super();
     this._shadow = this.attachShadow({ mode: 'closed' });
     this._shadow.appendChild(template.content.cloneNode(true));
+
+    this.$description = this._shadow.querySelector(".desc");
+    console.log(this.$description);
+    this.$name = this._shadow.querySelector(".name");
+    this.$mod = this._shadow.querySelector(".mod-text");
   }
 
   static get observedAttributes() {
@@ -51,12 +71,15 @@ class AttributeItem extends HTMLElement {
   set names(value) { this.setAttribute("names", JSON.stringify(value)); }
 
   attributeChangedCallback(property, oldValue, newValue) {
-    // console.log(`AttributeItem.attributeChangedCallback(${property}, ${oldValue}, ${newValue})`);
+    console.log(`AttributeItem.attributeChangedCallback(${property}, ${oldValue}, ${newValue})`);
     if (oldValue === newValue) return;
     switch(property) {
       case "attribute_data":
+        this.$mod.textContent = this.attribute_data.mod;
+        this.$description.text = this.attribute_data.description; // FIXME: Does not trigger the text update!
         break;
       case "user_role":
+        this.$description.user_role = this.user_role;
         break;
     }
   }
