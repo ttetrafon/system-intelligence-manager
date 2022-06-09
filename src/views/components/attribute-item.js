@@ -6,7 +6,7 @@ template.innerHTML = `
     width: 100%;
     padding: 5px;
     border-radius: 5px;
-    box-shadow: 0px 0px 5px var(--colour_back_white);
+    box-shadow: var(--box_shadow_light);
     display: flex;
     flex-flow: column nowrap;
     gap: 0.1rem;
@@ -22,11 +22,16 @@ template.innerHTML = `
   }
 
   .name {
-    font-size: 1.2rem
+    font-size: 1.2rem;
   }
 
   .mod, .mod-text {
-    font-size: 1.1rem
+    font-size: 1.1rem;
+  }
+
+  .name, .mod-text {
+    color: var(--colour_attribute);
+    text-shadow: var(--title_shadow);
   }
 
   text-editor {
@@ -37,9 +42,9 @@ template.innerHTML = `
 <div class="att">
   <div class="line">
     <span class="name">Name</span>
-    <span class="mod">(</span>
+    <span class="mod">[</span>
     <span class="mod-text">MOD</span>
-    <span class="mod">)</span>
+    <span class="mod">]</span>
   </div>
   <text-editor
     type="type?"
@@ -77,14 +82,23 @@ class AttributeItem extends HTMLElement {
     switch(property) {
       case "attribute_data":
         this.$mod.textContent = this.attribute_data.mod;
+        this.updateName();
         this.$description.type = "attribute-description";
         this.$description.text = this.attribute_data.description;
       case "user_role":
         this.$description.user_role = this.user_role;
         break;
+      case "names":
+        this.updateName();
+        break;
     }
   }
 
+  updateName() {
+    if (this.names && this.attribute_data) {
+      this.$name.textContent = this.names[this.attribute_data.uid];
+    }
+  }
 }
 
 window.customElements.define('attribute-item', AttributeItem);

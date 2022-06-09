@@ -14,6 +14,11 @@
   --colour_back_dark: #23272a;
   --colour_controls: #ff3c00;
 
+  --colour_attribute: #eebc1a;
+
+  --title_shadow: 1px 1px 3px var(--colour_text_dark);
+  --box_shadow_light: 0px 0px 5px var(--colour_back_white);
+
   --header_height: 0px;
   --footer_height: 20px;
   --nav_bar_width: 55px;
