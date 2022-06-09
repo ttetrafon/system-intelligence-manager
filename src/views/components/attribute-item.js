@@ -3,6 +3,7 @@ const template = document.createElement('template');
 template.innerHTML = `
 <style>
   .att {
+    position: relative;
     width: 100%;
     padding: 5px;
     border-radius: 5px;
@@ -14,6 +15,7 @@ template.innerHTML = `
 
   .line {
     width: 100%;
+    padding-left: 20px;
     display: flex;
     flex-flow: row nowrap;
     gap: 0.2rem;
@@ -37,9 +39,18 @@ template.innerHTML = `
   text-editor {
     padding-left: 10px;
   }
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    cursor: move;
+  }
 </style>
 
 <div class="att">
+  <img src="./UI/buttons/List 2.png">
   <div class="line">
     <span class="name">Name</span>
     <span class="mod">[</span>
@@ -62,19 +73,22 @@ class AttributeItem extends HTMLElement {
     this.$description = this._shadow.querySelector("text-editor");
     this.$name = this._shadow.querySelector(".name");
     this.$mod = this._shadow.querySelector(".mod-text");
+    this.$sorter = this._shadow.querySelector("img");
   }
 
   static get observedAttributes() {
-    return [ "attribute_data", "user_role", "names" ];
+    return [ "attribute_data", "user_role", "names", "index" ];
   }
 
   get attribute_data() { return JSON.parse(this.getAttribute("attribute_data")); }
   get user_role() { return this.getAttribute("user_role"); }
   get names() { return JSON.parse(this.getAttribute("names")); }
+  get index() { return this.getAttribute("index"); }
 
   set attribute_data(value) { this.setAttribute("attribute_data", JSON.stringify(value)); }
   set user_role(value) { this.setAttribute("user_role", value); }
   set names(value) { this.setAttribute("names", JSON.stringify(value)); }
+  set index(value) { this.setAttribute("index", value); }
 
   attributeChangedCallback(property, oldValue, newValue) {
     // console.log(`AttributeItem.attributeChangedCallback(property: ${property}, oldValue: ${oldValue}, newValue: ${newValue})`);
@@ -87,10 +101,47 @@ class AttributeItem extends HTMLElement {
         this.$description.text = this.attribute_data.description;
       case "user_role":
         this.$description.user_role = this.user_role;
+        this.defineDragEvents();
         break;
       case "names":
         this.updateName();
         break;
+    }
+  }
+
+  defineDragEvents() {
+    // console.log(`---> defineDragEvents(${this.user_role})`);
+    if (!this.user_role) return;
+    if (this.user_role == "GM") {
+      this.$sorter.style.display = "inherited";
+      this.$sorter.addEventListener("dragstart", () => {
+        this.dispatchEvent(
+          new CustomEvent('setDraggable', {
+            bubbles: true,
+            composed: true,
+            detail: {
+              index: this.index
+            }
+          })
+        );
+      });
+      this.$sorter.addEventListener("dragend", () => {
+        console.log("... dragend");
+        this.dispatchEvent(
+          new CustomEvent('unsetDraggable', {
+            bubbles: true,
+            composed: true,
+            detail: {
+              index: this.index
+            }
+          })
+        );
+      });
+    }
+    else {
+      this.$sorter.style.display = "none";
+      this.$sorter.removeEventListener("dragstart");
+      this.$sorter.removeEventListener("dragend");
     }
   }
 

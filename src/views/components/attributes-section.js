@@ -16,6 +16,10 @@ template.innerHTML = `
   attribute-item {
     width: 100%;
   }
+
+  .dragging {
+    opacity: 0.5;
+  }
 </style>
 
 <h1>Attributes</h1>
@@ -34,6 +38,24 @@ class AttributesSection extends HTMLElement {
 
     this.$intro = this._shadow.getElementById("intro");
     this.$container = this._shadow.querySelector("div");
+
+    this.$container.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      let afterElement = this.getDragAfterElement(e.clientY);
+      console.log(afterElement);
+      let draggable = document.querySelector(".dragging");
+      console.log(draggable);
+      // if (afterElement) this.$container.insertBefore(draggable, afterElement);
+      // else this.$container.appendChild(draggable);
+    });
+    this.$container.addEventListener("setDraggable", ({detail}) => {
+      console.log(`... got 'setDraggable' event: ${JSON.stringify(detail)}`);
+      this.$container.children[detail.index].classList.add("dragging");
+    });
+    this.$container.addEventListener("unsetDraggable", ({detail}) => {
+      console.log(`... got 'unsetDraggable' event: ${JSON.stringify(detail)}`);
+      this.$container.children[detail.index].classList.remove("dragging");
+    });
   }
 
   static get observedAttributes() {
@@ -57,6 +79,8 @@ class AttributesSection extends HTMLElement {
         for (let i = 0; i < this.attributes.attributes.length; i++) {
           let element = document.createElement("attribute-item");
           this.$container.appendChild(element);
+          element.classList.add(".draggable");
+          element.index = i;
           element.names = this.names;
           element.attribute_data = this.attributes.attributes[i];
         }
@@ -76,6 +100,15 @@ class AttributesSection extends HTMLElement {
     }
   }
 
+  getDragAfterElement(y) {
+    const elements = [...this.$container.querySelectorAll(".draggable:not(.dragging)")];
+    return elements.reduce((closest, child) => {
+      const box = child.getBoundingClientRect();
+      const offset = y - box.top - box.height / 2;
+      if (offset < 0 && offset > closest.offset) return { offset: offset, element: child };
+      else return closest;
+    }, { offset: Number.NEGATIVE_INFINITY }).element;
+  }
 }
 
 window.customElements.define('attributes-section', AttributesSection);
