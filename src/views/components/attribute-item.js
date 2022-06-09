@@ -29,7 +29,7 @@ template.innerHTML = `
     font-size: 1.1rem
   }
 
-  .desc {
+  text-editor {
     padding-left: 10px;
   }
 </style>
@@ -41,9 +41,11 @@ template.innerHTML = `
     <span class="mod-text">MOD</span>
     <span class="mod">)</span>
   </div>
-  <text-editor class="desc"></text-editor>
+  <text-editor
+    type="type?"
+    target="target?"
+  ></text-editor>
 </div>
-
 `;
 
 class AttributeItem extends HTMLElement {
@@ -52,8 +54,7 @@ class AttributeItem extends HTMLElement {
     this._shadow = this.attachShadow({ mode: 'closed' });
     this._shadow.appendChild(template.content.cloneNode(true));
 
-    this.$description = this._shadow.querySelector(".desc");
-    console.log(this.$description);
+    this.$description = this._shadow.querySelector("text-editor");
     this.$name = this._shadow.querySelector(".name");
     this.$mod = this._shadow.querySelector(".mod-text");
   }
@@ -71,18 +72,19 @@ class AttributeItem extends HTMLElement {
   set names(value) { this.setAttribute("names", JSON.stringify(value)); }
 
   attributeChangedCallback(property, oldValue, newValue) {
-    console.log(`AttributeItem.attributeChangedCallback(${property}, ${oldValue}, ${newValue})`);
+    // console.log(`AttributeItem.attributeChangedCallback(property: ${property}, oldValue: ${oldValue}, newValue: ${newValue})`);
     if (oldValue === newValue) return;
     switch(property) {
       case "attribute_data":
         this.$mod.textContent = this.attribute_data.mod;
-        this.$description.text = this.attribute_data.description; // FIXME: Does not trigger the text update!
-        break;
+        this.$description.type = "attribute-description";
+        this.$description.text = this.attribute_data.description;
       case "user_role":
         this.$description.user_role = this.user_role;
         break;
     }
   }
+
 }
 
 window.customElements.define('attribute-item', AttributeItem);

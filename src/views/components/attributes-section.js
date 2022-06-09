@@ -52,16 +52,16 @@ class AttributesSection extends HTMLElement {
   set names(value) { this.setAttribute("names", JSON.stringify(value)); }
 
   attributeChangedCallback(property, oldValue, newValue) {
-    // console.log(`AttributesSection.attributeChangedCallback(${property}, ${oldValue}, ${newValue})`);
+    // console.log(`AttributesSection.attributeChangedCallback(property: ${property}, oldValue: ${oldValue}, newValue: ${newValue})`);
     if (oldValue === newValue) return;
     switch(property) {
       case "attributes":
         this.$intro.text = this.attributes.intro;
         for (let i = 0; i < this.attributes.attributes.length; i++) {
           let element = document.createElement("attribute-item");
+          this.$container.appendChild(element);
           element.names = this.names;
           element.attribute_data = this.attributes.attributes[i];
-          this.$container.appendChild(element);
         }
         this.setUserRoles();
         break;
