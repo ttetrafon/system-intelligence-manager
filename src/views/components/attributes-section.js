@@ -5,11 +5,8 @@ template.innerHTML = `
   @import "./styles/headers.css";
 
   div {
-    border: 1px solid black;
     border-radius: 10px;
-    box-shadow: 2px 2px 1px var(--colour_back_white);
     margin-top: 15px;
-    padding: 15px;
     display: flex;
     flex-flow: column nowrap;
     align-items: flex-start;
