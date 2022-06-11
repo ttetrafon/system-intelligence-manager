@@ -4,13 +4,13 @@ template.innerHTML = `
 <style>
   @import "./styles/headers.css";
 
-  div {
+  .attributes-container {
     border-radius: 10px;
     margin-top: 15px;
     display: flex;
     flex-flow: column nowrap;
     align-items: flex-start;
-    gap: 10px;
+    gap: 15px;
   }
 
   attribute-item {
@@ -27,7 +27,13 @@ template.innerHTML = `
   type="gameSystem"
   target="gameSystem.$attributes.intro"
 ></text-editor>
-<div></div>
+<div class="attributes-container"></div>
+
+<div class="settings">
+  <h4>Attribute Settings</h4>
+  <p>Define here the order the attributes appear in the creature sheet, by dragging and dropping them around.</p>
+  <div "order-container"></div>
+</div>
 `;
 
 class AttributesSection extends HTMLElement {
@@ -37,7 +43,9 @@ class AttributesSection extends HTMLElement {
     this._shadow.appendChild(template.content.cloneNode(true));
 
     this.$intro = this._shadow.getElementById("intro");
-    this.$container = this._shadow.querySelector("div");
+    this.$attributesContainer = this._shadow.querySelector(".attributes-container");
+    this.$settings = this._shadow.querySelector(".settings");
+    this.$orderContainer = this._shadow.querySelector(".order-container");
   }
 
   static get observedAttributes() {
@@ -58,12 +66,12 @@ class AttributesSection extends HTMLElement {
     switch(property) {
       case "attributes":
         this.$intro.text = this.attributes.intro;
-        while(this.$container.lastChild) {
-          this.$container.removeChild(this.$container.lastChild);
+        while(this.$attributesContainer.lastChild) {
+          this.$attributesContainer.removeChild(this.$attributesContainer.lastChild);
         }
         for (let i = 0; i < this.attributes.attributes.length; i++) {
           let element = document.createElement("attribute-item");
-          this.$container.appendChild(element);
+          this.$attributesContainer.appendChild(element);
           element.index = i;
           element.names = this.names;
           element.attribute_data = this.attributes.attributes[i];
@@ -71,6 +79,7 @@ class AttributesSection extends HTMLElement {
         this.setUserRoles();
         break;
       case "user_role":
+        this.$settings.style.display = (this.user_role === "GM") ? "block" : "none";
         this.setUserRoles();
         break;
     }
@@ -78,14 +87,14 @@ class AttributesSection extends HTMLElement {
 
   setUserRoles() {
     if (this.user_role) {
-      for (let i = 0; i < this.$container.childElementCount; i++) {
-        this.$container.children[i].user_role = this.user_role;
+      for (let i = 0; i < this.$attributesContainer.childElementCount; i++) {
+        this.$attributesContainer.children[i].user_role = this.user_role;
       }
     }
   }
 
   getDragAfterElement(y) {
-    let elements = [...this.$container.querySelectorAll(".draggable:not(.dragging)")];
+    let elements = [...this.$attributesContainer.querySelectorAll(".draggable:not(.dragging)")];
     console.log("- elements:", elements);
     return elements.reduce((closest, child) => {
       console.log("... closest:", closest);
