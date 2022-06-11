@@ -58,6 +58,9 @@ class AttributesSection extends HTMLElement {
     switch(property) {
       case "attributes":
         this.$intro.text = this.attributes.intro;
+        while(this.$container.lastChild) {
+          this.$container.removeChild(this.$container.lastChild);
+        }
         for (let i = 0; i < this.attributes.attributes.length; i++) {
           let element = document.createElement("attribute-item");
           this.$container.appendChild(element);

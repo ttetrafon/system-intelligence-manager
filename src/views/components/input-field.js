@@ -104,6 +104,12 @@ class InputField extends HTMLElement {
     this.$cancel.addEventListener('click', _ => {
       this.$input.value = this.text;
       this.hideButtons();
+      this.dispatchEvent(
+        new CustomEvent('inputFieldCancel', {
+          bubbles: true,
+          composed: true
+        })
+      );
     });
   }
 

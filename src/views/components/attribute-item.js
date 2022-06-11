@@ -38,14 +38,13 @@ template.innerHTML = `
   text-editor {
     padding-left: 10px;
   }
-
 </style>
 
 <div class="att">
   <div class="line">
-    <span class="name">Name</span>
+    <editable-field class="name" type="name" placeholder="Attribute Name"></editable-field>
     <span class="mod">[</span>
-    <span class="mod-text">MOD</span>
+    <editable-field class="mod-text" type="attribute" placeholder="Attribute Mod"></editable-field>
     <span class="mod">]</span>
   </div>
   <text-editor
@@ -85,12 +84,15 @@ class AttributeItem extends HTMLElement {
     if (oldValue === newValue) return;
     switch(property) {
       case "attribute_data":
-        this.$mod.textContent = this.attribute_data.mod;
         this.updateName();
+        this.$mod.text = this.attribute_data.mod;
+        this.$mod.target = "attribute." + this.attribute_data.uid + ".mod";
         this.$description.type = "attribute-description";
         this.$description.text = this.attribute_data.description;
       case "user_role":
         this.$description.user_role = this.user_role;
+        this.$name.user_role = this.user_role;
+        this.$mod.user_role = this.user_role;
         break;
       case "names":
         this.updateName();
@@ -100,7 +102,8 @@ class AttributeItem extends HTMLElement {
 
   updateName() {
     if (this.names && this.attribute_data) {
-      this.$name.textContent = this.names[this.attribute_data.uid];
+      this.$name.text = this.names[this.attribute_data.uid];
+      this.$name.target = "names." + this.attribute_data.uid;
     }
   }
 }

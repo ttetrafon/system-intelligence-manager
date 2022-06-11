@@ -2,6 +2,7 @@ import './components/attribute-item.js';
 import './components/attributes-section.js';
 import './components/checks-section.js';
 import './components/checks-subsection.js';
+import './components/editable-field.js';
 import './components/input-field.js';
 import './components/input-selector.js';
 import './components/text-editor.js';
