@@ -2,7 +2,7 @@ const template = document.createElement('template');
 
 template.innerHTML = `
 <style>
-div {
+  div {
     margin: 0;
     padding: 0;
     position: relative;
@@ -79,12 +79,8 @@ class InputField extends HTMLElement {
 
     this.$input.addEventListener('keyup', ({target}) => {
       let newValue = target.value;
-      if (newValue !== this.text) {
-        this.showButtons();
-      }
-      else {
-        this.hideButtons();
-      }
+      if (newValue !== this.text) this.showButtons();
+      else this.hideButtons();
     });
     this.$confirm.addEventListener('click', _ => {
       this.dispatchEvent(
@@ -135,6 +131,7 @@ class InputField extends HTMLElement {
         break;
       case "text":
         this.$input.value = this.text;
+        break;
     }
   }
 
