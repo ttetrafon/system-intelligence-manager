@@ -8,13 +8,14 @@
   --colour_text_light: #f5f5f5;
   --colour_text_medium: #505050;
   --colour_text_dark: #0f0000e5;
+
+  --colour_attribute: #eebc1a;
+
   --colour_back_white: #f5f5f5;
   --colour_back_light: #a1a1a1;
   --colour_back_medium: #2c2f33;
   --colour_back_dark: #23272a;
   --colour_controls: #ff3c00;
-
-  --colour_attribute: #eebc1a;
 
   --title_shadow: 1px 1px 3px var(--colour_text_dark);
   --box_shadow_light: 0px 0px 5px var(--colour_back_white);

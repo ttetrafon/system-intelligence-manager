@@ -17,8 +17,28 @@ template.innerHTML = `
     width: 100%;
   }
 
+  .order-container {
+    width: 12rem;
+    background-color: var(--colour_back_dark);
+    padding: 0.5rem;
+    margin-top: 1rem;
+    margin-left: 2rem;
+    border-radius: 10px;
+  }
+
+  .draggable {
+    text-align: center;
+    margin: 0.5rem;
+    padding: 0.5rem;
+    background-color: var(--colour_back_light);
+    border: 1px solid black;
+    cursor: move;
+    border-radius: 10px;
+  }
+
   .dragging {
     opacity: 0.5;
+    background-color: yellow;
   }
 </style>
 
@@ -32,7 +52,7 @@ template.innerHTML = `
 <div class="settings">
   <h4>Attribute Settings</h4>
   <p>Define here the order the attributes appear in the creature sheet, by dragging and dropping them around.</p>
-  <div "order-container"></div>
+  <div class="order-container"></div>
 </div>
 `;
 
@@ -46,6 +66,14 @@ class AttributesSection extends HTMLElement {
     this.$attributesContainer = this._shadow.querySelector(".attributes-container");
     this.$settings = this._shadow.querySelector(".settings");
     this.$orderContainer = this._shadow.querySelector(".order-container");
+
+    this.$orderContainer.addEventListener("dragover", e => {
+      e.preventDefault();
+      const afterElement = this.getDragAfterElement(e.clientY);
+      const draggable = this._shadow.querySelector(".dragging");
+      if (afterElement) this.$orderContainer.insertBefore(draggable, afterElement);
+      else this.$orderContainer.appendChild(draggable);
+    });
   }
 
   static get observedAttributes() {
@@ -69,12 +97,32 @@ class AttributesSection extends HTMLElement {
         while(this.$attributesContainer.lastChild) {
           this.$attributesContainer.removeChild(this.$attributesContainer.lastChild);
         }
+        while(this.$orderContainer.lastChild) {
+          this.$attributesContainer.removeChild(this.$attributesContainer.lastChild);
+        }
         for (let i = 0; i < this.attributes.attributes.length; i++) {
+          // create the attribute elements
           let element = document.createElement("attribute-item");
           this.$attributesContainer.appendChild(element);
           element.index = i;
           element.names = this.names;
           element.attribute_data = this.attributes.attributes[i];
+          // create the attribute order elements
+          let order = document.createElement("div");
+          this.$orderContainer.appendChild(order);
+          order.classList.add("draggable");
+          order.textContent = this.attributes.attributes[i].mod;
+          order.setAttribute("id", this.attributes.attributes[i].uid);
+          order.setAttribute("draggable", true);
+          order.addEventListener("dragstart", _ => {
+            order.classList.add("dragging");
+          });
+          order.addEventListener("dragend", _ => {
+            order.classList.remove("dragging");
+            this.dispatchReorderEvent();
+            setTimeout(() => {
+            }, 500);
+          });
         }
         this.setUserRoles();
         break;
@@ -94,17 +142,37 @@ class AttributesSection extends HTMLElement {
   }
 
   getDragAfterElement(y) {
-    let elements = [...this.$attributesContainer.querySelectorAll(".draggable:not(.dragging)")];
-    console.log("- elements:", elements);
+    let elements = [...this.$orderContainer.querySelectorAll(".draggable:not(.dragging)")];
     return elements.reduce((closest, child) => {
-      console.log("... closest:", closest);
       let box = child.getBoundingClientRect();
-      console.log("... box", box);
       let offset = y - box.top - box.height / 2;
-      console.log("... offset", offset);
       if (offset < 0 && offset > closest.offset) return { offset: offset, element: child };
       else return closest;
     }, { offset: Number.NEGATIVE_INFINITY }).element;
+  }
+
+  dispatchReorderEvent() {
+    this.dispatchEvent(
+      new CustomEvent("valueChanged", {
+        bubbles: true,
+        composed: true,
+        detail: {
+          type: "attribute",
+          target: ["attribute", "order"],
+          value: this.getNewAttributeOrder()
+        }
+      })
+    );
+  }
+
+  getNewAttributeOrder() {
+    // console.log("---> getNewAttributeOrder()");
+    let newOrder = [];
+    for (let i = 0; i < this.$orderContainer.children.length; i++) {
+      newOrder.push(this.$orderContainer.children[i].textContent);
+    }
+    // console.log("newOrder:", newOrder);
+    return newOrder;
   }
 }
 
