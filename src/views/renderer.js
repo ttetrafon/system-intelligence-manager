@@ -72,7 +72,9 @@ window.main.receive('updateUser', (user) => {
 });
 
 window.main.receive('initialiseDictionaries', (dictionaries) => {
+  // console.log("---> 'initialiseDictionaries' event received", dictionaries);
   state.$names = dictionaries.names;
+  controls.setArticleData();
 });
 window.main.receive('updateDictionaries', (part, data) => {
   // console.log("---> 'updateDictionaries' event received", part, data);
@@ -84,6 +86,7 @@ window.main.receive('updateDictionaries', (part, data) => {
 window.main.receive('initialGameSystem', (gameSystemData) => {
   // console.log("---> 'initialGameSystem' event received", gameSystemData);
   state.$checks = gameSystemData.checks;
+  state.$attributes = gameSystemData.attributes;
   controls.setArticleData();
 });
 window.main.receive('updateGameSystem', (part, data) => {

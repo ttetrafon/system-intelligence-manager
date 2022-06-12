@@ -53,6 +53,10 @@ export class Controls {
   setArticleData() {
     let view = this.state.$user.currentView.view;
     switch(view) {
+      case 'attributes':
+        this.el[view + SECTION_SUFFIX].user_role = this.state.$user.userRole;
+        this.el[view + SECTION_SUFFIX].names = this.state.$names;
+        this.el[view + SECTION_SUFFIX].attributes = this.state.$attributes;
       case 'checks':
         this.el[view + SECTION_SUFFIX].user_role = this.state.$user.userRole;
         this.el[view + SECTION_SUFFIX].checks = this.state.$checks;
