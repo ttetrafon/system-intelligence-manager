@@ -3,6 +3,7 @@ const template = document.createElement('template');
 template.innerHTML = `
 <style>
   @import "./styles/headers.css";
+  @import "./styles/controls.css";
 
   .attributes-container {
     border-radius: 10px;
@@ -40,6 +41,11 @@ template.innerHTML = `
     opacity: 0.5;
     background-color: yellow;
   }
+
+  #new-attribute {
+    width: 13rem;
+    margin-left: 2rem;
+  }
 </style>
 
 <h1>Attributes</h1>
@@ -51,7 +57,9 @@ template.innerHTML = `
 
 <div class="settings">
   <h4>Attribute Settings</h4>
-  <p>Define here the order the attributes appear in the creature sheet, by dragging and dropping them around.</p>
+  <p>Create a new attribute and define its details on the attribute list above.</p>
+  <button id="new-attribute">Create New Attribute</button>
+  <p>Define the order attributes appear in the creature sheet by dragging and dropping them around.</p>
   <div class="order-container"></div>
 </div>
 `;
@@ -65,8 +73,39 @@ class AttributesSection extends HTMLElement {
     this.$intro = this._shadow.getElementById("intro");
     this.$attributesContainer = this._shadow.querySelector(".attributes-container");
     this.$settings = this._shadow.querySelector(".settings");
+    this.$newAttributeInput = this._shadow.getElementById("new-attribute");
     this.$orderContainer = this._shadow.querySelector(".order-container");
 
+    this.$newAttributeInput.addEventListener("click", _ => {
+      let newUid = "";
+      this.dispatchEvent(
+        new CustomEvent("valueChanged", {
+          bubbles: true,
+          composed: true,
+          detail: {
+            type: "attributes",
+            target: ["$attribute", "attributes", newUid],
+            value: {
+              mod: "MOD",
+              description: "Description"
+            }
+          }
+        })
+      );
+      console.log(this.attributes);
+      let order = [...this.attributes.order, newUid];
+      this.dispatchEvent(
+        new CustomEvent("valueChanged", {
+          bubbles: true,
+          composed: true,
+          detail: {
+            type: "attributes",
+            target: ["$attributes", "order"],
+            value: order
+          }
+        })
+      );
+    });
     this.$orderContainer.addEventListener("dragover", e => {
       e.preventDefault();
       const afterElement = this.getDragAfterElement(e.clientY);
@@ -157,8 +196,8 @@ class AttributesSection extends HTMLElement {
         bubbles: true,
         composed: true,
         detail: {
-          type: "attribute",
-          target: ["attribute", "order"],
+          type: "attributes",
+          target: ["$attributes", "order"],
           value: this.getNewAttributeOrder()
         }
       })
