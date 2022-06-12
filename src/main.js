@@ -71,6 +71,7 @@ const createWindow = () => {
     // win.webContents.send('test', 'This is a test message...');
     win.maximize();
     win.webContents.send('initialUser', store.user);
+    win.webContents.send('initialiseDictionaries', store.dictionaries);
     win.webContents.send('initialGameSystem', store.gameSystem);
     // console.log('windows:', windows);
   });

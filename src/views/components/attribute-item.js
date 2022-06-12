@@ -83,10 +83,10 @@ class AttributeItem extends HTMLElement {
       case "attribute_data":
         this.updateName();
         this.$mod.text = this.attribute_data.mod;
-        this.$mod.target = "$attributes." + this.uid + ".mod";
+        this.$mod.target = "$attributes.attributes." + this.uid + ".mod";
         this.$description.text = this.attribute_data.description;
         this.$description.type = "attribute-description";
-        this.$description.target = "$attributes." + this.uid + ".description";
+        this.$description.target = "$attributes.attributes." + this.uid + ".description";
       case "user_role":
         this.$description.user_role = this.user_role;
         this.$name.user_role = this.user_role;

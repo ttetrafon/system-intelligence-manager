@@ -16,6 +16,9 @@ export class State {
       activeGame: 'YADTS'
     };
 
+    // Dictionaries
+    this.$names = {};
+
     // Game System data
     this.$checks = {
       intro: "..."

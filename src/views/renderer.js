@@ -71,6 +71,16 @@ window.main.receive('updateUser', (user) => {
   controls.setArticleData();
 });
 
+window.main.receive('initialiseDictionaries', (dictionaries) => {
+  state.$names = dictionaries.names;
+});
+window.main.receive('updateDictionaries', (part, data) => {
+  // console.log("---> 'updateDictionaries' event received", part, data);
+  if (JSON.stringify(state["$" + part]) == JSON.stringify(data)) return;
+  state["$" + part] = data;
+  controls.setArticleData();
+});
+
 window.main.receive('initialGameSystem', (gameSystemData) => {
   // console.log("---> 'initialGameSystem' event received", gameSystemData);
   state.$checks = gameSystemData.checks;

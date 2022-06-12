@@ -10,8 +10,6 @@ contextBridge.exposeInMainWorld('main', {
   updateUser: (user) => ipcRenderer.send('updateUser', user),
   // main sends to renderers...
   receive: (channel, func) => {
-    // let validChannels = ['test', 'initialUser'];
-    // if (validChannels.includes(channel))
     ipcRenderer.on(channel, (event, ...args) => func(...args));
   }
 });

@@ -169,7 +169,7 @@ class AttributesSection extends HTMLElement {
     // console.log("---> getNewAttributeOrder()");
     let newOrder = [];
     for (let i = 0; i < this.$orderContainer.children.length; i++) {
-      newOrder.push(this.$orderContainer.children[i].textContent);
+      newOrder.push(this.$orderContainer.children[i].id);
     }
     // console.log("newOrder:", newOrder);
     return newOrder;
