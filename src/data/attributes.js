@@ -5,7 +5,7 @@ class Attributes {
     this.order = []
   }
 
-  initialiseAttributes(obj) {
+  initialise(obj) {
     if (obj["intro"]) this.intro = obj["intro"];
     if (obj["attributes"] && (typeof obj["attributes"] == 'object')) this.attributes = obj["attributes"];
     if (obj["order"]) this.order = obj["order"];

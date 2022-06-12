@@ -9,7 +9,7 @@ class Checks {
     this.secondaryDescription = "Introduction on how the secondary resolution system works.";
   }
 
-  initialiseChecks(obj) {
+  initialise(obj) {
     // console.log(`---> initialiseChecks(${JSON.stringify(obj)})`);
     if (obj["intro"]) this.intro = obj["intro"];
     if (obj["mainUsed"]) this.mainUsed = obj["mainUsed"];

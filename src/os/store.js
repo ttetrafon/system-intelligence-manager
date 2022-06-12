@@ -27,7 +27,8 @@ class Store {
       names: {}
     };
     self.gameSystem = {
-      checks: null
+      checks: null,
+      attributes: null
     };
 
     self.initialPreparation();
@@ -57,22 +58,19 @@ class Store {
   loadGameSystem() {
     self.fs.folderStructureStepTwo(self.user.activeGame);
 
-    let checksFile = path.join(self.fs.paths.gameSystem, files.checks);
-    let checksData = self.fs.readJsonFile(checksFile);
-    self.gameSystem.checks = new Checks();
-    if (checksData == null) self.fs.saveJsonFile(checksFile, self.gameSystem.checks);
-    else self.gameSystem.checks.initialiseChecks(checksData);
-    // console.log("... initialised checks:", self.gameSystem.checks);
-    self.storeHash("checks", self.gameSystem.checks);
-    self.logger.log(null, script, "checks:", self.gameSystem.checks);
+    this.loadGameSystemDataFromFile(files.checks, Checks, "checks");
+    this.loadGameSystemDataFromFile(files.attributes, Attributes, "attributes");
+  }
 
-    let attributesFile = path.join(self.fs.paths.gameSystem, files.attributes);
-    let attributesData = self.fs.readJsonFile(attributesFile);
-    self.gameSystem.attributes = new Attributes();
-    if (attributesData == null) self.fs.saveJsonFile(attributesFile, self.gameSystem.attributes);
-    else self.gameSystem.attributes.initialiseAttributes(attributesData);
-    self.storeHash("attributes", self.gameSystem.attributes);
-    self.logger.log(null, script, "attributes:", self.gameSystem.attributes);
+  loadGameSystemDataFromFile(filename, dataObject, part) {
+    // console.log(`---> loadGameSystemDataFromFile(${filename}, ${dataObject}, ${part})`);
+    let file = path.join(self.fs.paths.gameSystem, filename);
+    let data = self.fs.readJsonFile(file);
+    self.gameSystem[part] = new dataObject();
+    if (data == null) self.fs.saveJsonFile(file, self.gameSystem[part]);
+    else self.gameSystem[part].initialise(data);
+    self.storeHash(part, self.gameSystem[part]);
+    self.logger.log(null, script, part + ":", self.gameSystem[part]);
   }
 
   async storeHash(name, value) {
