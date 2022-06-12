@@ -1,5 +1,6 @@
 // All the game data in one place.
 const path = require('path');
+const Attributes = require('../data/attributes');
 const Checks = require('../data/checks');
 const User = require('../data/user');
 
@@ -64,6 +65,14 @@ class Store {
     // console.log("... initialised checks:", self.gameSystem.checks);
     self.storeHash("checks", self.gameSystem.checks);
     self.logger.log(null, script, "checks:", self.gameSystem.checks);
+
+    let attributesFile = path.join(self.fs.paths.gameSystem, files.attributes);
+    let attributesData = self.fs.readJsonFile(attributesFile);
+    self.gameSystem.attributes = new Attributes();
+    if (attributesData == null) self.fs.saveJsonFile(attributesFile, self.gameSystem.attributes);
+    else self.gameSystem.attributes.initialiseAttributes(attributesData);
+    self.storeHash("attributes", self.gameSystem.attributes);
+    self.logger.log(null, script, "attributes:", self.gameSystem.attributes);
   }
 
   async storeHash(name, value) {
@@ -103,7 +112,6 @@ class Store {
       // TODO: send data to all windows
     }
   }
-
 };
 
 module.exports = Store;

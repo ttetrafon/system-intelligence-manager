@@ -19,7 +19,12 @@ export class State {
     // Game System data
     this.$checks = {
       intro: "..."
-    }
+    };
+    this.$attributes = {
+      intro: "...",
+      attributes: {},
+      order: []
+    };
 
     // Entities data
   }

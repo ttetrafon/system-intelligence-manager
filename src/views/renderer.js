@@ -1,6 +1,9 @@
 const script = "renderer.js";
+import './components/attribute-item.js';
+import './components/attributes-section.js';
 import './components/checks-section.js';
 import './components/checks-subsection.js';
+import './components/editable-field.js';
 import './components/input-field.js';
 import './components/input-selector.js';
 import './components/nav-tab.js';
@@ -8,6 +11,7 @@ import './components/text-editor.js';
 import './components/text-editor-button.js';
 import './components/user-section.js';
 import './components/view-tab.js';
+import './diceRoller.js';
 
 import { Controls } from './controls.js';
 import { ids } from './ids.js';
