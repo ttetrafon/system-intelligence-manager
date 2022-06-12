@@ -32,17 +32,20 @@ section.user_role = "GM";
 section.names = names;
 section.attributes = {
   intro: "An intro to attributes...",
-  attributes: [
-    {
-      uid: "3194d5e9-f8fe-4c05-a085-18e2efeb559c",
+  attributes: {
+    "3194d5e9-f8fe-4c05-a085-18e2efeb559c": {
       mod: "MIG",
       description: "You are mighty!"
     },
-    {
-      uid: "180b2afa-eae3-4843-b03e-3a13b91aa67a",
+    "180b2afa-eae3-4843-b03e-3a13b91aa67a": {
       mod: "AGI",
       description: "You are agile!"
+
     }
+  },
+  order: [
+    "3194d5e9-f8fe-4c05-a085-18e2efeb559c",
+    "180b2afa-eae3-4843-b03e-3a13b91aa67a"
   ]
 };
 

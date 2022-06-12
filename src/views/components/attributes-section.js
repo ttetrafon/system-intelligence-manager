@@ -94,25 +94,27 @@ class AttributesSection extends HTMLElement {
     switch(property) {
       case "attributes":
         this.$intro.text = this.attributes.intro;
+        // empty the containers
         while(this.$attributesContainer.lastChild) {
           this.$attributesContainer.removeChild(this.$attributesContainer.lastChild);
         }
         while(this.$orderContainer.lastChild) {
           this.$attributesContainer.removeChild(this.$attributesContainer.lastChild);
         }
-        for (let i = 0; i < this.attributes.attributes.length; i++) {
+        for (let i = 0; i < this.attributes.order.length; i++) {
+          let uid = this.attributes.order[i];
           // create the attribute elements
           let element = document.createElement("attribute-item");
           this.$attributesContainer.appendChild(element);
-          element.index = i;
+          element.uid = uid;
           element.names = this.names;
-          element.attribute_data = this.attributes.attributes[i];
+          element.attribute_data = this.attributes.attributes[uid];
           // create the attribute order elements
           let order = document.createElement("div");
           this.$orderContainer.appendChild(order);
           order.classList.add("draggable");
-          order.textContent = this.attributes.attributes[i].mod;
-          order.setAttribute("id", this.attributes.attributes[i].uid);
+          order.textContent = this.attributes.attributes[uid].mod;
+          order.setAttribute("id", this.uid);
           order.setAttribute("draggable", true);
           order.addEventListener("dragstart", _ => {
             order.classList.add("dragging");
@@ -120,8 +122,6 @@ class AttributesSection extends HTMLElement {
           order.addEventListener("dragend", _ => {
             order.classList.remove("dragging");
             this.dispatchReorderEvent();
-            setTimeout(() => {
-            }, 500);
           });
         }
         this.setUserRoles();

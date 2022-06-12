@@ -47,10 +47,7 @@ template.innerHTML = `
     <editable-field class="mod-text" type="attribute" placeholder="Attribute Mod"></editable-field>
     <span class="mod">]</span>
   </div>
-  <text-editor
-    type="type?"
-    target="target?"
-  ></text-editor>
+  <text-editor></text-editor>
 </div>
 `;
 
@@ -66,18 +63,18 @@ class AttributeItem extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return [ "attribute_data", "user_role", "names", "index" ];
+    return [ "uid", "attribute_data", "user_role", "names" ];
   }
 
   get attribute_data() { return JSON.parse(this.getAttribute("attribute_data")); }
   get user_role() { return this.getAttribute("user_role"); }
   get names() { return JSON.parse(this.getAttribute("names")); }
-  get index() { return this.getAttribute("index"); }
+  get uid() { return this.getAttribute("uid"); }
 
   set attribute_data(value) { this.setAttribute("attribute_data", JSON.stringify(value)); }
   set user_role(value) { this.setAttribute("user_role", value); }
   set names(value) { this.setAttribute("names", JSON.stringify(value)); }
-  set index(value) { this.setAttribute("index", value); }
+  set uid(value) { this.setAttribute("uid", value); }
 
   attributeChangedCallback(property, oldValue, newValue) {
     // console.log(`AttributeItem.attributeChangedCallback(property: ${property}, oldValue: ${oldValue}, newValue: ${newValue})`);
@@ -86,24 +83,26 @@ class AttributeItem extends HTMLElement {
       case "attribute_data":
         this.updateName();
         this.$mod.text = this.attribute_data.mod;
-        this.$mod.target = "attribute." + this.attribute_data.uid + ".mod";
-        this.$description.type = "attribute-description";
+        this.$mod.target = "$attributes." + this.uid + ".mod";
         this.$description.text = this.attribute_data.description;
+        this.$description.type = "attribute-description";
+        this.$description.target = "$attributes." + this.uid + ".description";
       case "user_role":
         this.$description.user_role = this.user_role;
         this.$name.user_role = this.user_role;
         this.$mod.user_role = this.user_role;
         break;
       case "names":
+      case "uid":
         this.updateName();
         break;
     }
   }
 
   updateName() {
-    if (this.names && this.attribute_data) {
-      this.$name.text = this.names[this.attribute_data.uid];
-      this.$name.target = "names." + this.attribute_data.uid;
+    if (this.names && this.attribute_data && this.uid) {
+      this.$name.text = this.names[this.uid];
+      this.$name.target = "names." + this.uid;
     }
   }
 }

@@ -57,7 +57,6 @@ class Store {
 
   loadGameSystem() {
     self.fs.folderStructureStepTwo(self.user.activeGame);
-
     this.loadGameSystemDataFromFile(files.checks, Checks, "checks");
     this.loadGameSystemDataFromFile(files.attributes, Attributes, "attributes");
   }
