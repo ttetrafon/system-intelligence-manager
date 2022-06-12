@@ -45,7 +45,8 @@ const controls = new Controls(state, el);
 document.addEventListener('registerElements', event => { Object.assign(el, event.detail); });
 // ... tabs and views
 el['gameSystem-tab'].views = {
-  'checks': new ViewTabData("checks", "Checks", "./UI/buttons/Dice 1.png")
+  'checks': new ViewTabData("checks", "Checks", "./UI/buttons/Dice 1.png"),
+  'attributes': new ViewTabData("attributes", "Attributes", "./UI/buttons/Equalizer 2.png")
 };
 el['settings-tab'].views = {
   user: new ViewTabData("user", "User", "./UI/buttons/User 1.png")

@@ -15,10 +15,12 @@ export const ids = {
     "world-tab"
   ],
   articles: [
+    "attributes-article",
     "checks-article",
     "user-article"
   ],
   sections: [
+    "attributes-section",
     "checks-section",
     "user-section"
   ]
