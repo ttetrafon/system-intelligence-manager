@@ -17,6 +17,10 @@ const main = document.querySelector("main");
 main.addEventListener('valueChanged', event => {
   console.log("input value changed event captured:", event.detail);
 });
+main.addEventListener('valueDeleted', event => {
+  console.log("input value deleted event captured:", event.detail);
+});
+
 
 const names = {
   "3194d5e9-f8fe-4c05-a085-18e2efeb559c": "Might",

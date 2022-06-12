@@ -17,6 +17,8 @@
   --colour_back_dark: #23272a;
   --colour_controls: #ff3c00;
 
+  --size_control_button_normal: 1.25rem;
+
   --title_shadow: 1px 1px 3px var(--colour_text_dark);
   --box_shadow_light: 0px 0px 5px var(--colour_back_white);
 

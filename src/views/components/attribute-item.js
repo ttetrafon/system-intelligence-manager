@@ -38,9 +38,19 @@ template.innerHTML = `
   text-editor {
     padding-left: 10px;
   }
+
+  img {
+    position: absolute;
+    width: var(--size_control_button_normal);
+    height: var(--size_control_button_normal);
+    top: 3px;
+    right: 3px;
+    cursor: pointer;
+  }
 </style>
 
 <div class="att">
+  <img src="./UI/buttons/Trash 1.png"/>
   <div class="line">
     <editable-field class="name" type="name" placeholder="Attribute Name"></editable-field>
     <span class="mod">[</span>
@@ -60,6 +70,20 @@ class AttributeItem extends HTMLElement {
     this.$description = this._shadow.querySelector("text-editor");
     this.$name = this._shadow.querySelector(".name");
     this.$mod = this._shadow.querySelector(".mod-text");
+    this.$delete = this._shadow.querySelector("img");
+
+    this.$delete.addEventListener('click', _ => {
+      this.dispatchEvent(
+        new CustomEvent("valueDeleted", {
+          bubbles: true,
+          composed: true,
+          detail: {
+            type: "gameSystem",
+            target: ["$attributes", "attributes", this.uid]
+          }
+        })
+      );
+    });
   }
 
   static get observedAttributes() {
