@@ -82,11 +82,24 @@ export class Controls {
     this.setArticleData();
   }
 
+  valueDeleted(details) {
+    switch(details.type) {
+      case "gameSystem":
+        this.handleGameSystemDeletion(details);
+        break;
+    }
+  }
+
   handleGameSystemUpdated(details) {
     // console.log(`---> handleGameSystemUpdated(${JSON.stringify(details)})`);
-    this.updateObjectProperty(this.state[details.target[1]], details.target.slice(2), details.value);
-    // console.log("... $checks:", this.state.$checks);
-    window.main.updateGameSystem("checks", this.state.$checks);
+
+    this.emitGameSystemChangeEvent(details);
+  }
+
+  handleGameSystemDeletion(details) {
+    // console.log(`---> handleGameSystemDeletion(${JSON.stringify(details)})`);
+    this.removeObjectProperty(this.state.$user, details.target.slice(1), details.value);
+    this.emitGameSystemChangeEvent(details);
   }
 
   handleUserUpdated(details) {
@@ -101,6 +114,12 @@ export class Controls {
     window.main.setTitle();
   }
 
+  emitGameSystemChangeEvent(details) {
+    // TODO: Only update what changed depending on the details!
+    window.main.updateGameSystem("checks", this.state.$checks);
+    window.main.updateGameSystem("checks", this.state.$attributes);
+  }
+
 
   getObjectProperty(obj, prop) {
     if (prop.length == 0) return obj;
@@ -109,6 +128,11 @@ export class Controls {
   updateObjectProperty(obj, prop, value) {
     // console.log("---> updateObjectProperty(obj, prop, value)", obj, prop, value);
     if (prop.length == 1) obj[prop] = value;
+    else return this.updateObjectProperty(obj[prop.shift()], prop, value);
+  }
+  removeObjectProperty(obj, prop, value) {
+    // console.log("---> removeObjectProperty(obj, prop, value)", obj, prop, value);
+    if (prop.length == 1) delete obj[prop];
     else return this.updateObjectProperty(obj[prop.shift()], prop, value);
   }
 }

@@ -56,6 +56,7 @@ el['settings-tab'].views = {
 // Set the interface controls.
 el['nav'].addEventListener("onTabSelected", event => { controls.setView(event.detail); });
 el['main'].addEventListener("valueChanged", event => { controls.valueChanged(event.detail) });
+el['main'].addEventListener("valueDeleted", event => { controls.valueDeleted(event.detail) });
 
 window.main.receive('initialUser', (user) => {
   // console.log('... initialUser', user);
