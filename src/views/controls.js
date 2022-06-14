@@ -92,14 +92,16 @@ export class Controls {
 
   handleGameSystemUpdated(details) {
     // console.log(`---> handleGameSystemUpdated(${JSON.stringify(details)})`);
-
-    this.emitGameSystemChangeEvent(details);
+    let eventTarget = details.target.shift();
+    this.updateObjectProperty(this.state.$user, details.target, details.value);
+    window.main.updateGameSystem(target, data);(eventTarget.substring(1), this[eventTarget]);
   }
 
   handleGameSystemDeletion(details) {
     // console.log(`---> handleGameSystemDeletion(${JSON.stringify(details)})`);
-    this.removeObjectProperty(this.state.$user, details.target.slice(1), details.value);
-    this.emitGameSystemChangeEvent(details);
+    let eventTarget = details.target.shift();
+    this.removeObjectProperty(this.state.$user, details.target, details.value);
+    window.main.updateGameSystem(target, data);(eventTarget.substring(1), this[eventTarget]);
   }
 
   handleUserUpdated(details) {
@@ -112,12 +114,6 @@ export class Controls {
     // console.log(this.state.$user);
     window.main.updateUser(this.state.$user);
     window.main.setTitle();
-  }
-
-  emitGameSystemChangeEvent(details) {
-    // TODO: Only update what changed depending on the details!
-    window.main.updateGameSystem("checks", this.state.$checks);
-    window.main.updateGameSystem("checks", this.state.$attributes);
   }
 
 
