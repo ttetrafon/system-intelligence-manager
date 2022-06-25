@@ -76,15 +76,26 @@ class AttributesSection extends HTMLElement {
     this.$newAttributeInput = this._shadow.getElementById("new-attribute");
     this.$orderContainer = this._shadow.querySelector(".order-container");
 
-    this.$newAttributeInput.addEventListener("click", async function() {
+    this.$newAttributeInput.addEventListener("click", async () => {
       let newUid = await window.main.generateUid();
       this.dispatchEvent(
         new CustomEvent("valueChanged", {
           bubbles: true,
           composed: true,
           detail: {
+            type: "dictionary",
+            target: [ "$names", newUid ],
+            value: "Attribute Name"
+          }
+        })
+      )
+      this.dispatchEvent(
+        new CustomEvent("valueChanged", {
+          bubbles: true,
+          composed: true,
+          detail: {
             type: "gameSystem",
-            target: ["gameSystem", "$attributes", "attributes", newUid],
+            target: ["$attributes", "attributes", newUid],
             value: {
               mod: "MOD",
               description: "Description"
@@ -92,14 +103,15 @@ class AttributesSection extends HTMLElement {
           }
         })
       );
-      let order = [...this.attributes.order, newUid];
+      let ol = this.attributeData.order.length;
+      let order = (ol > 0) ? [...this.attributes.order, newUid] : [ newUid ];
       this.dispatchEvent(
         new CustomEvent("valueChanged", {
           bubbles: true,
           composed: true,
           detail: {
             type: "gameSystem",
-            target: ["gameSystem", "$attributes", "order"],
+            target: ["$attributes", "order"],
             value: order
           }
         })
@@ -115,23 +127,24 @@ class AttributesSection extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return [ "attributes", "user_role", "names" ];
+    return [ "attributeData", "user_role", "names" ];
   }
 
-  get attributes() { return JSON.parse(this.getAttribute("attributes")); }
+  get attributeData() { return JSON.parse(this.getAttribute("attributeData")); }
   get user_role() { return this.getAttribute("user_role"); }
   get names() { return JSON.parse(this.getAttribute("names")); }
 
-  set attributes(value) { this.setAttribute("attributes", JSON.stringify(value)); }
+  set attributeData(value) { this.setAttribute("attributeData", JSON.stringify(value)); }
   set user_role(value) { this.setAttribute("user_role", value); }
   set names(value) { this.setAttribute("names", JSON.stringify(value)); }
 
   attributeChangedCallback(property, oldValue, newValue) {
-    // console.log(`AttributesSection.attributeChangedCallback(property: ${property}, oldValue: ${oldValue}, newValue: ${newValue})`);
+    // console.log(`AttributesSection.attributeChangedCallback(property: ${property}, oldValue: ${oldValue}, newValue: ${JSON.stringify(newValue)})`);
     if (oldValue === newValue) return;
     switch(property) {
-      case "attributes":
-        this.$intro.text = this.attributes.intro;
+      case "attributeData":
+        // console.log("... attributeData", this.attributeData);
+        this.$intro.text = this.attributeData.intro;
         // empty the containers
         while(this.$attributesContainer.lastChild) {
           this.$attributesContainer.removeChild(this.$attributesContainer.lastChild);
@@ -139,19 +152,19 @@ class AttributesSection extends HTMLElement {
         while(this.$orderContainer.lastChild) {
           this.$attributesContainer.removeChild(this.$attributesContainer.lastChild);
         }
-        for (let i = 0; i < this.attributes.order.length; i++) {
-          let uid = this.attributes.order[i];
+        for (let i = 0; i < this.attributeData.order.length; i++) {
+          let uid = this.attributeData.order[i];
           // create the attribute elements
           let element = document.createElement("attribute-item");
           this.$attributesContainer.appendChild(element);
           element.uid = uid;
           element.names = this.names;
-          element.attribute_data = this.attributes.attributes[uid];
+          element.attribute_data = this.attributeData.attributes[uid];
           // create the attribute order elements
           let order = document.createElement("div");
           this.$orderContainer.appendChild(order);
           order.classList.add("draggable");
-          order.textContent = this.attributes.attributes[uid].mod;
+          order.textContent = this.attributeData.attributes[uid].mod;
           order.setAttribute("id", this.uid);
           order.setAttribute("draggable", true);
           order.addEventListener("dragstart", _ => {
@@ -163,6 +176,7 @@ class AttributesSection extends HTMLElement {
           });
         }
         this.setUserRoles();
+        this.setNewAttributeEvent();
         break;
       case "user_role":
         this.$settings.style.display = (this.user_role === "GM") ? "block" : "none";
@@ -196,7 +210,7 @@ class AttributesSection extends HTMLElement {
         composed: true,
         detail: {
           type: "gameSystem",
-          target: ["gameSystem", "$attributes", "order"],
+          target: ["$attributes", "order"],
           value: this.getNewAttributeOrder()
         }
       })

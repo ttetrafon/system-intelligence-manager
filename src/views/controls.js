@@ -27,7 +27,7 @@ export class Controls {
   }
 
   setView(view) {
-    // if (view.view === this.state?.$user?.currentView?.view) return;
+    if (view.view === this.state?.$user?.currentView?.view) return;
 
     // first hide the currently open view and unselect the current tabs
     if (this.state.$user?.currentView?.view) {
@@ -49,17 +49,15 @@ export class Controls {
     this.el[this.state.$user.currentView.view].selected = 'selected';
   }
 
-
   setArticleData() {
-    console.log("---> setArticleData()");
+    // console.log("---> setArticleData()");
     let view = this.state.$user.currentView.view;
     switch(view) {
       case 'attributes':
-        console.log("attributes...");
         this.el[view + SECTION_SUFFIX].user_role = this.state.$user.userRole;
         this.el[view + SECTION_SUFFIX].names = this.state.$names;
-        console.log((view + SECTION_SUFFIX), this.state.$attributes);
-        this.el[view + SECTION_SUFFIX].attributes = this.state.$attributes;
+        // console.log((view + SECTION_SUFFIX), this.state.$attributes);
+        this.el[view + SECTION_SUFFIX].attributeData = this.state.$attributes;
       case 'checks':
         this.el[view + SECTION_SUFFIX].user_role = this.state.$user.userRole;
         this.el[view + SECTION_SUFFIX].checks = this.state.$checks;
@@ -73,11 +71,14 @@ export class Controls {
   valueChanged(details) {
     // console.log(`---> valueChanged(${JSON.stringify(details)})`);
     switch(details.type) {
-      case "user":
-        this.handleUserUpdated(details);
+      case "dictionary":
+        this.handleDictionaryUpdated(details);
         break;
       case "gameSystem":
         this.handleGameSystemUpdated(details);
+        break;
+      case "user":
+        this.handleUserUpdated(details);
         break;
       default:
         window.main.log(script, `valueChanged(${JSON.stringify(details)}): not handled`);
@@ -86,7 +87,7 @@ export class Controls {
   }
 
   valueDeleted(details) {
-    console.log(`---> valueDeleted(${JSON.stringify(details)})`);
+    // console.log(`---> valueDeleted(${JSON.stringify(details)})`);
     switch(details.type) {
       case "gameSystem":
         this.handleGameSystemDeletion(details);
@@ -94,16 +95,23 @@ export class Controls {
     }
   }
 
+  handleDictionaryUpdated(details) {
+    console.log(`---> handleDictionaryUpdated(${JSON.stringify(details)})`);
+    let eventTarget = details.target.shift();
+    this.updateObjectProperty(this.state[eventTarget], details.target, details.value);
+    window.main.updateDictionary(eventTarget.substring(1), this.state[eventTarget]);
+  }
+
   handleGameSystemUpdated(details) {
     // console.log(`---> handleGameSystemUpdated(${JSON.stringify(details)})`);
-    let eventTarget = details.target[1];
+    let eventTarget = details.target.shift();
     this.updateObjectProperty(this.state[eventTarget], details.target, details.value);
     window.main.updateGameSystem(eventTarget.substring(1), this.state[eventTarget]);
   }
 
   handleGameSystemDeletion(details) {
     console.log(`---> handleGameSystemDeletion(${JSON.stringify(details)})`);
-    let eventTarget = details.target[1];
+    let eventTarget = details.target.shift();
     this.updateObjectProperty(this.state[eventTarget], details.target, details.value);
     window.main.updateGameSystem(eventTarget.substring(1), this.state[eventTarget]);
   }

@@ -52,7 +52,7 @@ template.innerHTML = `
 <div class="att">
   <img src="./UI/buttons/Trash 1.png"/>
   <div class="line">
-    <editable-field class="name" type="name" placeholder="Attribute Name"></editable-field>
+    <editable-field class="name" type="dictionary" placeholder="Attribute Name"></editable-field>
     <span class="mod">[</span>
     <editable-field class="mod-text" type="gameSystem" placeholder="Attribute Mod"></editable-field>
     <span class="mod">]</span>
@@ -79,7 +79,7 @@ class AttributeItem extends HTMLElement {
           composed: true,
           detail: {
             type: "gameSystem",
-            target: ["gameSystem", "$attributes", "attributes", this.uid]
+            target: ["$attributes", "attributes", this.uid]
           }
         })
       );
@@ -126,7 +126,7 @@ class AttributeItem extends HTMLElement {
   updateName() {
     if (this.names && this.attribute_data && this.uid) {
       this.$name.text = this.names[this.uid];
-      this.$name.target = "names." + this.uid;
+      this.$name.target = "$names." + this.uid;
     }
   }
 }

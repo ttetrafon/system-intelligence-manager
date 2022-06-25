@@ -79,7 +79,7 @@ class ChecksSubSection extends HTMLElement {
           composed: true,
           detail: {
             type: "checks",
-            target: ["gameSystem", "$checks", this.id + "Used"],
+            target: ["$checks", this.id + "Used"],
             value: target.checked
           }
         })
@@ -93,7 +93,7 @@ class ChecksSubSection extends HTMLElement {
           composed: true,
           detail: {
             type: "checks",
-            target: ["gameSystem", "$checks", this.id + "Resolution"],
+            target: ["$checks", this.id + "Resolution"],
             value: target.value
           }
         })
@@ -106,7 +106,7 @@ class ChecksSubSection extends HTMLElement {
           composed: true,
           detail: {
             type: "checks",
-            target: ["gameSystem", "$checks", this.id + "BonusesOn"],
+            target: ["$checks", this.id + "BonusesOn"],
             value: target.value
           }
         })

@@ -92,7 +92,7 @@ window.main.receive('initialGameSystem', (gameSystemData) => {
 });
 window.main.receive('updateGameSystem', (part, data) => {
   console.log("---> 'updateGameSystem' event received", part, data);
-  // if (JSON.stringify(state["$" + part]) == JSON.stringify(data)) return;
+  if (JSON.stringify(state["$" + part]) == JSON.stringify(data)) return;
   state["$" + part] = data;
   controls.setArticleData();
 });

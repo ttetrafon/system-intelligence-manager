@@ -5,6 +5,7 @@ contextBridge.exposeInMainWorld('main', {
   log: (...args) => ipcRenderer.send('log', ...args),
   openLink: (url) => ipcRenderer.send('open-link', url),
   setTitle: (_) => ipcRenderer.send('set-title', _),
+  updateDictionary: (part, data) => ipcRenderer.send('updateDictionary', part, data),
   updateGameSystem: (part, data) => ipcRenderer.send('updateGameSystem', part, data),
   updateUser: (user) => ipcRenderer.send('updateUser', user),
   // ... and main responds

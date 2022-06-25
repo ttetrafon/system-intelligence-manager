@@ -77,6 +77,18 @@ class Store {
     self.hashes[name] = GenerateHash(value);
   }
 
+  async updateDictionary(_, part, data) {
+    console.log(`---> updateDictionary(${part}, ${JSON.stringify(data)})`);
+    // check the hash first, and abort if nothing has changed
+    let hash = GenerateHash(data);
+    if (self.hashes[part] == hash) return;
+    self.dictionaries[part] = data;
+    self.hashes[part] = hash;
+    self.fs.saveJsonFile(path.join(self.fs.paths.dictionaries, part + ".json"), data);
+    // ... and notify all open windows of the info
+    self.notifyOpenWindows('updateDictionaries', part, data);
+  }
+
   async updateGameSystem(_, part, data) {
     console.log(`---> updateGameSystem(${part}, ${JSON.stringify(data)})`);
     // check the hash first, and abort if nothing has changed
