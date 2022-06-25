@@ -3,7 +3,7 @@ const isDev = (process.env.NODE_ENV == 'dev');
 
 const { on } = require('events');
 const { palette } = require('./data/colours');
-const { IdGenerator } = require('./data/helper');
+const { IdGenerator, GetUid } = require('./data/helper');
 const path = require('path');
 const Config = require('./os/config');
 const FileSystem = require('./os/file-system');
@@ -110,6 +110,7 @@ const handleError = (message) => {
 
 app.whenReady().then(() => {
   ipcMain.handle('dialog:openFile', fs.handleFileOpen);
+  ipcMain.handle('generate-uid', GetUid);
   ipcMain.on('log', logger.log);
   ipcMain.on('open-link', createLinkWindow);
   ipcMain.on('set-title', menu.handleSetTitle);

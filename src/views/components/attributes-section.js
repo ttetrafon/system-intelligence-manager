@@ -76,15 +76,15 @@ class AttributesSection extends HTMLElement {
     this.$newAttributeInput = this._shadow.getElementById("new-attribute");
     this.$orderContainer = this._shadow.querySelector(".order-container");
 
-    this.$newAttributeInput.addEventListener("click", _ => {
-      let newUid = "";
+    this.$newAttributeInput.addEventListener("click", async function() {
+      let newUid = await window.main.generateUid();
       this.dispatchEvent(
         new CustomEvent("valueChanged", {
           bubbles: true,
           composed: true,
           detail: {
-            type: "attributes",
-            target: ["$attribute", "attributes", newUid],
+            type: "gameSystem",
+            target: ["gameSystem", "$attributes", "attributes", newUid],
             value: {
               mod: "MOD",
               description: "Description"
@@ -92,15 +92,14 @@ class AttributesSection extends HTMLElement {
           }
         })
       );
-      console.log(this.attributes);
       let order = [...this.attributes.order, newUid];
       this.dispatchEvent(
         new CustomEvent("valueChanged", {
           bubbles: true,
           composed: true,
           detail: {
-            type: "attributes",
-            target: ["$attributes", "order"],
+            type: "gameSystem",
+            target: ["gameSystem", "$attributes", "order"],
             value: order
           }
         })
@@ -196,8 +195,8 @@ class AttributesSection extends HTMLElement {
         bubbles: true,
         composed: true,
         detail: {
-          type: "attributes",
-          target: ["$attributes", "order"],
+          type: "gameSystem",
+          target: ["gameSystem", "$attributes", "order"],
           value: this.getNewAttributeOrder()
         }
       })

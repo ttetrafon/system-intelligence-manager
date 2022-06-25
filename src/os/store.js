@@ -78,7 +78,7 @@ class Store {
   }
 
   async updateGameSystem(_, part, data) {
-    // console.log(`---> updateGameSystem(_, ${part}, ${JSON.stringify(data)})`);
+    console.log(`---> updateGameSystem(${part}, ${JSON.stringify(data)})`);
     // check the hash first, and abort if nothing has changed
     let hash = GenerateHash(data);
     if (self.hashes[part] == hash) return;

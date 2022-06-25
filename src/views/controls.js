@@ -51,11 +51,14 @@ export class Controls {
 
 
   setArticleData() {
+    console.log("---> setArticleData()");
     let view = this.state.$user.currentView.view;
     switch(view) {
       case 'attributes':
+        console.log("attributes...");
         this.el[view + SECTION_SUFFIX].user_role = this.state.$user.userRole;
         this.el[view + SECTION_SUFFIX].names = this.state.$names;
+        console.log((view + SECTION_SUFFIX), this.state.$attributes);
         this.el[view + SECTION_SUFFIX].attributes = this.state.$attributes;
       case 'checks':
         this.el[view + SECTION_SUFFIX].user_role = this.state.$user.userRole;
@@ -67,8 +70,8 @@ export class Controls {
     }
   }
 
-
   valueChanged(details) {
+    // console.log(`---> valueChanged(${JSON.stringify(details)})`);
     switch(details.type) {
       case "user":
         this.handleUserUpdated(details);
@@ -83,6 +86,7 @@ export class Controls {
   }
 
   valueDeleted(details) {
+    console.log(`---> valueDeleted(${JSON.stringify(details)})`);
     switch(details.type) {
       case "gameSystem":
         this.handleGameSystemDeletion(details);
@@ -92,16 +96,16 @@ export class Controls {
 
   handleGameSystemUpdated(details) {
     // console.log(`---> handleGameSystemUpdated(${JSON.stringify(details)})`);
-    let eventTarget = details.target.shift();
-    this.updateObjectProperty(this.state.$user, details.target, details.value);
-    window.main.updateGameSystem(target, data);(eventTarget.substring(1), this[eventTarget]);
+    let eventTarget = details.target[1];
+    this.updateObjectProperty(this.state[eventTarget], details.target, details.value);
+    window.main.updateGameSystem(eventTarget.substring(1), this.state[eventTarget]);
   }
 
   handleGameSystemDeletion(details) {
-    // console.log(`---> handleGameSystemDeletion(${JSON.stringify(details)})`);
-    let eventTarget = details.target.shift();
-    this.removeObjectProperty(this.state.$user, details.target, details.value);
-    window.main.updateGameSystem(target, data);(eventTarget.substring(1), this[eventTarget]);
+    console.log(`---> handleGameSystemDeletion(${JSON.stringify(details)})`);
+    let eventTarget = details.target[1];
+    this.updateObjectProperty(this.state[eventTarget], details.target, details.value);
+    window.main.updateGameSystem(eventTarget.substring(1), this.state[eventTarget]);
   }
 
   handleUserUpdated(details) {
@@ -119,12 +123,26 @@ export class Controls {
 
   getObjectProperty(obj, prop) {
     if (prop.length == 0) return obj;
-    else return this.getObjectProperty(obj[prop.shift()], prop);
+    else {
+      let tt = prop[0];
+      if (!obj[tt]) {
+        obj[tt] = {};
+      }
+      return this.getObjectProperty(obj[prop.shift()], prop);
+    }
   }
   updateObjectProperty(obj, prop, value) {
     // console.log("---> updateObjectProperty(obj, prop, value)", obj, prop, value);
     if (prop.length == 1) obj[prop] = value;
-    else return this.updateObjectProperty(obj[prop.shift()], prop, value);
+    else {
+      // First check if the current path within the object already exists.
+      let tt = prop[0];
+      if (!obj[tt]) {
+        obj[tt] = {};
+      }
+      // Then move one step forward on the path.
+      return this.updateObjectProperty(obj[prop.shift()], prop, value);
+    }
   }
   removeObjectProperty(obj, prop, value) {
     // console.log("---> removeObjectProperty(obj, prop, value)", obj, prop, value);

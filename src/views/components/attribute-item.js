@@ -54,7 +54,7 @@ template.innerHTML = `
   <div class="line">
     <editable-field class="name" type="name" placeholder="Attribute Name"></editable-field>
     <span class="mod">[</span>
-    <editable-field class="mod-text" type="attribute" placeholder="Attribute Mod"></editable-field>
+    <editable-field class="mod-text" type="gameSystem" placeholder="Attribute Mod"></editable-field>
     <span class="mod">]</span>
   </div>
   <text-editor></text-editor>
@@ -79,7 +79,7 @@ class AttributeItem extends HTMLElement {
           composed: true,
           detail: {
             type: "gameSystem",
-            target: ["$attributes", "attributes", this.uid]
+            target: ["gameSystem", "$attributes", "attributes", this.uid]
           }
         })
       );
