@@ -1,4 +1,6 @@
 class User {
+  // Collection of user details and configuration options.
+
   constructor() {
     this.userName = "username";
     this.userRole = "GM";

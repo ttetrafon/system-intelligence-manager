@@ -1,4 +1,5 @@
 // A collection of helper functions to be used by everything else.
+// Since these cannot be used by the renderer, events (two-way) need to be used instead.
 const uuid = require('uuid'); // https://www.npmjs.com/package/uuid
 
 // Hash (MD5)

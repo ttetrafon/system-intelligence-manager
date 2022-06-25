@@ -1,4 +1,6 @@
 class Attributes {
+  // Game System -> Attributes
+
   constructor() {
     this.intro = "An introduction on how attributes work.",
     this.attributes = {},

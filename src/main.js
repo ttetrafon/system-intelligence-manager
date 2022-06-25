@@ -12,11 +12,19 @@ const MenuCreator = require('./os/menu');
 const Server = require('./os/server');
 const Store = require('./os/store');
 
+// Creates unique ids for normal application windows. These windows are stored for reference in an object, with the ids as keys.
+// A normal application window has all functionality available.
 const winIdGenerator = IdGenerator('win', 100);
 const windows = {};
+// Creates unique ids for link windows. These windows are stored for reference in an object, with the ids as keys.
+// A link window displays a website. Functionality is limited, and communication with the main process is restricted.
 const linkIdGenerator = IdGenerator('link', 100);
 const links = {};
+
 function notifyOpenWindows(channel, ...args) {
+  // Sends a specific message to all open application windows.
+  // - channel: The channel used. The channel is used to select what function will be invoked within the renderer.
+  // - args: A list of the required arguments to satisfy the target function.
   // console.log("---> notifyOpenWindows()", channel, ...args);
   Object.keys(windows).forEach(win => {
     windows[win].webContents.send(channel, ...args);
@@ -34,6 +42,7 @@ const menu = new MenuCreator(logger, config, store);
 logger.log(null, script, "Started!");
 
 const createWindow = () => {
+  // Creates a normal application window.
   const win = new BrowserWindow({
     show: false,
     width: 1024,
@@ -43,10 +52,9 @@ const createWindow = () => {
     backgroundColor: palette["background-light"],
     titleBarStyle: 'hiddenInset',
     webPreferences: {
-      contextIsolation: true,
-      preload: path.join(__dirname, 'os/preload.js')
+      contextIsolation: true, // Required to restrict communication between main process and renderer. Only predetermined routes and channels are allowed.
+      preload: path.join(__dirname, 'os/preload.js') // Creates a link between the main process and the renderer.
     },
-    // icon: path.join(__dirname, 'resources/Unmarked Die.jpg')
     icon: path.join(__dirname, 'os/resources/img/Notepad 1.png')
   });
 
@@ -60,16 +68,20 @@ const createWindow = () => {
   windows[id.value] = win;
 
   win.once('closed', () => {
+    // Performs actions before the specific renderer window is terminated.
     // console.log(`... closing window ${id.value}`);
     delete windows[id.value];
     // console.log(windows);
   });
 
   win.once('ready-to-show', () => {
+    // Displays the window that has been just created.
     win.show();
     if (isDev) win.webContents.openDevTools();
     // win.webContents.send('test', 'This is a test message...');
     win.maximize();
+
+    // Startup events are triggered once when the window has just been created.
     win.webContents.send('initialUser', store.user);
     win.webContents.send('initialiseDictionaries', store.dictionaries);
     win.webContents.send('initialGameSystem', store.gameSystem);
@@ -78,7 +90,8 @@ const createWindow = () => {
 }
 
 const createLinkWindow = (event, url) => {
-  logger.log(null, script, "---> createLinkWindow()", url);
+  // Creates a link window.
+  // logger.log(null, script, "---> createLinkWindow()", url);
   const link = new BrowserWindow({
     show: false,
     width: 800,
@@ -109,8 +122,12 @@ const handleError = (message) => {
 };
 
 app.whenReady().then(() => {
+  // Listeners for events that sent from open renderers of any type.
+  // Routes must be specified within the appropriate preload file.
+  // .handle creates returns a promise to the trigger (two-way event route).
   ipcMain.handle('dialog:openFile', fs.handleFileOpen);
-  ipcMain.handle('generate-uid', GetUid);
+  ipcMain.handle('generate-uid', GetUid); // TODO: First check if the uid exists in the names dictionary and return it if not. If it exists, create a new one instead.
+  // .on creates a simple trigger for when an event is received.
   ipcMain.on('log', logger.log);
   ipcMain.on('open-link', createLinkWindow);
   ipcMain.on('set-title', menu.handleSetTitle);
@@ -125,5 +142,7 @@ app.whenReady().then(() => {
 });
 
 app.on('window-all-closed', () => {
+  // TODO: Set the system up so that the displayed windows are stored instead of saved immediately in the user.json.
+  // TODO: When the application terminates, store these to be opened when it starts again.
   if (process.platform !== 'darwin') app.quit();
 });

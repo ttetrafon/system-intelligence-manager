@@ -11,6 +11,8 @@ var self;
 const script = path.parse(__filename).base;
 
 class Store {
+  // Holds the active state of the main process, and provides functionality around it.
+
   constructor(logger, config, fileSystem, notifyOpenWindows) {
     self = this;
     self.logger = logger;
@@ -19,9 +21,10 @@ class Store {
     self.notifyOpenWindows = notifyOpenWindows;
     self.logger.log(null, script, "Started!");
 
-    // store hashes to control saving/sending over the network
+    // Store hashes to control saving/sending over the network, as well as limiting saving data on the disk without the need to do so.
     self.hashes = {};
 
+    // Objects that hold all information required by the application and the selected game.
     self.user = null;
     self.dictionaries = {
       names: {}
@@ -31,12 +34,14 @@ class Store {
       attributes: null
     };
 
+    // Load all required data from the disk during startup.
     self.initialPreparation();
     self.loadDictionaries();
     self.loadGameSystem();
   }
 
   initialPreparation() {
+    // Loads all common data required for normal operation.
     let userFile = path.join(self.fs.paths.saveFolder, files.user);
     let data = self.fs.readJsonFile(userFile);
     self.user = new User();
@@ -47,6 +52,7 @@ class Store {
   }
 
   loadDictionaries() {
+    // Loads all dictionaries, which are common between different games.
     let namesDict = path.join(self.fs.paths.dictionaries, files.dictionaryNames);
     let namesData = self.fs.readJsonFile(namesDict);
     if (namesData == null) self.fs.saveJsonFile(namesDict, self.dictionaries.names);
@@ -56,12 +62,15 @@ class Store {
   }
 
   loadGameSystem() {
+    // Loads all game system relevant information.
     self.fs.folderStructureStepTwo(self.user.activeGame);
     this.loadGameSystemDataFromFile(files.checks, Checks, "checks");
     this.loadGameSystemDataFromFile(files.attributes, Attributes, "attributes");
   }
 
   loadGameSystemDataFromFile(filename, dataObject, part) {
+    // Loads game system data from a specific file.
+    // If the file does not exist, the data are initialised with default values and the file is saved with these.
     // console.log(`---> loadGameSystemDataFromFile(${filename}, ${dataObject}, ${part})`);
     let file = path.join(self.fs.paths.gameSystem, filename);
     let data = self.fs.readJsonFile(file);
@@ -73,6 +82,9 @@ class Store {
   }
 
   async storeHash(name, value) {
+    // Stores a specific object's hash under the object's name.
+    // - name: The name with which the object is known in the store.
+    // - value: The hash value.
     // console.log(`---> storeHash(${name}, ${JSON.stringify(value)})`);
     self.hashes[name] = GenerateHash(value);
   }

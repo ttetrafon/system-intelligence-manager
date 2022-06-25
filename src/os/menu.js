@@ -6,6 +6,8 @@ var self;
 const script = path.parse(__filename).base;
 
 class MenuCreator {
+  // Application bar options and functionality.
+
   constructor(logger, config, store) {
     self = this;
     self.logger = logger;
@@ -15,6 +17,8 @@ class MenuCreator {
   }
 
   createAppMenu(functions) {
+    // Defines the application menu lists and options.
+    // - functions: Object containing callback functions to be used by the menu controls.
     self.logger.log(null, script, "---> createAppMenu()");
     self.logger.log(null, script, "functions:", functions);
     let menuTemplate = [
@@ -124,6 +128,7 @@ class MenuCreator {
   }
 
   getContextMenu() {
+    // Defines the context menu to be used within the application.
     // let contextTemplate = [
     //   {
     //     label: 'Options',
@@ -147,6 +152,9 @@ class MenuCreator {
   }
 
   handleSetTitle (event, _) {
+    // Changes the title of the window that invoked the event.
+    // The title describes the current view in the window, plus some additional user information.
+    // All relevant information can be retrieved from the Store.
     // console.log("---> handleSetTitle()");
     // Updates the title of the window based on what one is looking on.
     // Template: YADTS Manager / user [role] / {game} category: view

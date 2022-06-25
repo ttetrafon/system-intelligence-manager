@@ -6,6 +6,12 @@ var self;
 const script = path.parse(__filename).base;
 
 class Logger {
+  // Logging functionality to be used by the whole system.
+  // (1) Logs directly in the console.
+  // TODO: (2) Logs in a log file.
+  // TODO: (3) Logs in normal application windows.
+  // TODO: Supports info (console.log), warning (console.warn), and error (console.error) logging.
+
   constructor() {
     self = this;
     self.log(null, script, "Started!");
@@ -14,8 +20,6 @@ class Logger {
   log(_, ...args) {
     let script = args.shift();
     console.log(`[${script}]`, ...args);
-    // TODO: add an extra argument for log level (or create different functions) and log stuff depending on the log level selected by the user.
-    // TODO: log events in a file also
   }
 
 }

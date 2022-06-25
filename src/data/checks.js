@@ -1,4 +1,6 @@
 class Checks {
+  // Game System -> checks
+
   constructor() {
     this.intro = "Introduction on how checks work in the game.";
     this.mainUsed = true;
