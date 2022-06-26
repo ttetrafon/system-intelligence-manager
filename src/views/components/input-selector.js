@@ -1,3 +1,5 @@
+// A reusable dropdown selector, with its accompanying controls.
+
 const template = document.createElement('template');
 
 template.innerHTML = `
@@ -88,6 +90,7 @@ class InputSelector extends HTMLElement {
       }
     });
     this.$confirm.addEventListener('click', _ => {
+      // When a change is confirmed, notify the root.
       this.dispatchEvent(
         new CustomEvent('valueChanged', {
           bubbles: true,
@@ -103,6 +106,7 @@ class InputSelector extends HTMLElement {
       this.hideButtons();
     });
     this.$cancel.addEventListener('click', _ => {
+      // If the change is cancelled, revert the change and hide the controls.
       this.$selector.value = this.options.selected;
       this.hideButtons();
     });

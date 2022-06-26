@@ -1,3 +1,5 @@
+// A markup text-editor used to update text in place.
+
 const template = document.createElement('template');
 
 template.innerHTML = `
@@ -140,6 +142,7 @@ template.innerHTML = `
 `;
 
 /*
+TODO: Add these buttons too:
     <text-editor-button id="underlined" tooltip="Format Underlined (__)" image="./UI/buttons/Editor - underline.png"></text-editor-button>
     <text-editor-button id="strikethrough" tooltip="Format Strikethrough (--)" image="./UI/buttons/Editor - strikethrough.png"></text-editor-button>
     <text-editor-button id="checklist" tooltip="Set Checklist ([] or [x])" image="./UI/buttons/Editor - checklist.png"></text-editor-button>
@@ -167,6 +170,7 @@ class TextEditor extends HTMLElement {
 
     this.$ctrlMod = false;
 
+    // Markup styling symbols dictionary.
     this.stylingSymbols = {
       title1: "#1 ",
       title2: "#2 ",
@@ -192,6 +196,9 @@ class TextEditor extends HTMLElement {
       alignRight: " >>",
       justify: " <>"
     };
+
+    // markup -> html symbols dictionary.
+    // Used when converting markup to html.
     this.lineElementsMarkupToHtml = {
       '#1': 'h1',
       '#2': 'h2',
@@ -204,26 +211,42 @@ class TextEditor extends HTMLElement {
     }
     this.listElements = {
       '-.': 'ul',
-      '1.': 'ol'
+      '0.': 'ol',
+      '1.': 'ol',
+      '2.': 'ol',
+      '3.': 'ol',
+      '4.': 'ol',
+      '5.': 'ol',
+      '6.': 'ol',
+      '7.': 'ol',
+      '8.': 'ol',
+      '9.': 'ol'
     };
     this.lineElementsHierarchy = ['#1', '#2', '#3', '#4', '#5', '#6', '-.', '1.'];
 
     this.$editor.addEventListener("keyup", event => {
+      // Show/hide the controls if the change has/hasn't changed.
       // console.log(event.key);
       if (this.text != this.$editor.value) this.showButtons();
       else this.hideButtons();
       // if (event.key == 'Control') this.$ctrlMod = false;
     });
     // this.$editor.addEventListener("keydown", event => {
+      // TODO: Figure out how to handle modified buttons (e.g.: CTRL + C)
     //   // console.log(event.key);
     //   if (event.key == 'Control') this.$ctrlMod = true;
     // });
     this.$editButton.addEventListener("click", _ => {
+      // Toggle the edit area.
       // console.log("... start edit!");
       let display = this.$editPane.style.display;
       this.$editPane.style.display = display == 'flex' ? 'none' : 'flex';
     });
-    this.$controls.addEventListener("editorButton", ({detail}) => {
+    this.$controls.addEventListener("editorButton", (event) => {
+      // Handle the events triggered from the text editor buttons.
+      // Styles are applied as appropriate, depending on the cursor's current location.
+      let detail = event.detail;
+      event.stopPropagation();
       // check if something is selected, and apply the style there if appropriate
       let selStart = this.$editor.selectionStart;
       let selEnd = this.$editor.selectionEnd;
@@ -336,6 +359,8 @@ class TextEditor extends HTMLElement {
       else this.hideButtons();
     });
     this.$confirm.addEventListener("click", _ => {
+      // If the changes are confirmed, notify root of the data change,
+      // close the editor, and update the displayed text.
       this.dispatchEvent(
         new CustomEvent('valueChanged', {
           bubbles: true,
@@ -353,6 +378,7 @@ class TextEditor extends HTMLElement {
       this.displayText();
     });
     this.$cancel.addEventListener("click", _ => {
+      // Cancelling the changes hides the editor and reverts the changes.
       this.$editor.value = this.text;
       this.$editPane.style.display = 'none';
       this.hideButtons();
@@ -389,6 +415,7 @@ class TextEditor extends HTMLElement {
   }
 
   convertInnerLineMarkupToHtml(text) {
+    // Converts each line of text into appropriate html.
     // TODO: Instead of using replaces tokenise the text and then use spans with the appropriate styles.
     // markdown text:   This is **some text// that **needs formatting//.
     // tokenised text:  ['This is ', BOLD_START, 'some text ', ITALICS_START, 'that', BOLD_END, ' needs formatting', ITALICS_END, '.']
@@ -403,6 +430,7 @@ class TextEditor extends HTMLElement {
   }
 
   async displayText() {
+    // Converts the text as a whole into html to be displayed in the view.
     // console.log(`---> displayText(${this.text})`);
     // first remove the old elements
     let old = this.$content.childNodes;
@@ -484,12 +512,9 @@ class TextEditor extends HTMLElement {
     }
   }
 
-  hideButtons() {
-    this.$confirm.classList.remove("active");
-    this.$cancel.classList.remove("active");
-  }
-
   selectMostImportantLineElement(elements) {
+    // Chooses which line element (title, list, etc) is the most important and selects that to be displayed.
+    // Other line-symbols are ignored.
     // console.log(`selectMostImportantLineElement(${JSON.stringify(elements)})`);
     let index = 1000;
     for (let i = 0; i < elements.length; i++) {
@@ -498,6 +523,11 @@ class TextEditor extends HTMLElement {
       if (ind < index) index = ind;
     }
     return this.lineElementsHierarchy[index >=0 ? index : 0];
+  }
+
+  hideButtons() {
+    this.$confirm.classList.remove("active");
+    this.$cancel.classList.remove("active");
   }
 
   showButtons() {

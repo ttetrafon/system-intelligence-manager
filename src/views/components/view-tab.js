@@ -1,3 +1,5 @@
+// A view-tab comes as a child of a nav-tab, and controls which view is shows on the window.
+
 const template = document.createElement('template');
 
 template.innerHTML = `
@@ -49,6 +51,7 @@ class ViewTab extends HTMLElement {
     this.$image = this._shadow.querySelector(".view-image");
 
     this.$container.addEventListener("click", _ => {
+      // Notify the parent nav-tab to change the view.
       this.dispatchEvent(
         new CustomEvent("onViewSelected", {
           bubbles: true,

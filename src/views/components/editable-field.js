@@ -1,3 +1,5 @@
+// A display field that is accompanied by an input field so the displayed valued can be displayed.
+
 const template = document.createElement('template');
 
 template.innerHTML = `

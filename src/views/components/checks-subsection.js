@@ -1,3 +1,5 @@
+// A checks-subsection includes all controls and information about a specific dice resolution mechanic.
+// The data collected here are used to create a dice roller, which then can be used to make checks within the system.
 const template = document.createElement('template');
 
 template.innerHTML = `
@@ -73,6 +75,8 @@ class ChecksSubSection extends HTMLElement {
     this.$bonuses = this._shadow.getElementById("bonuses");
 
     this.$usedCheckbox.addEventListener("change", ({target}) => {
+      // When the checkbox that defines this resolution mechanic's use is toggled, notify the game system -> checks data object,
+      // TODO: and create/destroy the corresponding dice roller.
       this.dispatchEvent(
         new CustomEvent('valueChanged', {
           bubbles: true,
@@ -87,6 +91,7 @@ class ChecksSubSection extends HTMLElement {
       this.$section.style.display = (target.checked ? "inherit" : "none");
     });
     this.$resolution.addEventListener("change", ({target}) => {
+      // Notifies of the change on the resolution mechanic type the game system -> checks data object.
       this.dispatchEvent(
         new CustomEvent('valueChanged', {
           bubbles: true,
@@ -100,6 +105,7 @@ class ChecksSubSection extends HTMLElement {
       );
     });
     this.$bonuses.addEventListener("change", ({target}) => {
+      // Notifies of the change on the resolution mechanic bonus/penalty type the game system -> checks data object.
       this.dispatchEvent(
         new CustomEvent('valueChanged', {
           bubbles: true,

@@ -1,3 +1,6 @@
+// A tab that appears on the navigation bar (left column).
+// Each tab features a number of related sub-tabs which control which view is shown at the time.
+
 const template = document.createElement('template');
 
 template.innerHTML = `
@@ -54,7 +57,6 @@ template.innerHTML = `
   <div class="inner-container">
     <div id="title-text">Title</div>
   </div>
-
 </div>
 `;
 
@@ -74,7 +76,9 @@ class NavTab extends HTMLElement {
 
     // .inner-container will catch click event from view button and send it's own event to the outer nav with 'category' and 'view' in details
     this.$tab.addEventListener("onViewSelected", (event) => {
+      // Captures the event from a sub-tab and emits a secondary event to change the view.
       // console.log("onViewSelected detected:", event.detail);
+      event.stopPropagation();
       this.dispatchEvent(
         new CustomEvent("onTabSelected", {
           bubbles: true,

@@ -1,3 +1,5 @@
+//The user section includes a collection of user information and related controls.
+
 const template = document.createElement('template');
 
 template.innerHTML = `

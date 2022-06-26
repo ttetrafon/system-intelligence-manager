@@ -1,3 +1,5 @@
+// A reusable input field, with its accompanying controls.
+
 const template = document.createElement('template');
 
 template.innerHTML = `
@@ -78,11 +80,13 @@ class InputField extends HTMLElement {
     this.$cancel = this._shadow.getElementById("cancel-btn");
 
     this.$input.addEventListener('keyup', ({target}) => {
+      // Check if the value has changed, in which case the controls are displayed.
       let newValue = target.value;
       if (newValue !== this.text) this.showButtons();
       else this.hideButtons();
     });
     this.$confirm.addEventListener('click', _ => {
+      // When a change is confirmed, notify root of the change.
       this.dispatchEvent(
         new CustomEvent('valueChanged', {
           bubbles: true,
@@ -98,6 +102,7 @@ class InputField extends HTMLElement {
       this.hideButtons();
     });
     this.$cancel.addEventListener('click', _ => {
+      // If the change is canceled, revert the change and hide the controls.
       this.$input.value = this.text;
       this.hideButtons();
       this.dispatchEvent(
