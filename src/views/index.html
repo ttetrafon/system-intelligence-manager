@@ -1,3 +1,6 @@
+<!-- This is the landing page of an application renderer. -->
+<!-- It contains only the highest order structures. -->
+<!-- Substructures are instead defined as web-components and are injected into this. -->
 <!DOCTYPE html>
 <html>
   <head>
@@ -10,6 +13,7 @@
   </head>
   <body>
     <!-- Navigation bar contains the tabs for each section. -->
+    <!-- Sub-tabs are populated dynamically within the renderer.js script. -->
     <nav id="nav">
       <nav-tab id="gameSystem-tab" category="gameSystem" title="Game System" image="./UI/buttons/Books 1.png"></nav-tab>
       <nav-tab id="calendar-tab" category="calendar" title="Calendar" image="./UI/buttons/Calendar 1.png" type="main"></nav-tab>

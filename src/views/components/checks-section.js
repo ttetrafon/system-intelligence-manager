@@ -1,3 +1,5 @@
+// The checks section included information and controls on how checks are performed in the game.
+// It contains a list of subsections, with each subsection defining a different resolution mechanic.
 const template = document.createElement('template');
 
 template.innerHTML = `
@@ -35,11 +37,9 @@ class ChecksSection extends HTMLElement {
 
   get checks() { return JSON.parse(this.getAttribute("checks")); }
   get user_role() { return this.getAttribute("user_role"); }
-  // get use_attribute_checks() { return this.getAttribute("use_attribute_checks"); }
 
   set checks(value) { this.setAttribute("checks", JSON.stringify(value)); }
   set user_role(value) { this.setAttribute("user_role", value); }
-  // set use_attribute_checks(value) { this.setAttribute("use_attribute_checks", value); }
 
   attributeChangedCallback(property, oldValue, newValue) {
     // console.log(`ChecksSection.attributeChangedCallback(${property}, ${oldValue}, ${newValue})`);
@@ -57,8 +57,6 @@ class ChecksSection extends HTMLElement {
           name: this.checks.secondaryName,
           description: this.checks.secondaryDescription
         };
-        // this.$checkboxUseAttributeChecks.checked = this.checks.attributeChecksUsed;
-        // this.$sectionAttributes.style.display = (this.checks.attributeChecksUsed ? "inherit" : "none");
         break;
       case "user_role":
         this.$intro.user_role = this.user_role;

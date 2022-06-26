@@ -1,0 +1,1 @@
+All the web components used to build the view are collected in here.

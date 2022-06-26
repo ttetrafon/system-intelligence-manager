@@ -90,6 +90,11 @@ class Store {
   }
 
   async updateDictionary(_, part, data) {
+    // Updates a specified dictionary with the provided data, stores it on the disk,
+    // and notifies all open windows for the update.
+    // Also used to add data to a dictionary.
+    // - part: The dictionary to be updated. These are the keys under `this.dictionaries`.
+    // - data: The updated data structure.
     console.log(`---> updateDictionary(${part}, ${JSON.stringify(data)})`);
     // check the hash first, and abort if nothing has changed
     let hash = GenerateHash(data);
@@ -102,6 +107,10 @@ class Store {
   }
 
   async updateGameSystem(_, part, data) {
+    // Updates a specific game system data structure with new/updated information, stores it on the disk,
+    // and notifies all open windows for the update.
+    // - part: The key under `this.gameSystem` to be updated.
+    // - data: The updated data.
     console.log(`---> updateGameSystem(${part}, ${JSON.stringify(data)})`);
     // check the hash first, and abort if nothing has changed
     let hash = GenerateHash(data);
@@ -115,6 +124,8 @@ class Store {
   }
 
   async updateUser(_, user) {
+    // Updates the User data object and saves the new information on the disk.
+    // - user: The updated user data structure.
     // console.log("---> updateUser()", user);
     // check the hash first, and abort if nothing has changed
     let hash = GenerateHash(user);

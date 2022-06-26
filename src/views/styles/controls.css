@@ -1,3 +1,5 @@
+/* Common controls styling - imported in components. */
+
 select, option {
   border: none;
   background: none;

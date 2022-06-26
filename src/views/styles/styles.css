@@ -1,4 +1,7 @@
+/* Shared application styling properties. */
+
 :root {
+  /* :root holds properties that are requested by components for consistency. */
   font-size: 16px;
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
   /* user-select: none; */

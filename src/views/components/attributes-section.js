@@ -1,3 +1,4 @@
+// The attributes section included information and controls for the game system attributes.
 const template = document.createElement('template');
 
 template.innerHTML = `
@@ -77,7 +78,10 @@ class AttributesSection extends HTMLElement {
     this.$orderContainer = this._shadow.querySelector(".order-container");
 
     this.$newAttributeInput.addEventListener("click", async () => {
+      // Triggered when a new attribute-item is created.
+      // get a new uid
       let newUid = await window.main.generateUid();
+      // create a new entry in the names dictionary
       this.dispatchEvent(
         new CustomEvent("valueChanged", {
           bubbles: true,
@@ -89,6 +93,8 @@ class AttributesSection extends HTMLElement {
           }
         })
       )
+      // TODO: Make a single event, and update the full $attributes object instead?
+      // update the attributes object in the state
       this.dispatchEvent(
         new CustomEvent("valueChanged", {
           bubbles: true,
@@ -103,6 +109,7 @@ class AttributesSection extends HTMLElement {
           }
         })
       );
+      // update the attributes order object in the state
       let ol = this.attributeData.order.length;
       let order = (ol > 0) ? [...this.attributes.order, newUid] : [ newUid ];
       this.dispatchEvent(
@@ -116,8 +123,10 @@ class AttributesSection extends HTMLElement {
           }
         })
       );
+      // TODO: create the new UI element for the attribute
     });
     this.$orderContainer.addEventListener("dragover", e => {
+      // Finds where a draggable element is within the list of draggable elements, and inserts it into the correct position.
       e.preventDefault();
       const afterElement = this.getDragAfterElement(e.clientY);
       const draggable = this._shadow.querySelector(".dragging");
@@ -186,6 +195,7 @@ class AttributesSection extends HTMLElement {
   }
 
   setUserRoles() {
+    // User roles are being updated dynamically, as the attribute-item list is not static.
     if (this.user_role) {
       for (let i = 0; i < this.$attributesContainer.childElementCount; i++) {
         this.$attributesContainer.children[i].user_role = this.user_role;
@@ -194,6 +204,8 @@ class AttributesSection extends HTMLElement {
   }
 
   getDragAfterElement(y) {
+    // Finds after which element in the draggable list the one being currently dragged is.
+    // - y: The y-coordinate of the element.
     let elements = [...this.$orderContainer.querySelectorAll(".draggable:not(.dragging)")];
     return elements.reduce((closest, child) => {
       let box = child.getBoundingClientRect();
@@ -204,6 +216,7 @@ class AttributesSection extends HTMLElement {
   }
 
   dispatchReorderEvent() {
+    // Notify the state when the attribute order has been changed.
     this.dispatchEvent(
       new CustomEvent("valueChanged", {
         bubbles: true,
@@ -215,9 +228,11 @@ class AttributesSection extends HTMLElement {
         }
       })
     );
+    // TODO: reorder the attribute list
   }
 
   getNewAttributeOrder() {
+    // Returns the current attribute order, as determined by the tiles in the attribute-order container.
     // console.log("---> getNewAttributeOrder()");
     let newOrder = [];
     for (let i = 0; i < this.$orderContainer.children.length; i++) {

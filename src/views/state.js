@@ -1,6 +1,9 @@
 const script = "state.js";
 
 export class State {
+  // Comprises the current window state.
+  // This state is synchronised between open windows through events (check renderer.js).s
+
   constructor() {
     window.main.log(script, "Started!");
 

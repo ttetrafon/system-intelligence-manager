@@ -1,4 +1,7 @@
 export class DiceRoller {
+  // A dice roller is created for each resolution mechanic required by the game system (checks-subsection.js).
+  // TODO: Dice rollers are initialised on renderer.js, and then used by the components wherever needed.
+
   constructor() {
     this.dice = 20;
 

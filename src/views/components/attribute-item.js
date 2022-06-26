@@ -1,3 +1,5 @@
+// Within the attributes-section, a list of attributes used by the system is displayed dynamically in a list.
+// Each one of them holds the information relevant to a specific attribute.
 const template = document.createElement('template');
 
 template.innerHTML = `
@@ -73,6 +75,7 @@ class AttributeItem extends HTMLElement {
     this.$delete = this._shadow.querySelector("img");
 
     this.$delete.addEventListener('click', _ => {
+      // An attribute item can be deleted, and needs to be removed from the game system data.
       this.dispatchEvent(
         new CustomEvent("valueDeleted", {
           bubbles: true,
@@ -124,6 +127,7 @@ class AttributeItem extends HTMLElement {
   }
 
   updateName() {
+    // Names need to be updated only after both the attribute_data and the names dictionary has been populated.
     if (this.names && this.attribute_data && this.uid) {
       this.$name.text = this.names[this.uid];
       this.$name.target = "$names." + this.uid;

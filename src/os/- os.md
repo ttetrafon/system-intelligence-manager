@@ -1,0 +1,1 @@
+This folder contains all scripts relevant to the main process.
