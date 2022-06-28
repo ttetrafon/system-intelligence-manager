@@ -82,7 +82,7 @@ class ChecksSubSection extends HTMLElement {
           bubbles: true,
           composed: true,
           detail: {
-            type: "checks",
+            type: "gameSystem",
             target: ["$checks", this.id + "Used"],
             value: target.checked
           }
@@ -97,7 +97,7 @@ class ChecksSubSection extends HTMLElement {
           bubbles: true,
           composed: true,
           detail: {
-            type: "checks",
+            type: "gameSystem",
             target: ["$checks", this.id + "Resolution"],
             value: target.value
           }
@@ -111,7 +111,7 @@ class ChecksSubSection extends HTMLElement {
           bubbles: true,
           composed: true,
           detail: {
-            type: "checks",
+            type: "gameSystem",
             target: ["$checks", this.id + "BonusesOn"],
             value: target.value
           }

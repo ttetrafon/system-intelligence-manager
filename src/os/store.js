@@ -71,7 +71,7 @@ class Store {
   loadGameSystemDataFromFile(filename, dataObject, part) {
     // Loads game system data from a specific file.
     // If the file does not exist, the data are initialised with default values and the file is saved with these.
-    // console.log(`---> loadGameSystemDataFromFile(${filename}, ${dataObject}, ${part})`);
+    console.log(`---> loadGameSystemDataFromFile(${filename}, ${dataObject}, ${part})`);
     let file = path.join(self.fs.paths.gameSystem, filename);
     let data = self.fs.readJsonFile(file);
     self.gameSystem[part] = new dataObject();

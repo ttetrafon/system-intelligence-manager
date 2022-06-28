@@ -14,10 +14,10 @@ class Checks {
   initialise(obj) {
     // console.log(`---> initialiseChecks(${JSON.stringify(obj)})`);
     if (obj["intro"]) this.intro = obj["intro"];
-    if (obj["mainUsed"]) this.mainUsed = obj["mainUsed"];
+    if (obj["mainUsed"] != null && obj["mainUsed"] != undefined) this.mainUsed = obj["mainUsed"];
     if (obj["mainName"]) this.mainName = obj["mainName"];
     if (obj["mainDescription"]) this.mainDescription = obj["mainDescription"];
-    if (obj["secondaryUsed"]) this.secondaryUsed = obj["secondaryUsed"];
+    if (obj["secondaryUsed"] != null && obj["secondaryUsed"] != undefined) this.secondaryUsed = obj["secondaryUsed"];
     if (obj["secondaryName"]) this.secondaryName = obj["secondaryName"];
     if (obj["secondaryDescription"]) this.secondaryDescription = obj["secondaryDescription"];
   }

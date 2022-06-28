@@ -24,7 +24,13 @@ export class State {
 
     // Game System data
     this.$checks = {
-      intro: "..."
+      intro: "...",
+      mainUsed: true,
+      mainName: "...",
+      mainDescription: "...",
+      secondaryUsed: false,
+      secondaryName: "...",
+      secondaryDescription: "..."
     };
     this.$attributes = {
       intro: "...",
