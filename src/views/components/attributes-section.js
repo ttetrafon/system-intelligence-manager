@@ -93,7 +93,6 @@ class AttributesSection extends HTMLElement {
           }
         })
       )
-      // TODO: Make a single event, and update the full $attributes object instead?
       // update the attributes object in the state
       this.dispatchEvent(
         new CustomEvent("valueChanged", {
@@ -102,16 +101,12 @@ class AttributesSection extends HTMLElement {
           detail: {
             type: "gameSystem",
             target: ["$attributes", "attributes", newUid],
-            value: {
-              mod: "MOD",
-              description: "Description"
-            }
+            value: { mod: "MOD", description: "Description" }
           }
         })
       );
       // update the attributes order object in the state
-      let ol = this.attributeData.order.length;
-      let order = (ol > 0) ? [...this.attributes.order, newUid] : [ newUid ];
+      let newOrder = (this.attributeData.length > 0) ? [...this.attributeData.order, newUid] : [newUid];
       this.dispatchEvent(
         new CustomEvent("valueChanged", {
           bubbles: true,
@@ -119,11 +114,16 @@ class AttributesSection extends HTMLElement {
           detail: {
             type: "gameSystem",
             target: ["$attributes", "order"],
-            value: order
+            value: newOrder
           }
         })
       );
       // TODO: create the new UI element for the attribute
+      // let newAttributeItem = document.createElement("attribute-item");
+      // this.$attributesContainer.appendChild(newAttributeItem);
+      // newAttributeItem.uid = newUid;
+      // newAttributeItem.names = this.names;
+      // newAttributeItem.attribute_data = newAttribute;
     });
     this.$orderContainer.addEventListener("dragover", e => {
       // Finds where a draggable element is within the list of draggable elements, and inserts it into the correct position.
@@ -148,11 +148,11 @@ class AttributesSection extends HTMLElement {
   set names(value) { this.setAttribute("names", JSON.stringify(value)); }
 
   attributeChangedCallback(property, oldValue, newValue) {
-    // console.log(`AttributesSection.attributeChangedCallback(property: ${property}, oldValue: ${oldValue}, newValue: ${JSON.stringify(newValue)})`);
+    console.log(`AttributesSection.attributeChangedCallback(property: ${property}, oldValue: ${oldValue}, newValue: ${JSON.stringify(newValue)})`);
     if (oldValue === newValue) return;
     switch(property) {
       case "attributeData":
-        // console.log("... attributeData", this.attributeData);
+        console.log("... new attributeData", this.attributeData);
         this.$intro.text = this.attributeData.intro;
         // empty the containers
         while(this.$attributesContainer.lastChild) {
