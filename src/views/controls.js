@@ -121,14 +121,15 @@ export class Controls {
     // - details: { type: "...", target: ["...", "...", ...], value: "..." }
     // console.log(`---> handleGameSystemUpdated(${JSON.stringify(details)})`);
     let eventTarget = details.target.shift();
-    this.updateObjectProperty(this.state[eventTarget], details.target, details.value);
+    if (details.target.length > 0) this.updateObjectProperty(this.state[eventTarget], details.target, details.value);
+    else this.state[eventTarget] = details.value;
     window.main.updateGameSystem(eventTarget.substring(1), this.state[eventTarget]);
   }
 
   handleGameSystemDeletion(details) {
     // Handles deleting a specific game system data piece.
     // - details: { type: "...", target: ["...", "...", ...] }
-    console.log(`---> handleGameSystemDeletion(${JSON.stringify(details)})`);
+    // console.log(`---> handleGameSystemDeletion(${JSON.stringify(details)})`);
     let eventTarget = details.target.shift();
     this.updateObjectProperty(this.state[eventTarget], details.target, details.value);
     window.main.updateGameSystem(eventTarget.substring(1), this.state[eventTarget]);

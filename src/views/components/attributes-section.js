@@ -94,36 +94,26 @@ class AttributesSection extends HTMLElement {
         })
       )
       // update the attributes object in the state
+      let newAttributeData = this.attributeData;
+      newAttributeData.attributes[newUid] = { mod: "MOD", description: "Description" };
+      newAttributeData.order.push(newUid);
       this.dispatchEvent(
         new CustomEvent("valueChanged", {
           bubbles: true,
           composed: true,
           detail: {
             type: "gameSystem",
-            target: ["$attributes", "attributes", newUid],
-            value: { mod: "MOD", description: "Description" }
-          }
-        })
-      );
-      // update the attributes order object in the state
-      let newOrder = (this.attributeData.length > 0) ? [...this.attributeData.order, newUid] : [newUid];
-      this.dispatchEvent(
-        new CustomEvent("valueChanged", {
-          bubbles: true,
-          composed: true,
-          detail: {
-            type: "gameSystem",
-            target: ["$attributes", "order"],
-            value: newOrder
+            target: ["$attributes"],
+            value: newAttributeData
           }
         })
       );
       // TODO: create the new UI element for the attribute
-      // let newAttributeItem = document.createElement("attribute-item");
-      // this.$attributesContainer.appendChild(newAttributeItem);
-      // newAttributeItem.uid = newUid;
-      // newAttributeItem.names = this.names;
-      // newAttributeItem.attribute_data = newAttribute;
+      let newAttributeItem = document.createElement("attribute-item");
+      this.$attributesContainer.appendChild(newAttributeItem);
+      newAttributeItem.uid = newUid;
+      newAttributeItem.names = this.names;
+      newAttributeItem.attribute_data = newAttributeData.attributes[newUid];
     });
     this.$orderContainer.addEventListener("dragover", e => {
       // Finds where a draggable element is within the list of draggable elements, and inserts it into the correct position.
@@ -148,7 +138,7 @@ class AttributesSection extends HTMLElement {
   set names(value) { this.setAttribute("names", JSON.stringify(value)); }
 
   attributeChangedCallback(property, oldValue, newValue) {
-    console.log(`AttributesSection.attributeChangedCallback(property: ${property}, oldValue: ${oldValue}, newValue: ${JSON.stringify(newValue)})`);
+    // console.log(`AttributesSection.attributeChangedCallback(property: ${property}, oldValue: ${oldValue}, newValue: ${JSON.stringify(newValue)})`);
     if (oldValue === newValue) return;
     switch(property) {
       case "attributeData":
