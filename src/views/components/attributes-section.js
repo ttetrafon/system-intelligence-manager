@@ -94,7 +94,7 @@ class AttributesSection extends HTMLElement {
         })
       )
       // update the attributes object in the state
-      let newAttributeData = this.attributeData;
+      let newAttributeData = this.attribute_data;
       newAttributeData.attributes[newUid] = { mod: "MOD", description: "Description" };
       newAttributeData.order.push(newUid);
       this.dispatchEvent(
@@ -126,14 +126,14 @@ class AttributesSection extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return [ "attributeData", "user_role", "names" ];
+    return [ "attribute_data", "user_role", "names" ];
   }
 
-  get attributeData() { return JSON.parse(this.getAttribute("attributeData")); }
+  get attribute_data() { return JSON.parse(this.getAttribute("attribute_data")); }
   get user_role() { return this.getAttribute("user_role"); }
   get names() { return JSON.parse(this.getAttribute("names")); }
 
-  set attributeData(value) { this.setAttribute("attributeData", JSON.stringify(value)); }
+  set attribute_data(value) { this.setAttribute("attribute_data", JSON.stringify(value)); }
   set user_role(value) { this.setAttribute("user_role", value); }
   set names(value) { this.setAttribute("names", JSON.stringify(value)); }
 
@@ -141,9 +141,9 @@ class AttributesSection extends HTMLElement {
     // console.log(`AttributesSection.attributeChangedCallback(property: ${property}, oldValue: ${oldValue}, newValue: ${JSON.stringify(newValue)})`);
     if (oldValue === newValue) return;
     switch(property) {
-      case "attributeData":
-        console.log("... new attributeData", this.attributeData);
-        this.$intro.text = this.attributeData.intro;
+      case "attribute_data":
+        // console.log("... new attribute_data", this.attribute_data);
+        this.$intro.text = this.attribute_data.intro;
         // empty the containers
         while(this.$attributesContainer.lastChild) {
           this.$attributesContainer.removeChild(this.$attributesContainer.lastChild);
@@ -151,19 +151,19 @@ class AttributesSection extends HTMLElement {
         while(this.$orderContainer.lastChild) {
           this.$attributesContainer.removeChild(this.$attributesContainer.lastChild);
         }
-        for (let i = 0; i < this.attributeData.order.length; i++) {
-          let uid = this.attributeData.order[i];
+        for (let i = 0; i < this.attribute_data.order.length; i++) {
+          let uid = this.attribute_data.order[i];
           // create the attribute elements
           let element = document.createElement("attribute-item");
           this.$attributesContainer.appendChild(element);
           element.uid = uid;
           element.names = this.names;
-          element.attribute_data = this.attributeData.attributes[uid];
+          element.attribute_data = this.attribute_data.attributes[uid];
           // create the attribute order elements
           let order = document.createElement("div");
           this.$orderContainer.appendChild(order);
           order.classList.add("draggable");
-          order.textContent = this.attributeData.attributes[uid].mod;
+          order.textContent = this.attribute_data.attributes[uid].mod;
           order.setAttribute("id", this.uid);
           order.setAttribute("draggable", true);
           order.addEventListener("dragstart", _ => {
@@ -175,7 +175,7 @@ class AttributesSection extends HTMLElement {
           });
         }
         this.setUserRoles();
-        this.setNewAttributeEvent();
+        // this.setNewAttributeEvent();
         break;
       case "user_role":
         this.$settings.style.display = (this.user_role === "GM") ? "block" : "none";

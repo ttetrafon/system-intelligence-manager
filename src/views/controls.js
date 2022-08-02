@@ -65,7 +65,7 @@ export class Controls {
         this.el[view + SECTION_SUFFIX].user_role = this.state.$user.userRole;
         this.el[view + SECTION_SUFFIX].names = this.state.$names;
         // console.log((view + SECTION_SUFFIX), this.state.$attributes);
-        this.el[view + SECTION_SUFFIX].attributeData = this.state.$attributes;
+        this.el[view + SECTION_SUFFIX].attribute_data = this.state.$attributes;
       case 'checks':
         this.el[view + SECTION_SUFFIX].user_role = this.state.$user.userRole;
         this.el[view + SECTION_SUFFIX].checks = this.state.$checks;

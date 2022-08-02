@@ -5,10 +5,10 @@ const isDev = (process.env.NODE_ENV == 'dev');
 // When anything on os level changes, the whole application is reloaded.
 // Changes in the renderer process force a reload of open windows only.
 // https://www.geeksforgeeks.org/hot-reload-in-electronjs/
-if (process.env.NODE_ENV == 'dev') {
-  try { require('electron-reloader')(module, { debug: false, watchRenderer: true }); }
-  catch (_) { console.log('Error: electron-reloader not loaded'); }
-}
+// if (process.env.NODE_ENV == 'dev') {
+//   try { require('electron-reloader')(module, { debug: false, watchRenderer: true }); }
+//   catch (_) { console.log('Error: electron-reloader not loaded'); }
+// }
 
 const { on } = require('events');
 const { palette } = require('./data/colours');

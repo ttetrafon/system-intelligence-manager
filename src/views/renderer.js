@@ -130,7 +130,7 @@ window.main.receive('initialGameSystem', (gameSystemData) => {
 // - part: The specific game system data structure to be updated (check state.js for the specific names).
 // - data: The new data structure.
 window.main.receive('updateGameSystem', (part, data) => {
-  console.log("---> 'updateGameSystem' event received", part, data);
+  // console.log("---> 'updateGameSystem' event received", part, data);
   if (JSON.stringify(state["$" + part]) == JSON.stringify(data)) return;
   state["$" + part] = data;
   controls.setArticleData();
