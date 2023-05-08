@@ -13,17 +13,17 @@
   "author": "ttetrafon@yahoo.gr",
   "license": "MIT",
   "devDependencies": {
-    "@electron-forge/cli": "^6.0.0-beta.65",
-    "@electron-forge/maker-deb": "^6.0.0-beta.65",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.65",
-    "@electron-forge/maker-squirrel": "^6.0.0-beta.65",
-    "@electron-forge/maker-zip": "^6.0.0-beta.65",
-    "electron": "^20.0.1",
+    "@electron-forge/cli": "^6.1.1",
+    "@electron-forge/maker-deb": "^6.1.1",
+    "@electron-forge/maker-rpm": "^6.1.1",
+    "@electron-forge/maker-squirrel": "^6.1.1",
+    "@electron-forge/maker-zip": "^6.1.1",
+    "electron": "^24.2.0",
     "electron-reloader": "^1.2.3"
   },
   "dependencies": {
     "electron-squirrel-startup": "^1.0.0",
-    "uuid": "^8.3.2"
+    "uuid": "^9.0.0"
   },
   "config": {
     "forge": {

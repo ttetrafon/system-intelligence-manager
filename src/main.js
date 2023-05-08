@@ -1,5 +1,6 @@
 const { app, BrowserWindow, dialog, ipcMain, Notification } = require('electron');
 const isDev = (process.env.NODE_ENV == 'dev');
+// require("update-electron-app")(); // https://www.electronjs.org/docs/latest/tutorial/updates
 
 // The reloader support hot-reload of both the application and the window.
 // When anything on os level changes, the whole application is reloaded.
