@@ -92,9 +92,9 @@ const createWindow = () => {
     win.maximize();
 
     // Startup events are triggered once when the window has just been created.
-    win.webContents.send('initialUser', store.user);
-    win.webContents.send('initialiseDictionaries', store.dictionaries);
-    win.webContents.send('initialGameSystem', store.gameSystem);
+    // win.webContents.send('initialUser', store.user);
+    // win.webContents.send('initialiseDictionaries', store.dictionaries);
+    // win.webContents.send('initialGameSystem', store.gameSystem);
     // console.log('windows:', windows);
   });
 }

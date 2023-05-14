@@ -35,9 +35,9 @@ class Store {
     };
 
     // Load all required data from the disk during startup.
-    self.initialPreparation();
-    self.loadDictionaries();
-    self.loadGameSystem();
+    // self.initialPreparation();
+    // self.loadDictionaries();
+    // self.loadGameSystem();
   }
 
   initialPreparation() {

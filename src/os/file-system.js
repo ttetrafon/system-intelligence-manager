@@ -23,7 +23,7 @@ class FileSystem {
       userFolder: null
     };
 
-    self.folderStructureStepOne();
+    // self.folderStructureStepOne();
   }
 
   checkIfDirectoryExists(dir) {
