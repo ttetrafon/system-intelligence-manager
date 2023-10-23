@@ -12,9 +12,36 @@
     <link rel="stylesheet" href="./styles/styles.css">
   </head>
   <body>
-    <!-- Navigation bar contains the tabs for each section. -->
-    <!-- Sub-tabs are populated dynamically within the renderer.js script. -->
-    <nav id="nav">
+
+    <!-- Navigation bars are placed around the screen. -->
+    <header>
+      <!-- Top controls - TODO: maybe put these in the application bar? -->
+    </header>
+    <div id="main">
+      <aside id="left-aside">
+        <nav id="game-system">
+          <!-- Game system controls. -->
+        </nav>
+        <nav id="encounter">
+          <!-- Encounter controls. -->
+        </nav>
+      </aside>
+      <div id="viewport">
+        <!-- Tabbed viewport to hold all entities opened. -->
+      </div>
+      <aside id="right-aside">
+        <nav id="world">
+          <!-- World controls. -->
+        </nav>
+        <nav id="selection">
+          <!-- Selection controls. (TODO: probably not needed) -->
+        </nav>
+      </aside>
+    </div>
+    <footer></footer>
+
+
+    <!-- <nav id="nav">
       <nav-tab id="gameSystem-tab" category="gameSystem" title="Game System" image="./UI/buttons/Books 1.png"></nav-tab>
       <nav-tab id="calendar-tab" category="calendar" title="Calendar" image="./UI/buttons/Calendar 1.png" type="main"></nav-tab>
       <nav-tab id="campaign-tab" category="campaign" title="Campaign" image="./UI/buttons/Notebook 1.png" type="main"></nav-tab>
@@ -22,13 +49,12 @@
       <nav-tab id="world-tab" category="world" title="World" image="./UI/buttons/Building 1.png" type="main"></nav-tab>
       <nav-tab id="network-tab" category="network" title="Network" image="./UI/buttons/Network 1.png" type="main"></nav-tab>
       <nav-tab id="settings-tab" category="settings" title="Settings" image="./UI/buttons/Edit 1.png"></nav-tab>
-    </nav>
+    </nav> -->
 
-    <header></header>
+    <!-- <header></header> -->
 
     <!-- Main contains all the relevant information/controls, based on which tab has been selected. -->
-    <main id="main">
-      <!-- Each article will represent the collection of items in a single category.  -->
+    <!-- <main id="main">
       <article id="checks-article">
         <checks-section id="checks-section"></checks-section>
       </article>
@@ -38,10 +64,10 @@
       <article id="user-article">
         <user-section id="user-section" class="view-section"></user-section>
       </article>
-    </main>
+    </main> -->
 
     <!-- Footer is used to log information. -->
-    <footer>footer...</footer>
+    <!-- <footer>footer...</footer> -->
 
 
 
