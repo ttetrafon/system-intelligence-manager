@@ -21,7 +21,7 @@ class Config {
 
   isMac() {
     // Returns true if the platform the application is a mac.
-    // Needed for controlling how some specific things work on a mac differently than on windows or linus.
+    // Needed for controlling how some specific things work on a mac differently than on windows/linux.
     return self.platform === 'darwin';
   }
 

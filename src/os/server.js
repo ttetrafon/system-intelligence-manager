@@ -14,10 +14,10 @@ class Server {
     self.logger.log(null, script, "Started!");
   }
 
-  // TODO: When a client connects, send a list of all stored objects alongside their hashes.
-  // The client should then return only a list of what has changed during the last connection time,
-  // so the server will send only the required information.
-
+  // TODO: Clients connected by web-sockets.
+  // TODO: On connection, send lists of titles for all entities, so menus are populated accordingly.
+  // TODO: Appropriate entity data will be send on request, and kept on the client until the client is closed.
+  // TODO: The server needs to keep track of what entities have been passed on clients, so updates propagate accordingly.
 
 
 }

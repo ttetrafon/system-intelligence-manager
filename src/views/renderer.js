@@ -22,38 +22,38 @@ import { State } from './state.js';
 window.main.log(script, "Started!");
 
 // Collect all the elements in the page and create all appropriate lists.
-const idList = [];
-idList.push(
-  ...ids.parents,
-  ...ids.tabs,
-  ...ids.articles,
-  ...ids.sections
-);
+// const idList = [];
+// idList.push(
+//   ...ids.parents,
+//   ...ids.tabs,
+//   ...ids.articles,
+//   ...ids.sections
+// );
 // console.log(idList);
 // Construct a dictionary of all the web elements in the window, for ease of reference.
-const el = {};
-for (let i = 0; i < idList.length; i++) {
-  el[idList[i]] = document.getElementById(idList[i]);
-}
+// const el = {};
+// for (let i = 0; i < idList.length; i++) {
+//   el[idList[i]] = document.getElementById(idList[i]);
+// }
 // console.log("registered elements:", el);
 
 
 // Initialise modules
-const state = new State();
-const controls = new Controls(state, el);
+// const state = new State();
+// const controls = new Controls(state, el);
 
 
 // Populate and register UI elements programmatically.
 // ... dynamically created elements (that will be referenced elsewhere) need to be registered here through the 'registerElements' event.
-document.addEventListener('registerElements', event => { Object.assign(el, event.detail); });
+// document.addEventListener('registerElements', event => { Object.assign(el, event.detail); });
 // ... view-tabs are created here
-el['gameSystem-tab'].views = {
-  'checks': new ViewTabData("checks", "Checks", "./UI/buttons/Dice 1.png"),
-  'attributes': new ViewTabData("attributes", "Attributes", "./UI/buttons/Equalizer 2.png")
-};
-el['settings-tab'].views = {
-  user: new ViewTabData("user", "User", "./UI/buttons/User 1.png")
-}
+// el['gameSystem-tab'].views = {
+//   'checks': new ViewTabData("checks", "Checks", "./UI/buttons/Dice 1.png"),
+//   'attributes': new ViewTabData("attributes", "Attributes", "./UI/buttons/Equalizer 2.png")
+// };
+// el['settings-tab'].views = {
+//   user: new ViewTabData("user", "User", "./UI/buttons/User 1.png")
+// }
 
 
 // Register event handlers.
@@ -68,7 +68,7 @@ el['settings-tab'].views = {
 //                    category: The id of the tab category the view is contained within.
 //                    view: The id of the view to be displayed
 //                 }
-el['nav'].addEventListener("onTabSelected", event => { controls.setView(event.detail); });
+// el['nav'].addEventListener("onTabSelected", event => { controls.setView(event.detail); });
 // 'valueChanged' is triggered when some data are updated or created.
 // - event.detail: {
 //                    type: Determines the type of data that needs updating (gameSystem, dictionaries, user, etc).
@@ -76,65 +76,65 @@ el['nav'].addEventListener("onTabSelected", event => { controls.setView(event.de
 //                            The first element must correspond to the appropriate '$...' object in state.js.
 //                    value: The new value to be stored for the target.
 //                 }
-el['main'].addEventListener("valueChanged", event => { controls.valueChanged(event.detail) });
+// el['main'].addEventListener("valueChanged", event => { controls.valueChanged(event.detail) });
 // 'valueDeleted' is triggered when piece of data is deleted.
 // - event.detail: {
 //                    type: Determines the type of data that needs to be removed.
 //                    target: The target property (see above).
 //                 }
-el['main'].addEventListener("valueDeleted", event => { controls.valueDeleted(event.detail) });
+// el['main'].addEventListener("valueDeleted", event => { controls.valueDeleted(event.detail) });
 
 // 'initialUser' is triggered once from the main process, when the window opens, and includes all user data.
 // - user: The user object.
-window.main.receive('initialUser', (user) => {
-  // console.log('... initialUser', user);
-  state.$user = user;
-  controls.initialView(state.$user.currentView);
-});
+// window.main.receive('initialUser', (user) => {
+//   // console.log('... initialUser', user);
+//   state.$user = user;
+//   controls.initialView(state.$user.currentView);
+// });
 // 'updateUser' is emitted from the main process whenever some user data has been changed.
 // - user: The user object.
-window.main.receive('updateUser', (user) => {
-  // console.log("---> 'updateUser' event received!", user);
-  // ignore changes in currentView, as this will mess up
-  // check if the user data changed, and set appropriate attributes in all articles and controls
-  if (JSON.stringify(state.$user) == JSON.stringify(user)) return;
-  state.$user = user;
-  controls.setArticleData();
-});
+// window.main.receive('updateUser', (user) => {
+//   // console.log("---> 'updateUser' event received!", user);
+//   // ignore changes in currentView, as this will mess up
+//   // check if the user data changed, and set appropriate attributes in all articles and controls
+//   if (JSON.stringify(state.$user) == JSON.stringify(user)) return;
+//   state.$user = user;
+//   controls.setArticleData();
+// });
 
 // 'initialiseDictionaries' is triggered once from the main process, when the window opens, and includes all dictionary data.
 // - dictionaries: Object containing all the system dictionaries.
-window.main.receive('initialiseDictionaries', (dictionaries) => {
-  // console.log("---> 'initialiseDictionaries' event received", dictionaries);
-  state.$names = dictionaries.names;
-  controls.setArticleData();
-});
+// window.main.receive('initialiseDictionaries', (dictionaries) => {
+//   // console.log("---> 'initialiseDictionaries' event received", dictionaries);
+//   state.$names = dictionaries.names;
+//   controls.setArticleData();
+// });
 // 'updateDictionaries' is emitted from the main process whenever some dictionary data has been changed.
 // - part: The specific dictionary to be updated (check state.js for the specific names).
 // - data: The new data structure.
-window.main.receive('updateDictionaries', (part, data) => {
-  // console.log("---> 'updateDictionaries' event received", part, data);
-  if (JSON.stringify(state["$" + part]) == JSON.stringify(data)) return;
-  state["$" + part] = data;
-  controls.setArticleData();
-});
+// window.main.receive('updateDictionaries', (part, data) => {
+//   // console.log("---> 'updateDictionaries' event received", part, data);
+//   if (JSON.stringify(state["$" + part]) == JSON.stringify(data)) return;
+//   state["$" + part] = data;
+//   controls.setArticleData();
+// });
 
 // 'initialGameSystem' is triggered once from the main process, when the window opens, and includes all gamy system data.
-window.main.receive('initialGameSystem', (gameSystemData) => {
-  // console.log("---> 'initialGameSystem' event received", gameSystemData);
-  state.$checks = gameSystemData.checks;
-  state.$attributes = gameSystemData.attributes;
-  controls.setArticleData();
-});
+// window.main.receive('initialGameSystem', (gameSystemData) => {
+//   // console.log("---> 'initialGameSystem' event received", gameSystemData);
+//   state.$checks = gameSystemData.checks;
+//   state.$attributes = gameSystemData.attributes;
+//   controls.setArticleData();
+// });
 // 'updateGameSystem' is emitted from the main process whenever some game system data has been changed.
 // - part: The specific game system data structure to be updated (check state.js for the specific names).
 // - data: The new data structure.
-window.main.receive('updateGameSystem', (part, data) => {
-  // console.log("---> 'updateGameSystem' event received", part, data);
-  if (JSON.stringify(state["$" + part]) == JSON.stringify(data)) return;
-  state["$" + part] = data;
-  controls.setArticleData();
-});
+// window.main.receive('updateGameSystem', (part, data) => {
+//   // console.log("---> 'updateGameSystem' event received", part, data);
+//   if (JSON.stringify(state["$" + part]) == JSON.stringify(data)) return;
+//   state["$" + part] = data;
+//   controls.setArticleData();
+// });
 
 
 
