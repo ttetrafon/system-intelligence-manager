@@ -25,8 +25,8 @@ class User {
     if (obj["activeGame"] && this.gamesList.includes(obj["activeGame"])) this.activeGame = obj["activeGame"];
     else if ((this.activeGame === "") && (this.gamesList.length > 0)) this.activeGame = obj["gamesList"][0];
     else {
-      this.gamesList = [ 'YADTS' ];
-      this.activeGame = "YADTS";
+      this.gamesList = [ ];
+      this.activeGame = "";
     }
   }
 };

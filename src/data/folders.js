@@ -1,8 +1,8 @@
 // Folder names for organising files saved in the disk.
 var folders = {
-  dictionaries: "dictionaries",
+  root: ".SystemIntelligence",
   gameSystem: "game system",
-  root: ".YADTS"
+  dictionaries: "dictionaries"
 };
 
 module.exports = { folders };

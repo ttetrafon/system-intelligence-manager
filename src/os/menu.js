@@ -95,11 +95,19 @@ class MenuCreator {
         submenu: []
       },
       {
-        label: 'World',
+        label: 'NPCs',
         submenu: []
       },
       {
-        label: 'Creatures',
+        label: 'Vehicles',
+        submenu: []
+      },
+      {
+        label: 'Organisations',
+        submenu: []
+      },
+      {
+        label: 'World',
         submenu: []
       },
       {

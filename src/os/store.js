@@ -35,9 +35,8 @@ class Store {
     };
 
     // Load all required data from the disk during startup.
-    // self.initialPreparation();
-    // self.loadDictionaries();
-    // self.loadGameSystem();
+    self.initialPreparation();
+    self.loadActiveGame();
   }
 
   initialPreparation() {
@@ -51,8 +50,11 @@ class Store {
     self.logger.log(null, script, "user:", self.user);
   }
 
+  isNotInActiveGame() {
+    return (self.user.activeGame || self.user.activeGame === "");
+  }
+
   loadDictionaries() {
-    // Loads all dictionaries, which are common between different games.
     let namesDict = path.join(self.fs.paths.dictionaries, files.dictionaryNames);
     let namesData = self.fs.readJsonFile(namesDict);
     if (namesData == null) self.fs.saveJsonFile(namesDict, self.dictionaries.names);
@@ -61,9 +63,12 @@ class Store {
     self.logger.log(null, script, "dictionaries:", self.dictionaries);
   }
 
-  loadGameSystem() {
-    // Loads all game system relevant information.
+  loadActiveGame() {
+    // Loads all active game relevant information.
+    if (this.isNotInActiveGame()) return;
+
     self.fs.folderStructureStepTwo(self.user.activeGame);
+    this.loadDictionaries();
     this.loadGameSystemDataFromFile(files.checks, Checks, "checks");
     this.loadGameSystemDataFromFile(files.attributes, Attributes, "attributes");
   }

@@ -47,7 +47,7 @@ const config = new Config(logger);
 const fs = new FileSystem(logger);
 const store = new Store(logger, config, fs, notifyOpenWindows);
 const menu = new MenuCreator(logger, config, store);
-// const server = new Server(logger, config, store);
+const server = new Server(logger, config, store);
 
 logger.log(null, script, "Started!");
 

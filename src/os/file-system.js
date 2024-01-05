@@ -16,14 +16,14 @@ class FileSystem {
     self.logger.log(null, script, "Started!");
 
     self.paths = {
-      dictionaries: null,
+      userFolder: null,
+      saveFolder: null,
       gameFolder: null,
       gameSystem: null,
-      saveFolder: null,
-      userFolder: null
+      dictionaries: null
     };
 
-    // self.folderStructureStepOne();
+    self.folderStructureStepOne();
   }
 
   checkIfDirectoryExists(dir) {
@@ -42,12 +42,10 @@ class FileSystem {
     // Performs all common folder actions that are needed as soon as the application starts.
     // (1) Locates the user folder.
     // (2) Locates/creates the application save folder.
-    // (3) Locates/creates the dictionary folder.
     self.paths.userFolder = app.getPath("documents");
     self.logger.log(null, script, "user folder = ", self.paths.userFolder);
 
     self.setupDirectory("saveFolder", path.join(self.paths.userFolder, folders.root));
-    self.setupDirectory("dictionaries", path.join(self.paths.saveFolder, folders.dictionaries));
     self.logger.log(null, script, "paths (first pass):", self.paths);
   }
 
@@ -56,6 +54,7 @@ class FileSystem {
     // It locates/creates the specific game directories required for normal operation.
     self.setupDirectory("gameFolder", path.join(self.paths.saveFolder, selectedGame));
     self.setupDirectory("gameSystem", path.join(self.paths.gameFolder, folders.gameSystem));
+    self.setupDirectory("gameFolder", path.join(self.paths.gameFolder, folders.dictionaries));
     self.logger.log(null, script, "paths (second pass):", self.paths);
   }
 
