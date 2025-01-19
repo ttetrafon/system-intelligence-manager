@@ -21,44 +21,37 @@ import { State } from './state.js';
 
 window.main.log(script, "Started!");
 
-
-
-
-
-
 // Collect all the elements in the page and create all appropriate lists.
-// const idList = [];
-// idList.push(
-//   ...ids.parents,
-//   ...ids.tabs,
-//   ...ids.articles,
-//   ...ids.sections
-// );
-// console.log(idList);
+const idList = [];
+idList.push(
+  ...ids.parents,
+  ...ids.nav
+);
+console.log(idList);
 // Construct a dictionary of all the web elements in the window, for ease of reference.
-// const el = {};
-// for (let i = 0; i < idList.length; i++) {
-//   el[idList[i]] = document.getElementById(idList[i]);
-// }
-// console.log("registered elements:", el);
-
+const el = {};
+for (let i = 0; i < idList.length; i++) {
+  el[idList[i]] = document.getElementById(idList[i]);
+}
+console.log("registered elements:", el);
 
 // Initialise modules
-// const state = new State();
-// const controls = new Controls(state, el);
-
+const state = new State();
+const controls = new Controls(state, el);
 
 // Populate and register UI elements programmatically.
 // ... dynamically created elements (that will be referenced elsewhere) need to be registered here through the 'registerElements' event.
-// document.addEventListener('registerElements', event => { Object.assign(el, event.detail); });
-// ... view-tabs are created here
-// el['gameSystem-tab'].views = {
-//   'checks': new ViewTabData("checks", "Checks", "./UI/buttons/Dice 1.png"),
-//   'attributes': new ViewTabData("attributes", "Attributes", "./UI/buttons/Equalizer 2.png")
-// };
-// el['settings-tab'].views = {
-//   user: new ViewTabData("user", "User", "./UI/buttons/User 1.png")
-// }
+document.addEventListener('registerElements', event => { Object.assign(el, event.detail); });
+// ... navigation-tabs are created here
+el['game-system'].views = {
+  // 'checks': new ViewTabData("checks", "Checks", "./UI/buttons/Dice 1.png"),
+};
+el['encounter'].views = {
+}
+el['world'].views = {
+}
+el['selection'].views = {
+}
 
 
 // Register event handlers.

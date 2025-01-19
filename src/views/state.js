@@ -15,8 +15,8 @@ export class State {
         category: "settings",
         view: "user"
       },
-      gamesList: ['YADTS'],
-      activeGame: 'YADTS'
+      gamesList: [],
+      activeGame: ''
     };
 
     // Dictionaries
@@ -24,21 +24,18 @@ export class State {
 
     // Game System data
     this.$checks = {
-      intro: "...",
-      mainUsed: true,
-      mainName: "...",
-      mainDescription: "...",
-      secondaryUsed: false,
-      secondaryName: "...",
-      secondaryDescription: "..."
+      // intro: "...",
+      // mainUsed: true,
+      // mainName: "...",
+      // mainDescription: "...",
+      // secondaryUsed: false,
+      // secondaryName: "...",
+      // secondaryDescription: "..."
     };
     this.$attributes = {
-      intro: "...",
-      attributes: {},
-      order: []
+      // intro: "...",
+      // attributes: {},
+      // order: []
     };
-
-    // Entities data
   }
-
 }

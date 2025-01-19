@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';">
     <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';">
-    <title>YADTS Manager!</title>
+    <title>Systems Intelligence Manager!</title>
     <script src="./renderer.js" type="module" defer></script>
     <link rel="stylesheet" href="./styles/styles.css">
   </head>
@@ -26,9 +26,9 @@
           <!-- Encounter controls. -->
         </nav>
       </aside>
-      <div id="viewport">
-        <!-- Tabbed viewport to hold all entities opened. -->
-      </div>
+      <article id="viewport">
+        <!-- Viewport to hold the current open map. -->
+      </article>
       <aside id="right-aside">
         <nav id="world">
           <!-- World controls. -->
@@ -38,52 +38,7 @@
         </nav>
       </aside>
     </div>
+    <!-- The footer is used to log information. -->
     <footer></footer>
-
-
-    <!-- <nav id="nav">
-      <nav-tab id="gameSystem-tab" category="gameSystem" title="Game System" image="./UI/buttons/Books 1.png"></nav-tab>
-      <nav-tab id="calendar-tab" category="calendar" title="Calendar" image="./UI/buttons/Calendar 1.png" type="main"></nav-tab>
-      <nav-tab id="campaign-tab" category="campaign" title="Campaign" image="./UI/buttons/Notebook 1.png" type="main"></nav-tab>
-      <nav-tab id="creatures-tab" category="creatures" title="Creatures" image="./UI/buttons/Cat 1.png" type="main"></nav-tab>
-      <nav-tab id="world-tab" category="world" title="World" image="./UI/buttons/Building 1.png" type="main"></nav-tab>
-      <nav-tab id="network-tab" category="network" title="Network" image="./UI/buttons/Network 1.png" type="main"></nav-tab>
-      <nav-tab id="settings-tab" category="settings" title="Settings" image="./UI/buttons/Edit 1.png"></nav-tab>
-    </nav> -->
-
-    <!-- <header></header> -->
-
-    <!-- Main contains all the relevant information/controls, based on which tab has been selected. -->
-    <!-- <main id="main">
-      <article id="checks-article">
-        <checks-section id="checks-section"></checks-section>
-      </article>
-      <article id="attributes-article">
-        <attributes-section id="attributes-section"></attributes-section>
-      </article>
-      <article id="user-article">
-        <user-section id="user-section" class="view-section"></user-section>
-      </article>
-    </main> -->
-
-    <!-- Footer is used to log information. -->
-    <!-- <footer>footer...</footer> -->
-
-
-
-    <!-- <main>
-      <textarea id="text-area"></textarea>
-    </main> -->
-
-    <!-- <button id="-tab" id="btn-link" type="button">Open Link!</button> -->
-    <!-- <p>We are using Node.js <span id="node-version"></span>,
-    Chromium <span id="chrome-version"></span>,
-    and Electron <span id="electron-version"></span>.</p>
-    <br/>
-    Title: <input id="title"/>
-    <button id="-tab" id="btn" type="button">Set</button>
-    <br/>
-    <button id="-tab" type="button" id="btn-of">Open a File</button>
-    <p>File path: <strong id="filePath"></strong></p> -->
   </body>
 </html>
